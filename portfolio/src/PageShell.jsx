@@ -25,7 +25,7 @@ export default function PageShell({ children }) {
   return (
     <LangContext.Provider value={lang}>
       <div className="relative isolate min-h-dvh">
-        <div className="bg-in bg-fade-down fixed inset-0 -z-10">
+        <div className="bg-in fixed inset-0 -z-10">
           <RibbonFieldBackground className="absolute inset-0" />
         </div>
         <div

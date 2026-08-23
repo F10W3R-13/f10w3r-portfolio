@@ -137,6 +137,10 @@ test('페이지: sections 순서 배열 유효(화이트리스트·중복 없음
   assert.equal(new Set(sections).size, sections.length, 'sections 중복');
   for (const s of sections) assert.ok(whitelist.includes(s), `알 수 없는 섹션: ${s}`);
   assert.equal(sections[0], 'hero', '첫 섹션은 hero');
+  // 배경 밴드: flat은 sections의 부분집합이어야 한다
+  const flat = content.page.flat;
+  assert.ok(Array.isArray(flat), 'page.flat 배열');
+  for (const f of flat) assert.ok(sections.includes(f), `page.flat에 알 수 없는 섹션: ${f}`);
 });
 
 // ── 11. UI 사전: 주요 라벨 {ko,en} 구비 ──

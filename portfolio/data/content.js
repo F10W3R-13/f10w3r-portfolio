@@ -19,8 +19,10 @@ export const PORTFOLIO_CONTENT = {
   },
 
   // 페이지 조립 — sections 배열 순서 = 렌더 순서 (순서 교체도 이 파일 편집으로)
+  // flat: 리본 배경을 불투명 잉크로 덮는 섹션(가독성 밴드). 나머지는 리본이 그대로 보인다.
   page: {
     sections: ['hero', 'career', 'achievements', 'projects', 'skills', 'education', 'contact'],
+    flat: ['career', 'achievements', 'contact'],
   },
 
   // UI 라벨 사전 (섹션 제목·버튼 문구 등 — 콘텐츠가 아닌 인터페이스 문자열)

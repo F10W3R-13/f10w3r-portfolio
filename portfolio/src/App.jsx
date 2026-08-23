@@ -25,7 +25,13 @@ export default function App() {
       <main>
         {content.page.sections.map((id) => {
           const Section = SECTIONS[id]
-          return Section ? <Section key={id} /> : null
+          if (!Section) return null
+          // 배경 밴드: page.flat에 속한 섹션은 불투명 잉크 배경으로 리본을 덮는다(가독성 밴드)
+          return (
+            <div key={id} className={content.page.flat?.includes(id) ? 'bg-solid' : undefined}>
+              <Section />
+            </div>
+          )
         })}
       </main>
     </PageShell>

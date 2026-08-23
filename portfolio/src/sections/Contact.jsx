@@ -1,11 +1,10 @@
 import content from '../../data/content.js'
 import { useT } from '../lang.jsx'
 
-/* 연락 — 주 CTA는 코칭 허브 라이브 데미(직접 제작 CTA, 2026-08-24 채택). email은 null이면 미표시 */
+/* 연락 — 링크 열거. 데모 CTA는 프로젝트 행·상세에 이미 있으므로 중복 제거(2026-08-24). email은 null이면 미표시 */
 export default function Contact() {
   const t = useT()
   const { profile } = content
-  const hub = content.projects.list.find((p) => p.id === 'coaching-hub')
 
   const links = [
     { label: 'GitHub', href: profile.contact.github },
@@ -20,16 +19,6 @@ export default function Contact() {
       <h2 className="reveal text-3xl tracking-tight" style={{ fontFamily: 'var(--font-display)' }}>{t(content.ui.headings.contact)}</h2>
 
       <div className="reveal mt-8 flex flex-wrap items-center gap-x-10 gap-y-6 border p-8" style={{ borderColor: 'var(--hairline)' }}>
-        <a
-          href={hub.links.demo}
-          target="_blank"
-          rel="noreferrer"
-          className="cta-volt inline-flex items-center gap-3 px-7 py-3.5 text-[13px] tracking-[0.18em]"
-          style={{ fontFamily: 'var(--font-mono)' }}
-        >
-          {t(content.ui.liveDemoCta)}
-          <span aria-hidden="true" className="cta-arrow">↗</span>
-        </a>
         {links.map((l) => (
           <a key={l.label + l.href} href={l.href} target={l.href.startsWith('mailto') ? undefined : '_blank'} rel="noreferrer" className="text-sm hover:underline" style={{ fontFamily: 'var(--font-mono)', color: 'var(--ice-dim)' }}>
             {l.label} ↗
