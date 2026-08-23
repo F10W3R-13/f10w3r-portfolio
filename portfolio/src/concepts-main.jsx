@@ -9,18 +9,18 @@ import * as T from '@designcodeio/threeui'
 import './concepts/picker.css'
 import './concepts/shared.css'
 import './styles/app.css'
-import C1 from './concepts/C1.jsx'
-import C2 from './concepts/C2.jsx'
 import C3, { CustomCTA } from './concepts/C3.jsx'
-import C4 from './concepts/C4.jsx'
-import C5 from './concepts/C5.jsx'
+import L2 from './concepts/L2.jsx'
+import L3 from './concepts/L3.jsx'
 
+/*
+ * Stage 3 — C3 방송 계기판 확정, 같은 토큰으로 레이아웃 3종 변주
+ * L1: 스플릿 스코어보드(기준안) · L2: 풀블리드 브로드캐스트 · L3: 계기 텍스처(데이터 뒤 무대 장치)
+ */
 const VARIANTS = [
-  { name: '잉크 전시관', Comp: C1, bg: 'DataField' },
-  { name: '임버 대성당', Comp: C2, bg: 'EmberStorm' },
-  { name: '방송 계기판', Comp: C3, bg: 'RibbonFieldBackground' },
-  { name: '스타크 지면', Comp: C4, bg: 'DotMatrixBackground' },
-  { name: '관측소', Comp: C5, bg: 'RibbonFieldBackground' },
+  { name: 'L1 스플릿', Comp: C3, bg: 'RibbonFieldBackground' },
+  { name: 'L2 풀블리드', Comp: L2, bg: 'RibbonFieldBackground' },
+  { name: 'L3 계기 텍스처', Comp: L3, bg: 'RibbonFieldBackground' },
 ]
 
 const NONE = '(없음)'
