@@ -1,3 +1,8 @@
 @import "tailwindcss";
 
+/* Tailwind v4 자동 소스 탐지가 이 환경(한글·OneDrive 경로, Vite root 분리)에서 실패하므로
+   소스를 CSS 파일 위치 기준으로 명시 지정 — portfolio/src 하위 전체 + 진입 HTML */
+@source "../**/*.{js,jsx}";
+@source "../../**/*.html";
+
 /* 콘셉트 확정 전 임시 베이스 — 콘셉트 단계에서 토큰 체계가 여기로 들어온다 */
