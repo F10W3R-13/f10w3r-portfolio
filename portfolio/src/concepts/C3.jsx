@@ -18,6 +18,23 @@ class PartBoundary extends Component {
   }
 }
 
+/* 직접 제작 CTA — C3 계기판 문법(볼트 액센트·모노·각진 프레임). 셰이더 버튼 대체안 */
+export function CustomCTA() {
+  const hub = content.projects.list.find((p) => p.id === 'coaching-hub')
+  return (
+    <a
+      href={hub.links.demo}
+      target="_blank"
+      rel="noreferrer"
+      className="group inline-flex items-center gap-3 border border-[#B9DE5F] px-7 py-3.5 text-[13px] tracking-[0.18em] text-[#B9DE5F] transition-[background-color,color,transform] duration-200 hover:bg-[#B9DE5F] hover:text-[#0C0F13] active:scale-[0.98]"
+      style={{ fontFamily: MONO }}
+    >
+      라이브 데모 보기
+      <span aria-hidden="true" className="transition-transform duration-200 group-hover:translate-x-0.5">↗</span>
+    </a>
+  )
+}
+
 export default function C3({ Bg, Hud, Type, Btn }) {
   const { hero, achievements, projects } = content
   const rows = achievements.list.slice(0, 5)
@@ -111,16 +128,20 @@ export default function C3({ Bg, Hud, Type, Btn }) {
         <div className="rise d1 mt-6 flex flex-wrap items-center gap-x-10 gap-y-6 border border-[#232b36] p-8">
           {Btn ? (
             <PartBoundary>
-              <a href={hub.links.demo} target="_blank" rel="noreferrer" className="inline-block" title="코칭 허브 라이브 데모">
-                <Btn mode="dark" />
-              </a>
+              {Btn === CustomCTA ? (
+                <Btn />
+              ) : (
+                <a href={hub.links.demo} target="_blank" rel="noreferrer" className="inline-block" title="코칭 허브 라이브 데모">
+                  <Btn mode="dark" />
+                </a>
+              )}
             </PartBoundary>
           ) : null}
           <a href={content.profile.contact.github} target="_blank" rel="noreferrer" className="text-sm text-[#9aa5b3] hover:text-[#B9DE5F]" style={{ fontFamily: MONO }}>GitHub ↗</a>
           <a href={content.profile.contact.youtube} target="_blank" rel="noreferrer" className="text-sm text-[#9aa5b3] hover:text-[#B9DE5F]" style={{ fontFamily: MONO }}>YouTube ↗</a>
         </div>
         <p className="mt-3 text-[11px] text-[#5d6773]" style={{ fontFamily: MONO }}>
-          셰이더 버튼의 라벨은 컴포넌트 데모 기본값 · 클릭은 실제 링크로 동작
+          직접 제작 CTA는 C3 문법(볼트·모노·프레임) · 셰이더 버튼 라벨은 데모 기본값 · 링크는 실동작
         </p>
       </section>
 

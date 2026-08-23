@@ -11,25 +11,27 @@ import './concepts/shared.css'
 import './styles/app.css'
 import C1 from './concepts/C1.jsx'
 import C2 from './concepts/C2.jsx'
-import C3 from './concepts/C3.jsx'
+import C3, { CustomCTA } from './concepts/C3.jsx'
 import C4 from './concepts/C4.jsx'
 import C5 from './concepts/C5.jsx'
 
 const VARIANTS = [
   { name: '잉크 전시관', Comp: C1, bg: 'DataField' },
   { name: '임버 대성당', Comp: C2, bg: 'EmberStorm' },
-  { name: '방송 계기판', Comp: C3, bg: 'WarpFieldBackground' },
+  { name: '방송 계기판', Comp: C3, bg: 'RibbonFieldBackground' },
   { name: '스타크 지면', Comp: C4, bg: 'DotMatrixBackground' },
   { name: '관측소', Comp: C5, bg: 'RibbonFieldBackground' },
 ]
 
 const NONE = '(없음)'
+const CUSTOM_BTN = '(직접 제작)'
 const BG_OPTIONS = ['DataField', 'ConstellationField', 'RibbonFieldBackground', 'EmberStorm', 'CrtBackground', 'DotMatrixBackground', 'WarpFieldBackground', NONE]
 const HUD_OPTIONS = ['InterfaceLines', 'DefenseLines', 'ConnectivityGraph', 'DiagnosticsPanel', 'PredictiveArcCanvas', 'UplinkLoader', NONE]
 const TYPE_OPTIONS = ['TypographyVortexCanvas', 'CharacterWave', 'OutlineTypeflow', 'NeonTypography', 'AudioWordmark', 'ParticleWordmark', NONE]
-const BTN_OPTIONS = ['IgnitionButton', 'TactileButton', 'LaunchButton', 'InductionButton', 'PlasmaButton', 'ThinkingButton', 'SlidingTextCta', 'FloatingDotsCta', 'DotBorderButton', 'SpinningBorderButton', NONE]
+const BTN_OPTIONS = [CUSTOM_BTN, 'IgnitionButton', 'TactileButton', 'LaunchButton', 'InductionButton', 'PlasmaButton', 'ThinkingButton', 'SlidingTextCta', 'FloatingDotsCta', 'DotBorderButton', 'SpinningBorderButton', NONE]
 
-const PART_DEFAULTS = { hud: 'InterfaceLines', type: 'TypographyVortexCanvas', btn: 'IgnitionButton' }
+// 사용자 2026-08-24 픽: C3 배경 RibbonField · 타입 ParticleWordmark(고정텍스트 주의) · 버튼 직접 제작
+const PART_DEFAULTS = { hud: 'InterfaceLines', type: 'ParticleWordmark', btn: CUSTOM_BTN }
 const PARTS = [
   ['배경', 'bg', BG_OPTIONS],
   ['계기 (C3)', 'hud', HUD_OPTIONS],
@@ -95,7 +97,7 @@ function Harness() {
     type: o.type ?? PART_DEFAULTS.type,
     btn: o.btn ?? PART_DEFAULTS.btn,
   }
-  const get = (n) => (n === NONE || !T[n] ? null : T[n])
+  const get = (n) => (n === CUSTOM_BTN ? CustomCTA : n === NONE || !T[n] ? null : T[n])
   const parts = { Bg: get(name.bg), Hud: get(name.hud), Type: get(name.type), Btn: get(name.btn) }
   const partKey = `${name.bg}|${name.hud}|${name.type}|${name.btn}`
 
