@@ -141,6 +141,24 @@ export const PORTFOLIO_CONTENT = {
         links: {
           demo: 'https://web-production-4deec.up.railway.app',
         },
+        detail: {
+          pitch: { ko: '스크림 스크린샷을 검색 가능한 경기 데이터로 바꾸는 코칭 인프라', en: 'Turning scrim screenshots into searchable match data' },
+          purpose: null,
+          background: {
+            ko: '코치로서 스크림 결과를 매번 손으로 정리하는 대신, 선수가 올린 스크린샷을 GPT-4.1이 읽어 그대로 DB에 쌓이도록 만들었습니다.',
+            en: 'Instead of hand-logging scrim results after every session, I built a pipeline where GPT-4.1 reads the screenshots players post and writes them straight into the database.',
+          },
+          approach: {
+            ko: '스크린샷 접수 → GPT-4.1 Vision OCR → SQLite 적재 → FastAPI 대시보드(한국어/영어/스페인어). Railway에 배포해 매일 운영합니다.',
+            en: 'Screenshot intake, GPT-4.1 Vision OCR, SQLite storage, then a FastAPI dashboard in Korean, English and Spanish. Deployed on Railway and in daily use.',
+          },
+          specs: [
+            { label: { ko: '기록된 경기', en: 'Matches logged' }, value: { ko: '389경기 · 2026.08 기준', en: '389 · as of 2026.08' } },
+            { label: { ko: '대시보드 언어', en: 'Dashboard languages' }, value: '3' },
+            { label: { ko: '스택', en: 'Stack' }, value: 'FastAPI · SQLite · GPT-4.1 Vision · Railway' },
+          ],
+          gallery: [],
+        },
       },
       {
         id: 'community-series',
@@ -161,6 +179,24 @@ export const PORTFOLIO_CONTENT = {
         links: {
           youtube: 'https://www.youtube.com/channel/UC9h1aAAsOprTATC0_y2pt3A',
         },
+        detail: {
+          pitch: { ko: '혼자서 3년, 여덟 번의 대회를 만들고 중계했다', en: 'Three years, eight tournaments, built and broadcast solo' },
+          purpose: null,
+          background: {
+            ko: '2023년 7월, 한국 CODM 커뮤니티에 정기적으로 붙을 수 있는 대회가 필요해 1인 기획·주최·중계를 시작했습니다.',
+            en: 'In July 2023 the Korean CODM community needed a recurring competition, so I started planning, hosting and casting it solo.',
+          },
+          approach: {
+            ko: '여름·겨울 사이클로 총 8에디션. 드래프트 방식을 완전랜덤에서 밸런스랜덤, 다시 캡틴픽으로 진화시켰고, 5v5와 스나이퍼 1v1 포맷을 운영했습니다. 후원 없이 순수 자체 운영.',
+            en: 'Eight editions across summer and winter cycles. The draft evolved from full-random to balance-random to captain pick, with 5v5 and sniper 1v1 formats. Entirely self-run, no sponsorship.',
+          },
+          specs: [
+            { label: { ko: '에디션', en: 'Editions' }, value: { ko: '8회 (2023.07~)', en: '8 (since 2023.07)' } },
+            { label: { ko: '중계', en: 'Broadcast' }, value: { ko: '77.8시간 · VOD 25개 · 조회 약 3.6만', en: '77.8h · 25 VODs · ~36k views' } },
+            { label: { ko: '규모', en: 'Scale' }, value: { ko: '대회당 8팀(약 40명) · 커뮤니티 500~1,000명', en: '8 teams (~40 players) per event · community of 500-1,000' } },
+          ],
+          gallery: [],
+        },
       },
       {
         id: 'sportsday-hub',
@@ -173,6 +209,20 @@ export const PORTFOLIO_CONTENT = {
         stack: ['Vercel', 'Cron', 'KakaoTalk API', 'Apps Script'],
         metrics: [],
         links: {},
+        detail: {
+          pitch: { ko: '반복되는 행사 알림을 사람 대신 시스템이 보내게 만들기', en: 'Letting the system send the recurring event notices' },
+          purpose: null,
+          background: {
+            ko: '행사 운영마다 반복되는 카카오톡 공지를 일정에 맞춰 자동 발송하도록 만든 작은 시스템입니다.',
+            en: 'A small system that sends the recurring KakaoTalk event notices on schedule.',
+          },
+          approach: {
+            ko: 'Vercel 크론 작업이 일정에 따라 카카오톡 알림을 발송합니다.',
+            en: 'A Vercel cron job sends KakaoTalk notifications on schedule.',
+          },
+          specs: [{ label: { ko: '스택', en: 'Stack' }, value: 'Vercel Cron · KakaoTalk API · Apps Script' }],
+          gallery: [],
+        },
       },
       {
         id: 'champions-queue',
@@ -190,6 +240,24 @@ export const PORTFOLIO_CONTENT = {
           { value: '864', label: { ko: '매치 기록', en: 'Matches recorded' } },
         ],
         links: {},
+        detail: {
+          pitch: { ko: '서부 CODM에 상시 사다리를 만든 초청제 랭크 리그', en: 'An invitational ladder for the western CODM scene' },
+          purpose: null,
+          background: {
+            ko: 'NA/LATAM·EU·APAC·MENA 선수들이 실력에 맞는 티어에서 꾸준히 경쟁할 수 있도록 5단계 티어·4리전 구조를 설계했습니다.',
+            en: 'I designed a 5-tier, 4-region structure so players across NA/LATAM, EU, APAC and MENA could compete at their level, continuously.',
+          },
+          approach: {
+            ko: 'GPT-4.1 OCR로 전적을 읽어 Airtable에 쌓고, Make.com과 Discord Bot으로 MMR 집계, 주간 리포트, RSVP를 자동화합니다.',
+            en: 'GPT-4.1 OCR reads results into Airtable; Make.com and a Discord bot automate MMR aggregation, weekly reports and RSVP.',
+          },
+          specs: [
+            { label: { ko: '리그 구조', en: 'Structure' }, value: { ko: '티어 5단계 × 리전 4개', en: '5 tiers × 4 regions' } },
+            { label: { ko: '데이터 관리 (NA 시즌)', en: 'Data managed (NA season)' }, value: { ko: '선수 101명 · 매치 864경기', en: '101 players · 864 matches' } },
+            { label: { ko: '스택', en: 'Stack' }, value: 'GPT-4.1 Vision · Airtable · Make.com · Discord Bot API' },
+          ],
+          gallery: [],
+        },
       },
       {
         id: 'aim-research',
@@ -202,6 +270,20 @@ export const PORTFOLIO_CONTENT = {
         stack: ['데이터 분석', 'Data analysis'],
         metrics: [],
         links: {},
+        detail: {
+          pitch: { ko: '6년의 선수·코치 경험을 터치 데이터로 구조화하는 연구', en: 'Structuring six years of playing and coaching into touch data' },
+          purpose: null,
+          background: {
+            ko: '모바일 FPS의 조준은 감이 아니라 측정 가능한 입력이라는 가설에서 출발한 논문 초안.',
+            en: 'A paper draft built on the hypothesis that mobile FPS aim is a measurable input, not a feel.',
+          },
+          approach: {
+            ko: '터치 입력의 생체역학을 분석해 경험을 데이터와 이론으로 옮기는 작업을 진행 중입니다.',
+            en: 'Ongoing work analyzing the biomechanics of touch input to turn experience into data and theory.',
+          },
+          specs: [{ label: { ko: '상태', en: 'Status' }, value: { ko: '논문 초안 진행 중', en: 'Draft in progress' } }],
+          gallery: [],
+        },
       },
     ],
   },

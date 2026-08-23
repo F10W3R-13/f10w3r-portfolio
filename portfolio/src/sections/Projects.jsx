@@ -20,7 +20,9 @@ export default function Projects() {
 
             <div>
               <h3 className="text-2xl tracking-tight md:text-3xl" style={{ fontFamily: 'var(--font-display)' }}>
-                {t(p.title)}
+                <a href={`/projects/?id=${p.id}`} className="hover:underline" style={{ color: 'inherit' }}>
+                  {t(p.title)}
+                </a>
               </h3>
               <p className="mt-1 text-[11px]" style={{ fontFamily: 'var(--font-mono)', color: 'var(--ice-mute)' }}>{t(p.role)}</p>
               <p className="mt-3 max-w-[68ch] text-sm leading-relaxed" style={{ color: 'var(--ice-dim)' }}>{t(p.summary)}</p>

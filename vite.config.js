@@ -1,3 +1,4 @@
+import { fileURLToPath } from 'node:url'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
@@ -14,5 +15,11 @@ export default defineConfig({
     // 이 Windows/OneDrive 환경에서 빌드 후반(esbuild/lightningcss)이 간헐 크래시(exit 127).
     // Vercel(Linux CI)에서는 정상이므로 배포 빌드에서만 minify.
     minify: process.env.VERCEL === '1' ? 'esbuild' : false,
+    rollupOptions: {
+      input: {
+        main: fileURLToPath(new URL('./portfolio/index.html', import.meta.url)),
+        projects: fileURLToPath(new URL('./portfolio/projects/index.html', import.meta.url)),
+      },
+    },
   },
 })

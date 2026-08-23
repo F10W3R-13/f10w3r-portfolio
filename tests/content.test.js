@@ -149,3 +149,17 @@ test('UI 사전: 라벨 이중언어 구비', () => {
     assert.ok(headings[key] && headings[key].ko && headings[key].en, `ui.headings.${key}`);
   }
 });
+
+// ── 12. 상세 페이지 데이터: 전 프로젝트 detail 구비 (purpose는 null 허용) ──
+test('상세: 각 프로젝트 pitch/background/approach {ko,en} + specs + gallery', () => {
+  for (const p of content.projects.list) {
+    const d = p.detail;
+    assert.ok(d, `${p.id}: detail 누락`);
+    for (const key of ['pitch', 'background', 'approach']) {
+      assert.ok(d[key] && d[key].ko && d[key].en, `${p.id}: detail.${key} {ko,en}`);
+    }
+    assert.ok(Array.isArray(d.specs), `${p.id}: specs 배열`);
+    assert.ok(d.purpose === null || (d.purpose.ko && d.purpose.en), `${p.id}: purpose는 null 또는 {ko,en}`);
+    assert.ok(Array.isArray(d.gallery), `${p.id}: gallery 배열`);
+  }
+});
