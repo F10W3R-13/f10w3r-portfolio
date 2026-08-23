@@ -45,7 +45,7 @@ export const PORTFOLIO_CONTENT = {
   profile: {
     name: { ko: '유민우', en: 'Yoo Min-woo' },
     ign: 'F10W3R',
-    role: { ko: 'CODM 프로 코치 · 이스포츠 운영·기획 지원', en: 'CODM Pro Coach · Esports Operations & Planning' },
+    role: { ko: 'CODM 프로 코치 · 이스포츠 운영/기획 지원', en: 'CODM Pro Coach · Esports Operations & Planning' },
     base: { ko: '수도권, 대한민국', en: 'Seoul Capital Area, South Korea' },
     availability: { ko: '수도권 + 해외 이동 가능', en: 'Open to relocation abroad' },
     contact: {
@@ -67,7 +67,7 @@ export const PORTFOLIO_CONTENT = {
     },
     intro: {
       ko: 'T1 선수 출신, 6년간 12개 팀에서 CODM 무대를 누볐습니다. 리그 운영 체계를 설계하고, GPT-4.1 기반 데이터 파이프라인을 직접 구축하며 현장과 시스템을 함께 움직입니다.',
-      en: 'Ex-T1 player with 12 teams over six years on the CODM stage. I design league operations and build GPT-4.1 data pipelines myself — moving the front line and the systems behind it together.',
+      en: 'Ex-T1 player with 12 teams over six years on the CODM stage. I design league operations and build GPT-4.1 data pipelines myself. I move the front line and the systems behind it together.',
     },
     stats: [
       { value: '101', label: { ko: '관리 선수 (NA 시즌)', en: 'Players managed (NA season)' } },
@@ -128,9 +128,9 @@ export const PORTFOLIO_CONTENT = {
         id: 'coaching-hub',
         title: { ko: '코칭 허브', en: 'Coaching Hub' },
         highlight: true,
-        role: { ko: '설계·개발·운영', en: 'Design, Build & Operations' },
+        role: { ko: '설계 / 개발 / 운영', en: 'Design, Build & Operations' },
         summary: {
-          ko: '스크림 결과 스크린샷을 GPT-4.1이 읽어 SQLite에 적재하고, FastAPI로 한국어·영어·스페인어 3개 언어 대시보드를 제공하는 코칭 허브. Railway에 배포해 매일 운영 중입니다.',
+          ko: '스크림 결과 스크린샷을 GPT-4.1이 읽어 SQLite에 적재하고, FastAPI로 한국어/영어/스페인어 3개 언어 대시보드를 제공하는 코칭 허브. Railway에 배포해 매일 운영 중입니다.',
           en: 'A coaching hub where GPT-4.1 reads scrim screenshots into SQLite and FastAPI serves a trilingual (KO/EN/ES) dashboard. Deployed on Railway and in daily use.',
         },
         stack: ['Python', 'GPT-4.1 Vision', 'FastAPI', 'SQLite', 'Railway'],
@@ -146,10 +146,10 @@ export const PORTFOLIO_CONTENT = {
         id: 'community-series',
         title: { ko: '커뮤니티 대회 시리즈', en: 'Community Tournament Series' },
         highlight: true,
-        role: { ko: '1인 기획·주최·중계', en: 'Solo Organizer, Producer & Caster' },
+        role: { ko: '1인 기획 / 주최 / 중계', en: 'Solo Organizer, Producer & Caster' },
         summary: {
-          ko: '2023년 7월부터 한국 CODM 커뮤니티 대회를 1인이 기획·주최·중계했습니다. 여름·겨울 사이클로 8에디션을 열었고, 드래프트 방식을 완전랜덤→밸런스랜덤→캡틴픽으로 진화시켰습니다. 후원 없이 순수 자체 운영.',
-          en: 'Solo-planned, produced and cast Korean CODM community tournaments since July 2023 — 8 editions across summer/winter cycles, with the draft format evolving from full-random to balance-random to captain pick. Entirely self-run, no sponsorship.',
+          ko: '2023년 7월부터 한국 CODM 커뮤니티 대회를 1인이 기획, 주최, 중계했습니다. 여름·겨울 사이클로 8에디션을 열었고, 드래프트 방식을 완전랜덤→밸런스랜덤→캡틴픽으로 진화시켰습니다. 후원 없이 순수 자체 운영.',
+          en: 'Solo-planned, produced and cast Korean CODM community tournaments since July 2023: 8 editions across summer/winter cycles, with the draft format evolving from full-random to balance-random to captain pick. Entirely self-run, no sponsorship.',
         },
         stack: ['행사 기획', '중계·방송', 'Discord 운영', 'Event planning', 'Broadcasting'],
         metrics: [
@@ -180,7 +180,7 @@ export const PORTFOLIO_CONTENT = {
         highlight: true,
         role: { ko: '창설·운영 설계', en: 'Founder & Operations Design' },
         summary: {
-          ko: '서부 CODM 경쟁 생태계를 위한 초청제 랭크 리그. 티어 5단계·4리전(NA/LATAM·EU·APAC·MENA) 체계를 설계하고, GPT-4.1 OCR→Airtable 파이프라인으로 MMR 집계·주간 리포트·RSVP를 자동화했습니다.',
+          ko: '서부 CODM 경쟁 생태계를 위한 초청제 랭크 리그. 티어 5단계, 4리전(NA/LATAM, EU, APAC, MENA) 체계를 설계하고, GPT-4.1 OCR→Airtable 파이프라인으로 MMR 집계, 주간 리포트, RSVP를 자동화했습니다.',
           en: 'An invitational rank league for the western CODM ecosystem. Designed the 5-tier, 4-region (NA/LATAM, EU, APAC, MENA) structure and automated MMR aggregation, weekly reports and RSVP through a GPT-4.1 OCR → Airtable pipeline.',
         },
         stack: ['GPT-4.1 Vision', 'Airtable', 'Make.com', 'Discord Bot API'],
@@ -197,7 +197,7 @@ export const PORTFOLIO_CONTENT = {
         role: { ko: '연구 (진행 중)', en: 'Research (in progress)' },
         summary: {
           ko: '모바일 FPS 터치 입력의 생체역학을 분석하는 논문 초안. 6년의 선수·코치 경험을 데이터와 이론으로 구조화하는 작업입니다.',
-          en: 'A paper draft analyzing the biomechanics of touch input in mobile FPS — structuring six years of playing and coaching experience into data and theory.',
+          en: 'A paper draft analyzing the biomechanics of touch input in mobile FPS, structuring six years of playing and coaching experience into data and theory.',
         },
         stack: ['데이터 분석', 'Data analysis'],
         metrics: [],
