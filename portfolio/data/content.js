@@ -63,7 +63,7 @@ export const PORTFOLIO_CONTENT = {
   hero: {
     ign: 'F10W3R',
     // 초상 파일명 — /assets/photos/ 기준. null이면 카드 생략
-    portrait: 'photo-1.jpg',
+    portrait: 'photo-1.png',
     portraitAlt: { ko: 'Luminosity 저지를 입은 유민우', en: 'Yoo Min-woo in a Luminosity Gaming jersey' },
     name: { ko: '유민우', en: 'Yoo Min-woo' },
     tagline: {
