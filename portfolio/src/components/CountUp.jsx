@@ -14,9 +14,8 @@ export default function CountUp({ value, delay = 0 }) {
   const ref = useRef(null)
   const inView = useInView(ref, { once: true, amount: 0.5 })
   const reduce = useReducedMotion()
-  const force = typeof window !== 'undefined' && new URLSearchParams(window.location.search).has('motion')
-  const play = numeric && inView && (!reduce || force)
-  const [display, setDisplay] = useState(() => (numeric && !reduce && !force ? 0 : target))
+  const force = typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('motion') === '1'
+  const [display, setDisplay] = useState(() => (numeric && !(reduce && !force) ? 0 : target))
 
   useEffect(() => {
     if (!numeric || !inView) return

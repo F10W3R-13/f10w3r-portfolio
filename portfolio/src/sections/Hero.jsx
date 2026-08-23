@@ -17,16 +17,16 @@ export default function Hero() {
           </p>
           <h1 className="rise d2 mt-3 text-[clamp(3.5rem,10vw,10rem)] leading-[0.85] tracking-tight">F10W3R</h1>
           <div className="rise d3 mt-5 flex flex-wrap items-baseline gap-x-8 gap-y-2">
-            <span className="text-3xl font-black tracking-tight" style={{ fontFamily: 'var(--font-ko-display)' }}>{t(hero.name)}</span>
-            <span className="max-w-[46ch] text-sm leading-relaxed" style={{ fontFamily: 'var(--font-mono)', color: 'var(--ice-dim)' }}>{t(hero.tagline)}</span>
+            <span className="text-3xl tracking-tight" style={{ fontFamily: 'var(--font-display)' }}>{t(hero.name)}</span>
+            <span className="max-w-[46ch] text-sm leading-relaxed" style={{ color: 'var(--ice-dim)' }}>{t(hero.tagline)}</span>
           </div>
-          <p className="rise d3 mt-8 max-w-[54ch] text-justify text-sm leading-relaxed" style={{ fontFamily: 'var(--font-mono)', color: 'var(--ice-dim)' }}>
+          <p className="rise d3 mt-8 max-w-[54ch] text-sm leading-relaxed" style={{ color: 'var(--ice-dim)' }}>
             {t(hero.intro)}
           </p>
         </div>
 
         {hero.portrait ? (
-          <figure className="rise d3 mt-8 flex h-80 md:col-start-2 md:row-span-2 md:row-start-1 md:mt-0 md:h-auto">
+          <figure className="mt-8 flex h-80 md:col-start-2 md:row-span-2 md:row-start-1 md:mt-0 md:h-auto">
             <div className="port-wrap min-h-0 w-full flex-1 overflow-hidden">
               <img src={`/assets/photos/${hero.portrait}`} alt={t(hero.portraitAlt)} className="port-img ph-treat h-full w-full object-cover object-top" />
             </div>

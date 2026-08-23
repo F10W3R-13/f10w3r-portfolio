@@ -10,7 +10,7 @@ function Row({ a, t }) {
       className={`row-hover grid grid-cols-[1fr_auto] items-baseline gap-4 border-t py-4 last:border-b md:grid-cols-[auto_1fr_auto_auto_auto] md:gap-6 ${a.won ? 'pl-4' : ''}`}
       style={{ borderColor: 'var(--hairline)', borderLeftWidth: a.won ? 2 : undefined, borderLeftColor: a.won ? 'var(--volt)' : undefined }}
     >
-      <span className="order-2 border px-1.5 py-0.5 text-[10px] tracking-widest md:order-1" style={{ fontFamily: 'var(--font-mono)', borderColor: '#3a4450', color: 'var(--ice-dim)' }}>
+      <span className="order-2 border px-1.5 py-0.5 text-[11px] tracking-widest md:order-1" style={{ fontFamily: 'var(--font-mono)', borderColor: 'var(--hairline-strong)', color: 'var(--ice-dim)' }}>
         {a.tier}
       </span>
       <span className="order-1 text-xl tracking-tight md:order-2 md:text-2xl" style={{ fontFamily: 'var(--font-display)' }}>{a.event}</span>
@@ -45,7 +45,7 @@ export default function Achievements() {
           <button
             onClick={() => setOpen((v) => !v)}
             aria-expanded={open}
-            className="btn-line border px-5 py-2.5 text-[12px] tracking-[0.14em]"
+            className="btn-line border px-6 py-3.5 text-[12px] tracking-[0.14em]"
             style={{ fontFamily: 'var(--font-mono)', borderColor: 'var(--hairline)', color: 'var(--ice-dim)' }}
           >
             {open ? t(content.ui.collapse) : `${t(content.ui.expand)} (${lower.length})`}

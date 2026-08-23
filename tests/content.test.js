@@ -94,6 +94,10 @@ test('프로젝트: 5개 항목, 사용자 확정 순서, 코칭 허브 389·202
   assert.equal(hub.links.demo, 'https://web-production-4deec.up.railway.app');
   const flat = JSON.stringify(hub);
   assert.ok(flat.includes('389') && flat.includes('2026.08'), '코칭 허브: 검증된 389·2026.08 수치 누락');
+  // 스택 칩은 {ko,en} 이중언어 (EN 화면에 한국어 칩 잔류 방지)
+  for (const p of list) {
+    for (const s of p.stack) assert.ok(s.ko && s.en, `${p.id}: stack 항목 {ko,en}`);
+  }
 });
 
 // ── 6. 데이터 정직성: 조작 금지 수치 회귀 가드 ──
@@ -145,7 +149,7 @@ test('페이지: sections 순서 배열 유효(화이트리스트·중복 없음
 
 // ── 11. UI 사전: 주요 라벨 {ko,en} 구비 ──
 test('UI 사전: 라벨 이중언어 구비', () => {
-  for (const key of ['player', 'coach', 'demo', 'liveDemoCta']) {
+  for (const key of ['player', 'coach', 'demo', 'field']) {
     assert.ok(content.ui[key] && content.ui[key].ko && content.ui[key].en, `ui.${key}`);
   }
   const headings = content.ui.headings;

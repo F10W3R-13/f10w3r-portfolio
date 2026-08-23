@@ -6,7 +6,7 @@ export default function Skills() {
   const t = useT()
   const groups = [
     { label: { ko: '운영', en: 'Operations' }, items: content.skills.ops.map((s) => (typeof s === 'string' ? s : t(s))) },
-    { label: { ko: '기술', en: 'Technical' }, items: content.skills.tech },
+    { label: { ko: '기술', en: 'Technical' }, items: content.skills.tech.map((s) => (typeof s === 'string' ? s : t(s))) },
   ]
 
   return (

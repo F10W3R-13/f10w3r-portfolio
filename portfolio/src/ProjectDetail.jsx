@@ -1,16 +1,17 @@
+import { useEffect } from 'react'
 import content from '../data/content.js'
 import { useT } from './lang.jsx'
 
 /*
  * 프로젝트 상세 페이지 — /projects/?id=<id> 쿼리 렌더러.
- * 목차: 돌아가기 → 히어로(role·title·pitch) → 스펙 → 배경/목적/방식 → 링크 → 갤러리 슬롯.
- * purpose는 null이면 표시하지 않는다(사용자 입력 대기 슬롯).
+ * 목차: 돌아가기 → 히어로(role·title·pitch) → 스펙 → 배경/목적/방식 → 링크 → 갤러리.
+ * gallery가 비면 갤러리 블록 자체를 렌더하지 않는다(개발용 플레이스홀더 노출 금지).
  */
 
 function Specs({ p, t }) {
   if (!p.detail.specs.length) return null
   return (
-    <div className="reveal mt-10 grid gap-3 md:grid-cols-4">
+    <div className="reveal mt-10 grid gap-3 grid-cols-[repeat(auto-fit,minmax(220px,1fr))]">
       {p.detail.specs.map((s) => (
         <div key={s.label.en} className="border p-5" style={{ borderColor: 'var(--hairline)' }}>
           <p className="text-[11px] tracking-[0.14em]" style={{ fontFamily: 'var(--font-mono)', color: 'var(--ice-mute)' }}>{t(s.label)}</p>
@@ -23,27 +24,17 @@ function Specs({ p, t }) {
 
 function Gallery({ p, t }) {
   const items = p.detail.gallery
+  if (!items.length) return null
   return (
-    <div className="reveal mt-16">
-      {items.length > 0 ? (
-        <div className="grid gap-6 md:grid-cols-2">
-          {items.map((g) => (
-            <figure key={g.file} className="border" style={{ borderColor: 'var(--hairline)' }}>
-              <img src={`/assets/projects/${p.id}/${g.file}`} alt={t(g.caption)} className="w-full" />
-              <figcaption className="border-t px-4 py-2.5 text-[11px]" style={{ borderColor: 'var(--hairline)', fontFamily: 'var(--font-mono)', color: 'var(--ice-mute)' }}>
-                {t(g.caption)}
-              </figcaption>
-            </figure>
-          ))}
-        </div>
-      ) : (
-        <div
-          className="grid aspect-video place-items-center border border-dashed text-[11px]"
-          style={{ borderColor: '#3a4450', fontFamily: 'var(--font-mono)', color: 'var(--ice-mute)' }}
-        >
-          사진 슬롯 · portfolio/public/assets/projects/{p.id}/
-        </div>
-      )}
+    <div className="gallery-grid reveal mt-16 grid gap-6 md:grid-cols-2">
+      {items.map((g) => (
+        <figure key={g.file} className="border" style={{ borderColor: 'var(--hairline)' }}>
+          <img src={`/assets/projects/${p.id}/${g.file}`} alt={t(g.caption)} loading="lazy" decoding="async" className="w-full" />
+          <figcaption className="border-t px-4 py-2.5 text-[11px]" style={{ borderColor: 'var(--hairline)', fontFamily: 'var(--font-mono)', color: 'var(--ice-mute)' }}>
+            {t(g.caption)}
+          </figcaption>
+        </figure>
+      ))}
     </div>
   )
 }
@@ -76,6 +67,9 @@ export function ProjectList() {
 export default function ProjectDetail({ id }) {
   const t = useT()
   const p = content.projects.list.find((x) => x.id === id)
+  useEffect(() => {
+    if (p) document.title = `${p.title.ko} · ${content.profile.name.ko} ${content.profile.ign}`
+  }, [p])
   if (!p) return <ProjectList />
 
   return (
@@ -96,27 +90,27 @@ export default function ProjectDetail({ id }) {
 
       <div className="mt-16 max-w-[68ch] space-y-12">
         <section className="reveal">
-          <h2 className="text-xl tracking-tight" style={{ fontFamily: 'var(--font-ko-display)', fontWeight: 900 }}>{t({ ko: '배경', en: 'Background' })}</h2>
+          <h2 className="text-xl tracking-tight" style={{ fontFamily: 'var(--font-display)' }}>{t({ ko: '배경', en: 'Background' })}</h2>
           <p className="mt-3 leading-relaxed" style={{ color: 'var(--ice-dim)' }}>{t(p.detail.background)}</p>
         </section>
 
         {p.detail.purpose ? (
           <section className="reveal">
-            <h2 className="text-xl tracking-tight" style={{ fontFamily: 'var(--font-ko-display)', fontWeight: 900 }}>{t({ ko: '제작 목적', en: 'Purpose' })}</h2>
+            <h2 className="text-xl tracking-tight" style={{ fontFamily: 'var(--font-display)' }}>{t({ ko: '제작 목적', en: 'Purpose' })}</h2>
             <p className="mt-3 leading-relaxed" style={{ color: 'var(--ice-dim)' }}>{t(p.detail.purpose)}</p>
           </section>
         ) : null}
 
         <section className="reveal">
-          <h2 className="text-xl tracking-tight" style={{ fontFamily: 'var(--font-ko-display)', fontWeight: 900 }}>{t({ ko: '방식', en: 'Approach' })}</h2>
+          <h2 className="text-xl tracking-tight" style={{ fontFamily: 'var(--font-display)' }}>{t({ ko: '방식', en: 'Approach' })}</h2>
           <p className="mt-3 leading-relaxed" style={{ color: 'var(--ice-dim)' }}>{t(p.detail.approach)}</p>
         </section>
 
         <section className="reveal">
-          <h2 className="text-xl tracking-tight" style={{ fontFamily: 'var(--font-ko-display)', fontWeight: 900 }}>Stack</h2>
+          <h2 className="text-xl tracking-tight" style={{ fontFamily: 'var(--font-display)' }}>{t({ ko: '스택', en: 'Stack' })}</h2>
           <ul className="mt-4 flex flex-wrap gap-2">
             {p.stack.map((s) => (
-              <li key={s} className="border px-3 py-1.5 text-[12px]" style={{ borderColor: 'var(--hairline)', fontFamily: 'var(--font-mono)', color: 'var(--ice-dim)' }}>{s}</li>
+              <li key={s.en} className="border px-3 py-1.5 text-[12px]" style={{ borderColor: 'var(--hairline)', fontFamily: 'var(--font-mono)', color: 'var(--ice-dim)' }}>{t(s)}</li>
             ))}
           </ul>
         </section>
@@ -124,11 +118,11 @@ export default function ProjectDetail({ id }) {
         <section className="reveal flex flex-wrap gap-x-8 gap-y-4">
           {p.links.demo ? (
             <a href={p.links.demo} target="_blank" rel="noreferrer" className="cta-volt inline-flex items-center gap-3 px-6 py-3 text-[13px] tracking-[0.18em]" style={{ fontFamily: 'var(--font-mono)' }}>
-              {t(content.ui.liveDemoCta)} <span aria-hidden="true" className="cta-arrow">↗</span>
+              {t(content.ui.demo)} <span aria-hidden="true" className="cta-arrow">↗</span>
             </a>
           ) : null}
           {p.links.youtube ? (
-            <a href={p.links.youtube} target="_blank" rel="noreferrer" className="text-sm hover:underline" style={{ fontFamily: 'var(--font-mono)', color: 'var(--ice-dim)' }}>VOD ↗</a>
+            <a href={p.links.youtube} target="_blank" rel="noreferrer" className="text-sm hover:underline" style={{ fontFamily: 'var(--font-mono)', color: 'var(--ice-dim)' }}>VOD <span aria-hidden="true">↗</span></a>
           ) : null}
         </section>
       </div>

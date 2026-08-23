@@ -27,8 +27,9 @@ export default function App() {
           const Section = SECTIONS[id]
           if (!Section) return null
           // 배경 밴드: page.flat에 속한 섹션은 불투명 잉크 배경으로 리본을 덮는다(가독성 밴드)
+          // 래퍼 id는 /#projects 같은 백링크 앵커의 실제 대상
           return (
-            <div key={id} className={content.page.flat?.includes(id) ? 'bg-solid' : undefined}>
+            <div key={id} id={id} className={content.page.flat?.includes(id) ? 'bg-solid' : undefined}>
               <Section />
             </div>
           )

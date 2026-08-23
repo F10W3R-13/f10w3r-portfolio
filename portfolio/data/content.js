@@ -30,7 +30,6 @@ export const PORTFOLIO_CONTENT = {
     player: { ko: '선수', en: 'Player' },
     coach: { ko: '코치', en: 'Coach' },
     demo: { ko: '라이브 데모', en: 'LIVE DEMO' },
-    liveDemoCta: { ko: '라이브 데모 보기', en: 'View live demo' },
     current: { ko: '현재', en: 'Present' },
     expand: { ko: '하위 티어 성적 더 보기', en: 'Show lower-tier results' },
     collapse: { ko: '접기', en: 'Collapse' },
@@ -64,7 +63,7 @@ export const PORTFOLIO_CONTENT = {
   hero: {
     ign: 'F10W3R',
     // 초상 파일명 — /assets/photos/ 기준. null이면 카드 생략
-    portrait: 'photo-1.png',
+    portrait: 'photo-1.jpg',
     portraitAlt: { ko: 'Luminosity 저지를 입은 유민우', en: 'Yoo Min-woo in a Luminosity Gaming jersey' },
     name: { ko: '유민우', en: 'Yoo Min-woo' },
     tagline: {
@@ -106,9 +105,9 @@ export const PORTFOLIO_CONTENT = {
     ],
     // 현장 사진 — /assets/photos/ 기준. 빈 배열이면 스트립 생략
     photos: [
-      { file: 'photo-2.png', caption: { ko: '대회 중계 화면에서의 코칭', en: 'Coaching during a championship broadcast' } },
-      { file: 'photo-3.png', caption: { ko: '메이저 대회 스테이지 부스', en: 'Major tournament stage booth' } },
-      { file: 'photo-4.png', caption: { ko: 'Luminosity Gaming 시절 팀', en: 'Luminosity Gaming squad' } },
+      { file: 'photo-2.jpg', caption: { ko: '대회 중계 화면에서의 코칭', en: 'Coaching during a championship broadcast' } },
+      { file: 'photo-3.jpg', caption: { ko: '메이저 대회 스테이지 부스', en: 'Major tournament stage booth' } },
+      { file: 'photo-4.jpg', caption: { ko: 'Luminosity Gaming 시절 팀', en: 'Luminosity Gaming squad' } },
       { file: 'photo-5.jpg', caption: { ko: '대회 부스에서', en: 'At the tournament booth' } },
     ],
   },
@@ -146,7 +145,13 @@ export const PORTFOLIO_CONTENT = {
           ko: '스크림 결과 스크린샷을 GPT-4.1이 읽어 SQLite에 적재하고, FastAPI로 한국어/영어/스페인어 3개 언어 대시보드를 제공하는 코칭 허브. Railway에 배포해 매일 운영 중입니다.',
           en: 'A coaching hub where GPT-4.1 reads scrim screenshots into SQLite and FastAPI serves a trilingual (KO/EN/ES) dashboard. Deployed on Railway and in daily use.',
         },
-        stack: ['Python', 'GPT-4.1 Vision', 'FastAPI', 'SQLite', 'Railway'],
+        stack: [
+          { ko: 'Python', en: 'Python' },
+          { ko: 'GPT-4.1 Vision', en: 'GPT-4.1 Vision' },
+          { ko: 'FastAPI', en: 'FastAPI' },
+          { ko: 'SQLite', en: 'SQLite' },
+          { ko: 'Railway', en: 'Railway' },
+        ],
         metrics: [
           { value: '389', label: { ko: '기록된 경기 · 2026.08 기준', en: 'Matches logged · as of 2026.08' } },
           { value: '3', label: { ko: '대시보드 언어', en: 'Dashboard languages' } },
@@ -190,7 +195,11 @@ export const PORTFOLIO_CONTENT = {
           ko: '2023년 7월부터 한국 CODM 커뮤니티 대회를 1인이 기획, 주최, 중계했습니다. 여름·겨울 사이클로 8에디션을 열었고, 드래프트 방식을 완전랜덤→밸런스랜덤→캡틴픽으로 진화시켰습니다. 후원 없이 순수 자체 운영.',
           en: 'Solo-planned, produced and cast Korean CODM community tournaments since July 2023: 8 editions across summer/winter cycles, with the draft format evolving from full-random to balance-random to captain pick. Entirely self-run, no sponsorship.',
         },
-        stack: ['행사 기획', '중계·방송', 'Discord 운영', 'Event planning', 'Broadcasting'],
+        stack: [
+          { ko: '행사 기획', en: 'Event planning' },
+          { ko: '중계·방송', en: 'Broadcasting' },
+          { ko: 'Discord 운영', en: 'Discord operations' },
+        ],
         metrics: [
           { value: '8', label: { ko: '에디션 (2023.07~)', en: 'Editions (since 2023.07)' } },
           { value: '77.8h', label: { ko: '누적 중계 방송', en: 'Total broadcast hours' } },
@@ -231,7 +240,13 @@ export const PORTFOLIO_CONTENT = {
           ko: '스포츠데이 기획팀을 위한 프로젝트 관리 허브. 마일스톤 긴급도·인계·의사결정 트래커와 Google Drive 연동을 갖추고, 카카오톡 알림(개인 다이제스트 + 단체방 자동 발송)을 자동화했습니다.',
           en: 'A project hub for a sports-day planning team: milestone urgency, handoffs, a decision tracker and Google Drive integration, with automated KakaoTalk notifications (personal digest plus group-chat auto-send).',
         },
-        stack: ['Next.js', 'Supabase', 'Vercel Cron', 'KakaoTalk', 'PyAutoGUI'],
+        stack: [
+          { ko: 'Next.js', en: 'Next.js' },
+          { ko: 'Supabase', en: 'Supabase' },
+          { ko: 'Vercel Cron', en: 'Vercel Cron' },
+          { ko: 'KakaoTalk', en: 'KakaoTalk' },
+          { ko: 'PyAutoGUI', en: 'PyAutoGUI' },
+        ],
         metrics: [],
         links: {},
         detail: {
@@ -265,7 +280,12 @@ export const PORTFOLIO_CONTENT = {
           ko: '서부 CODM 경쟁 생태계를 위한 초청제 랭크 리그. 4리전(NA/LATAM, EU, APAC, MENA) 체계를 설계하고, GPT-4.1 OCR→Airtable 파이프라인으로 MMR 집계, 주간 리포트, RSVP를 자동화했습니다.',
           en: 'An invitational rank league for the western CODM ecosystem. Designed the 4-region (NA/LATAM, EU, APAC, MENA) structure and automated MMR aggregation, weekly reports and RSVP through a GPT-4.1 OCR → Airtable pipeline.',
         },
-        stack: ['GPT-4.1 Vision', 'Airtable', 'discord.py', 'NeatQueue'],
+        stack: [
+          { ko: 'GPT-4.1 Vision', en: 'GPT-4.1 Vision' },
+          { ko: 'Airtable', en: 'Airtable' },
+          { ko: 'discord.py', en: 'discord.py' },
+          { ko: 'NeatQueue', en: 'NeatQueue' },
+        ],
         metrics: [
           { value: '4', label: { ko: '리전', en: 'Regions' } },
           { value: '101', label: { ko: '관리 선수 (NA 시즌)', en: 'Players managed (NA season)' } },
@@ -303,7 +323,13 @@ export const PORTFOLIO_CONTENT = {
           ko: '교환학생 그룹톡의 영어 질문에 한국어 학사 규정을 근거로 답하는 RAG 봇. 138문항 골드셋으로 3차례 평가해 정답률 84%에서 91%로 끌어올렸고, 환각 0건과 프롬프트 인젝션 방어를 검증했습니다.',
           en: "A RAG bot that answers exchange students' English questions from Korean university regulations. Three eval rounds on a 138-question gold set raised accuracy from 84% to 91%, with zero hallucinations and verified prompt-injection defense.",
         },
-        stack: ['RAG', 'FastAPI', 'whatsapp-web.js', 'OpenAI', 'Railway'],
+        stack: [
+          { ko: 'RAG', en: 'RAG' },
+          { ko: 'FastAPI', en: 'FastAPI' },
+          { ko: 'whatsapp-web.js', en: 'whatsapp-web.js' },
+          { ko: 'OpenAI', en: 'OpenAI' },
+          { ko: 'Railway', en: 'Railway' },
+        ],
         metrics: [
           { value: '91%', label: { ko: '골드셋 정답률 (138문항)', en: 'Gold-set accuracy (138 questions)' } },
           { value: '0', label: { ko: '환각 답변', en: 'Hallucinated answers' } },
@@ -349,8 +375,14 @@ export const PORTFOLIO_CONTENT = {
       { ko: 'KO·EN 이중언어 실무', en: 'KO/EN bilingual operations' },
     ],
     tech: [
-      'Python', 'Discord Bot API', 'FastAPI', 'GPT-4.1 Vision OCR',
-      'Make.com / Airtable', 'Google Apps Script', 'SQLite / Postgres', '데이터 분석 / Data analysis',
+      { ko: 'Python', en: 'Python' },
+      { ko: 'Discord Bot API', en: 'Discord Bot API' },
+      { ko: 'FastAPI', en: 'FastAPI' },
+      { ko: 'GPT-4.1 Vision OCR', en: 'GPT-4.1 Vision OCR' },
+      { ko: 'Make.com / Airtable', en: 'Make.com / Airtable' },
+      { ko: 'Google Apps Script', en: 'Google Apps Script' },
+      { ko: 'SQLite / Postgres', en: 'SQLite / Postgres' },
+      { ko: '데이터 분석', en: 'Data analysis' },
     ],
   },
 

@@ -10,7 +10,7 @@ export default function Education() {
       <h2 className="reveal text-3xl tracking-tight" style={{ fontFamily: 'var(--font-display)' }}>{t(content.ui.headings.education)}</h2>
 
       <div className="reveal mt-8 border-t pt-8" style={{ borderColor: 'var(--hairline)' }}>
-        <p className="text-3xl font-black tracking-tight" style={{ fontFamily: 'var(--font-ko-display)' }}>{t(education.school)}</p>
+        <p className="text-3xl tracking-tight" style={{ fontFamily: 'var(--font-display)' }}>{t(education.school)}</p>
         <div className="mt-3 flex flex-wrap gap-x-8 gap-y-2 text-sm" style={{ color: 'var(--ice-dim)' }}>
           <span>{t(education.major)}</span>
           <span>{t(education.doubleMajor)}</span>
