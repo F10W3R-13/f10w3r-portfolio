@@ -36,7 +36,7 @@ function Gallery({ p }) {
           className="grid aspect-video place-items-center border border-dashed text-[11px]"
           style={{ borderColor: '#3a4450', fontFamily: 'var(--font-mono)', color: 'var(--ice-mute)' }}
         >
-          사진 슬롯 · portfolio/assets/projects/{p.id}/
+          사진 슬롯 · portfolio/public/assets/projects/{p.id}/
         </div>
       )}
     </div>

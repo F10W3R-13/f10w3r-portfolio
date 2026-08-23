@@ -313,7 +313,7 @@ export const PORTFOLIO_CONTENT = {
             { label: { ko: '코퍼스', en: 'Corpus' }, value: { ko: '문서 45개 · 청크 379개', en: '45 documents · 379 chunks' } },
             { label: { ko: '스택', en: 'Stack' }, value: 'RAG · FastAPI · whatsapp-web.js · OpenAI · Railway' },
           ],
-          gallery: [],
+          gallery: ['chat-1.png', 'chat-2.png', 'chat-3.png'],
         },
       },
     ],
