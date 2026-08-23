@@ -3,3 +3,4 @@ _snapshots/
 *.log
 .DS_Store
 portfolio/dist/
+portfolio/dist*/

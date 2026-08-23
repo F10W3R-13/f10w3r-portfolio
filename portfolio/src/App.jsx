@@ -1,20 +1,58 @@
-import { DotMatrixBackground } from '@designcodeio/threeui'
+import { useEffect, useState } from 'react'
 import content from '../data/content.js'
+import { LangContext } from './lang.jsx'
+import Hero from './sections/Hero.jsx'
+import Career from './sections/Career.jsx'
+import Achievements from './sections/Achievements.jsx'
+import Projects from './sections/Projects.jsx'
+import Skills from './sections/Skills.jsx'
+import Education from './sections/Education.jsx'
+import Contact from './sections/Contact.jsx'
 
-/*
- * Stage 0′ 증명 페이지 — threeui 컴포넌트가 이 스택에서 실제로 렌더링됨을 확인하는 게 목적.
- * 디자인은 Stage 2 콘셉트에서 전면 교체된다.
- */
+/* 섹션 렌더러 레지스트리 — 표시 순서는 content.page.sections 배열이 결정한다 */
+const SECTIONS = {
+  hero: Hero,
+  career: Career,
+  achievements: Achievements,
+  projects: Projects,
+  skills: Skills,
+  education: Education,
+  contact: Contact,
+}
+
 export default function App() {
-  const { hero } = content
+  const [lang, setLang] = useState(() => localStorage.getItem('lang') || content.meta.defaultLang)
+
+  useEffect(() => {
+    localStorage.setItem('lang', lang)
+    document.documentElement.lang = lang
+  }, [lang])
+
   return (
-    <main className="relative min-h-[100dvh] bg-zinc-950 text-zinc-100">
-      <DotMatrixBackground className="absolute inset-0" opacity={0.45} />
-      <section className="relative z-10 flex min-h-[100dvh] flex-col justify-center px-8">
-        <p className="font-mono text-xs uppercase tracking-[0.18em] text-zinc-400">{hero.ign}</p>
-        <h1 className="mt-4 text-5xl font-semibold tracking-tighter">{hero.name.ko}</h1>
-        <p className="mt-3 max-w-[65ch] leading-relaxed text-zinc-400">{hero.tagline.ko}</p>
-      </section>
-    </main>
+    <LangContext.Provider value={lang}>
+      <div
+        className="fixed right-4 top-4 z-50 flex gap-1 border px-1.5 py-1"
+        style={{ borderColor: 'var(--hairline)', background: 'rgba(10,13,17,0.72)', fontFamily: 'var(--font-mono)', fontSize: 11 }}
+      >
+        {content.meta.langs.map((l) => (
+          <button
+            key={l}
+            onClick={() => setLang(l)}
+            className="px-1.5 py-0.5 transition-colors"
+            style={{ color: lang === l ? 'var(--volt)' : 'var(--ice-mute)' }}
+            aria-pressed={lang === l}
+          >
+            {l.toUpperCase()}
+          </button>
+        ))}
+      </div>
+
+      <main>
+        {content.page.sections.map((id) => {
+          const Section = SECTIONS[id]
+          return Section ? <Section key={id} /> : null
+        })}
+      </main>
+    </LangContext.Provider>
   )
 }

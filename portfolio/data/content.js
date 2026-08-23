@@ -11,11 +11,32 @@
 export const PORTFOLIO_CONTENT = {
 
   meta: {
-    version: 1,
-    updated: '2026-08-23',
+    version: 2,
+    updated: '2026-08-24',
     defaultLang: 'ko',
     langs: ['ko', 'en'],
     sourceOfTruth: 'minwo0___/60 개인 기록/profile.md',
+  },
+
+  // 페이지 조립 — sections 배열 순서 = 렌더 순서 (순서 교체도 이 파일 편집으로)
+  page: {
+    sections: ['hero', 'career', 'achievements', 'projects', 'skills', 'education', 'contact'],
+  },
+
+  // UI 라벨 사전 (섹션 제목·버튼 문구 등 — 콘텐츠가 아닌 인터페이스 문자열)
+  ui: {
+    player: { ko: '선수', en: 'Player' },
+    coach: { ko: '코치', en: 'Coach' },
+    demo: { ko: '라이브 데모', en: 'LIVE DEMO' },
+    liveDemoCta: { ko: '라이브 데모 보기', en: 'View live demo' },
+    headings: {
+      career: { ko: '커리어', en: 'Career' },
+      achievements: { ko: '주요 성적', en: 'Results' },
+      projects: { ko: '프로젝트', en: 'Projects' },
+      skills: { ko: '스킬', en: 'Skills' },
+      education: { ko: '학적', en: 'Education' },
+      contact: { ko: '연락', en: 'Contact' },
+    },
   },
 
   profile: {

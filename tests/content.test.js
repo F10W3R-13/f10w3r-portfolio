@@ -29,7 +29,8 @@ function collectUrls(node, urls) {
   if (node && typeof node === 'object') {
     for (const [k, v] of Object.entries(node)) {
       if (k === 'demo' || k === 'github' || k === 'twitter' || k === 'youtube') {
-        if (v !== null && v !== undefined) urls.push([k, v]);
+        if (typeof v === 'string') urls.push([k, v]);
+        else if (v !== null && v !== undefined && typeof v !== 'object') urls.push([k, v]);
       } else collectUrls(v, urls);
     }
   }
@@ -122,4 +123,25 @@ test('링크: 모든 URL이 https://, email은 null 허용', () => {
 test('연락: email은 null(미정)이거나 유효한 주소', () => {
   const email = content.profile.contact.email;
   assert.ok(email === null || (typeof email === 'string' && email.includes('@')));
+});
+
+// ── 10. 페이지 조립: sections 순서 배열이 렌더러 화이트리스트와 정확히 일치 ──
+test('페이지: sections 순서 배열 유효(화이트리스트·중복 없음·7종 전부)', () => {
+  const whitelist = ['hero', 'career', 'achievements', 'projects', 'skills', 'education', 'contact'];
+  const sections = content.page.sections;
+  assert.ok(Array.isArray(sections) && sections.length === whitelist.length, 'sections 길이');
+  assert.equal(new Set(sections).size, sections.length, 'sections 중복');
+  for (const s of sections) assert.ok(whitelist.includes(s), `알 수 없는 섹션: ${s}`);
+  assert.equal(sections[0], 'hero', '첫 섹션은 hero');
+});
+
+// ── 11. UI 사전: 주요 라벨 {ko,en} 구비 ──
+test('UI 사전: 라벨 이중언어 구비', () => {
+  for (const key of ['player', 'coach', 'demo', 'liveDemoCta']) {
+    assert.ok(content.ui[key] && content.ui[key].ko && content.ui[key].en, `ui.${key}`);
+  }
+  const headings = content.ui.headings;
+  for (const key of ['career', 'achievements', 'projects', 'skills', 'education', 'contact']) {
+    assert.ok(headings[key] && headings[key].ko && headings[key].en, `ui.headings.${key}`);
+  }
 });
