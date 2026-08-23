@@ -10,11 +10,11 @@ import { useT } from './lang.jsx'
 function Specs({ p, t }) {
   if (!p.detail.specs.length) return null
   return (
-    <div className="reveal mt-10 grid gap-3 md:grid-cols-3">
+    <div className="reveal mt-10 grid gap-3 md:grid-cols-4">
       {p.detail.specs.map((s) => (
         <div key={s.label.en} className="border p-5" style={{ borderColor: 'var(--hairline)' }}>
-          <p className="text-3xl" style={{ fontFamily: 'var(--font-display)' }}>{t(s.value)}</p>
-          <p className="mt-1.5 text-[11px]" style={{ fontFamily: 'var(--font-mono)', color: 'var(--ice-mute)' }}>{t(s.label)}</p>
+          <p className="text-[11px] tracking-[0.14em]" style={{ fontFamily: 'var(--font-mono)', color: 'var(--ice-mute)' }}>{t(s.label)}</p>
+          <p className="mt-2.5 text-[15px] leading-relaxed" style={{ fontFamily: 'var(--font-mono)', color: 'var(--ice)' }}>{t(s.value)}</p>
         </div>
       ))}
     </div>

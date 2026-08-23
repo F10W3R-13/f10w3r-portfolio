@@ -18,10 +18,10 @@
   --volt: #b9de5f;
   --hairline: #232b36;
   --hairline-soft: #1a222c;
-  --font-display: 'Anton', 'Pretendard Variable', sans-serif;
-  --font-ko-display: 'Pretendard Variable', sans-serif;
+  --font-display: 'Anton', 'Black Han Sans', sans-serif;
+  --font-ko-display: 'Black Han Sans', 'Pretendard Variable', sans-serif;
   --font-body: 'Pretendard Variable', sans-serif;
-  --font-mono: 'IBM Plex Mono', monospace;
+  --font-mono: 'IBM Plex Mono', 'Pretendard Variable', monospace;
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
 }
 
