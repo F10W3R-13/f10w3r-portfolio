@@ -32,6 +32,7 @@ export const PORTFOLIO_CONTENT = {
     current: { ko: '현재', en: 'Present' },
     expand: { ko: '하위 티어 성적 더 보기', en: 'Show lower-tier results' },
     collapse: { ko: '접기', en: 'Collapse' },
+    field: { ko: '현장', en: 'Field' },
     headings: {
       career: { ko: '커리어', en: 'Career' },
       achievements: { ko: '주요 성적', en: 'Results' },
@@ -60,6 +61,9 @@ export const PORTFOLIO_CONTENT = {
 
   hero: {
     ign: 'F10W3R',
+    // 초상 파일명 — /assets/photos/ 기준. null이면 카드 생략
+    portrait: 'photo-1.png',
+    portraitAlt: { ko: 'Luminosity 저지를 입은 유민우', en: 'Yoo Min-woo in a Luminosity Gaming jersey' },
     name: { ko: '유민우', en: 'Yoo Min-woo' },
     tagline: {
       ko: '선수에서 코치로, 이제 운영·기획으로',
@@ -97,6 +101,12 @@ export const PORTFOLIO_CONTENT = {
       { period: '2024.10.29-2024.11.17', team: 'Team Felines' },
       { period: '2025.03.09-2026.03.09', team: 'OUG' },
       { period: { ko: '2026.05.28-현재', en: '2026.05.28-Present' }, team: 'Sybarites', current: true },
+    ],
+    // 현장 사진 — /assets/photos/ 기준. 빈 배열이면 스트립 생략
+    photos: [
+      { file: 'photo-2.png', caption: { ko: '대회 중계 화면에서의 코칭', en: 'Coaching during a championship broadcast' } },
+      { file: 'photo-3.png', caption: { ko: '메이저 대회 스테이지 부스', en: 'Major tournament stage booth' } },
+      { file: 'photo-4.png', caption: { ko: 'Luminosity Gaming 시절 팀', en: 'Luminosity Gaming squad' } },
     ],
   },
 
@@ -161,7 +171,11 @@ export const PORTFOLIO_CONTENT = {
             { label: { ko: '언어', en: 'Languages' }, value: { ko: '3개 (테스트 강제)', en: '3 (test-enforced)' } },
             { label: { ko: '스택', en: 'Stack' }, value: 'FastAPI · SQLite · GPT-4.1 Vision · Railway' },
           ],
-          gallery: [],
+          gallery: [
+            { file: 'home.png', caption: { ko: '메인 대시보드: 매치 추이 차트와 풀 상승·정교 지표', en: 'Main dashboard: match trend charts and pool rise and precision metrics' } },
+            { file: 'leaderboard.png', caption: { ko: '선수별 K/D 리더보드', en: 'Player K/D leaderboard' } },
+            { file: 'player.png', caption: { ko: '선수 상세: 모드별 기록표', en: 'Player detail: per-mode stat tables' } },
+          ],
         },
       },
       {
@@ -313,7 +327,11 @@ export const PORTFOLIO_CONTENT = {
             { label: { ko: '코퍼스', en: 'Corpus' }, value: { ko: '문서 45개 · 청크 379개', en: '45 documents · 379 chunks' } },
             { label: { ko: '스택', en: 'Stack' }, value: 'RAG · FastAPI · whatsapp-web.js · OpenAI · Railway' },
           ],
-          gallery: ['chat-1.png', 'chat-2.png', 'chat-3.png'],
+          gallery: [
+            { file: 'chat-1.png', caption: { ko: '노트북 대여 절차 질문에 출처 각주를 붙인 답변', en: 'Laptop rental answer with source footnotes' } },
+            { file: 'chat-2.png', caption: { ko: '!ask 형식으로 학생증 발급을 묻는 질문', en: 'A student ID question in the !ask format' } },
+            { file: 'chat-3.png', caption: { ko: '보험·동아리 가입 질문에 근거 문서를 인용한 답변', en: 'Insurance and club signup answers citing regulation docs' } },
+          ],
         },
       },
     ],

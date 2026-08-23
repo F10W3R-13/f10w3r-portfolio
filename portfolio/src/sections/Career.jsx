@@ -40,6 +40,24 @@ export default function Career() {
           </div>
         </div>
       ))}
+
+      {career.photos?.length > 0 && (
+        <div className="reveal mt-16">
+          <p className="text-[11px] tracking-[0.2em]" style={{ fontFamily: 'var(--font-mono)', color: 'var(--ice-mute)' }}>
+            {t(content.ui.field)}
+          </p>
+          <div className="mt-3 grid gap-6 md:grid-cols-3">
+            {career.photos.map((ph) => (
+              <figure key={ph.file} className="border" style={{ borderColor: 'var(--hairline)' }}>
+                <img src={`/assets/photos/${ph.file}`} alt={t(ph.caption)} className="aspect-[4/3] w-full object-cover" />
+                <figcaption className="border-t px-4 py-2.5 text-[11px]" style={{ borderColor: 'var(--hairline)', fontFamily: 'var(--font-mono)', color: 'var(--ice-mute)' }}>
+                  {t(ph.caption)}
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </div>
+      )}
     </section>
   )
 }

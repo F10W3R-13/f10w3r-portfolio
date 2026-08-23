@@ -161,5 +161,21 @@ test('상세: 각 프로젝트 pitch/background/approach {ko,en} + specs + galle
     assert.ok(Array.isArray(d.specs), `${p.id}: specs 배열`);
     assert.ok(d.purpose === null || (d.purpose.ko && d.purpose.en), `${p.id}: purpose는 null 또는 {ko,en}`);
     assert.ok(Array.isArray(d.gallery), `${p.id}: gallery 배열`);
+    for (const g of d.gallery) {
+      assert.ok(typeof g.file === 'string' && g.file, `${p.id}: gallery 항목 file 문자열`);
+      assert.ok(g.caption && g.caption.ko && g.caption.en, `${p.id}: gallery 항목 caption {ko,en}`);
+    }
+  }
+});
+
+// ── 13. 사진 자산: 히어로 초상(null 허용) + 커리어 현장 사진 캡션 이중언어 ──
+test('사진: hero.portrait(null 허용)와 career.photos 캡션 {ko,en}', () => {
+  const { hero, career } = content;
+  assert.ok(hero.portrait === null || typeof hero.portrait === 'string', 'hero.portrait는 null 또는 파일명');
+  if (hero.portrait) assert.ok(hero.portraitAlt?.ko && hero.portraitAlt?.en, 'hero.portraitAlt {ko,en}');
+  assert.ok(Array.isArray(career.photos), 'career.photos 배열');
+  for (const ph of career.photos) {
+    assert.ok(typeof ph.file === 'string' && ph.file, `career.photos file: ${ph.file}`);
+    assert.ok(ph.caption?.ko && ph.caption?.en, `career.photos ${ph.file}: caption {ko,en}`);
   }
 });

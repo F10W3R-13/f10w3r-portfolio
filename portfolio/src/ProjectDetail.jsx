@@ -21,14 +21,19 @@ function Specs({ p, t }) {
   )
 }
 
-function Gallery({ p }) {
-  const files = p.detail.gallery
+function Gallery({ p, t }) {
+  const items = p.detail.gallery
   return (
     <div className="reveal mt-16">
-      {files.length > 0 ? (
+      {items.length > 0 ? (
         <div className="grid gap-6 md:grid-cols-2">
-          {files.map((f) => (
-            <img key={f} src={`/assets/projects/${p.id}/${f}`} alt={f} className="w-full border" style={{ borderColor: 'var(--hairline)' }} />
+          {items.map((g) => (
+            <figure key={g.file} className="border" style={{ borderColor: 'var(--hairline)' }}>
+              <img src={`/assets/projects/${p.id}/${g.file}`} alt={t(g.caption)} className="w-full" />
+              <figcaption className="border-t px-4 py-2.5 text-[11px]" style={{ borderColor: 'var(--hairline)', fontFamily: 'var(--font-mono)', color: 'var(--ice-mute)' }}>
+                {t(g.caption)}
+              </figcaption>
+            </figure>
           ))}
         </div>
       ) : (
@@ -128,7 +133,7 @@ export default function ProjectDetail({ id }) {
         </section>
       </div>
 
-      <Gallery p={p} />
+      <Gallery p={p} t={t} />
       <div className="mt-20 pb-10">
         <a href="/#projects" className="text-[11px] tracking-[0.18em]" style={{ fontFamily: 'var(--font-mono)', color: 'var(--ice-mute)' }}>
           ← {t({ ko: '목록으로', en: 'Back to list' })}
