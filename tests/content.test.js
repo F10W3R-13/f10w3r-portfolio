@@ -88,7 +88,7 @@ test('프로젝트: 5개 항목, 사용자 확정 순서, 코칭 허브 389·202
   assert.equal(list.length, 5);
   const ids = list.map((p) => p.id);
   assert.equal(new Set(ids).size, 5, 'id 중복');
-  assert.deepEqual(ids, ['coaching-hub', 'community-series', 'sportsday-hub', 'champions-queue', 'aim-research'], '순서는 사용자 확정 순서');
+  assert.deepEqual(ids, ['coaching-hub', 'community-series', 'sportsday-hub', 'champions-queue', 'skku-whatsapp-bot'], '순서는 사용자 확정 순서');
   assert.ok(!ids.includes('tier-proposal'), 'tier-proposal은 제외됨(2026-08-24 사용자 확인)');
   const hub = list.find((p) => p.id === 'coaching-hub');
   assert.equal(hub.links.demo, 'https://web-production-4deec.up.railway.app');
