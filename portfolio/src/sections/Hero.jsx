@@ -10,11 +10,11 @@ export default function Hero() {
 
   return (
     <section className="relative flex min-h-[100dvh] flex-col justify-between px-6 pt-16 md:px-12" style={{ fontFamily: 'var(--font-display)' }}>
-      <div className="absolute inset-0 opacity-40">
+      <div className="bg-in absolute inset-0">
         <RibbonFieldBackground className="absolute inset-0" />
       </div>
 
-      <div className="relative">
+      <div className="hero-drift relative">
         <p className="rise d1 text-xs uppercase tracking-[0.24em]" style={{ fontFamily: 'var(--font-mono)', color: 'var(--ice-mute)' }}>
           {hero.ign} / CODM
         </p>

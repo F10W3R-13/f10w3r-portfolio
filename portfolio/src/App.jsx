@@ -45,8 +45,7 @@ export default function App() {
           <button
             key={l}
             onClick={() => setLang(l)}
-            className="px-1.5 py-0.5 transition-colors"
-            style={{ color: lang === l ? 'var(--volt)' : 'var(--ice-mute)' }}
+            className="lang-btn px-1.5 py-0.5"
             aria-pressed={lang === l}
           >
             {l.toUpperCase()}

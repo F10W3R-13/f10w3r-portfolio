@@ -24,8 +24,8 @@ export default function Contact() {
           href={hub.links.demo}
           target="_blank"
           rel="noreferrer"
-          className="cta-volt inline-flex items-center gap-3 border px-7 py-3.5 text-[13px] tracking-[0.18em]"
-          style={{ borderColor: 'var(--volt)', color: 'var(--volt)', fontFamily: 'var(--font-mono)' }}
+          className="cta-volt inline-flex items-center gap-3 px-7 py-3.5 text-[13px] tracking-[0.18em]"
+          style={{ fontFamily: 'var(--font-mono)' }}
         >
           {t(content.ui.liveDemoCta)}
           <span aria-hidden="true" className="cta-arrow">↗</span>

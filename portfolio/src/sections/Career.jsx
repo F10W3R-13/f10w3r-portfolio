@@ -22,7 +22,7 @@ export default function Career() {
           </p>
           <div className="reveal mt-3">
             {g.items.map((c, i) => (
-              <div key={c.team + i} className="flex items-baseline justify-between gap-6 border-t py-3.5 last:border-b" style={{ borderColor: 'var(--hairline)' }}>
+              <div key={c.team + i} className="row-hover flex items-baseline justify-between gap-6 border-t py-3.5 last:border-b" style={{ borderColor: 'var(--hairline)' }}>
                 <span className="flex flex-wrap items-baseline gap-x-5 gap-y-1">
                   <span className="w-7 text-[11px]" style={{ fontFamily: 'var(--font-mono)', color: 'var(--ice-mute)' }}>
                     {String(gi === 0 ? i + 1 : career.player.length + i + 1).padStart(2, '0')}

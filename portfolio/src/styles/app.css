@@ -68,9 +68,14 @@ body[data-force-motion] .rise { opacity: 0; animation: rise 480ms var(--ease-out
 body[data-force-motion] .reveal { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% entry 45%; }
 
 /*
- * CTA/버튼 — 정확한 속성 전환, hover는 포인터 게이팅
+ * CTA/버튼 — 정확한 속성 전환, hover는 포인터 게이팅.
+ * cta-volt는 색을 인라인으로 주지 않는다(클래스가 이기려면 인라인 style 금지).
  */
-.cta-volt { transition: background-color 150ms ease, color 150ms ease, transform 120ms ease; }
+.cta-volt {
+  border: 1px solid var(--volt);
+  color: var(--volt);
+  transition: background-color 150ms ease, color 150ms ease, transform 120ms ease;
+}
 .cta-arrow { transition: transform 150ms ease; }
 
 @media (hover: hover) and (pointer: fine) {
@@ -85,3 +90,35 @@ body[data-force-motion] .reveal { animation: rise linear both; animation-timelin
 @media (hover: hover) and (pointer: fine) {
   .btn-line:hover { color: var(--volt); border-color: var(--volt); }
 }
+
+.lang-btn { color: var(--ice-mute); transition: color 150ms ease; }
+.lang-btn[aria-pressed='true'] { color: var(--volt); }
+@media (hover: hover) and (pointer: fine) {
+  .lang-btn:hover { color: var(--ice); }
+}
+
+/* 행 hover 피드백 — 커리어/성적/프로젝트 공통 */
+.row-hover { transition: background-color 100ms ease, border-color 100ms ease; }
+@media (hover: hover) and (pointer: fine) {
+  .row-hover:hover { background-color: rgba(232, 237, 242, 0.035); border-color: #33404e; }
+}
+
+/* 히어로 퇴장 드리프트 — 스크롤로 히어로가 나갈 때 콘텐츠가 위로 살짝(심도) */
+@keyframes hero-drift {
+  to { transform: translateY(-28px); opacity: 0.25; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .hero-drift { animation: hero-drift linear both; animation-timeline: view(); animation-range: exit 0% exit 90%; }
+  }
+}
+body[data-force-motion] .hero-drift { animation: hero-drift linear both; animation-timeline: view(); animation-range: exit 0% exit 90%; }
+
+/* 히어로 배경 페이드인 — 리본이 갑툭 나오지 않게 */
+.bg-in { opacity: 0.4; }
+@keyframes bg-in { from { opacity: 0; } to { opacity: 0.4; } }
+@media (prefers-reduced-motion: no-preference) {
+  .bg-in { animation: bg-in 900ms var(--ease-out) both; }
+}
+body[data-force-motion] .bg-in { animation: bg-in 900ms var(--ease-out) both; }

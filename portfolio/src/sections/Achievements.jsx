@@ -7,7 +7,7 @@ import { useT } from '../lang.jsx'
 function Row({ a, t }) {
   return (
     <div
-      className={`grid grid-cols-[1fr_auto] items-baseline gap-4 border-t py-4 last:border-b md:grid-cols-[auto_1fr_auto_auto_auto] md:gap-6 ${a.won ? 'pl-4' : ''}`}
+      className={`row-hover grid grid-cols-[1fr_auto] items-baseline gap-4 border-t py-4 last:border-b md:grid-cols-[auto_1fr_auto_auto_auto] md:gap-6 ${a.won ? 'pl-4' : ''}`}
       style={{ borderColor: 'var(--hairline)', borderLeftWidth: a.won ? 2 : undefined, borderLeftColor: a.won ? 'var(--volt)' : undefined }}
     >
       <span className="order-2 border px-1.5 py-0.5 text-[10px] tracking-widest md:order-1" style={{ fontFamily: 'var(--font-mono)', borderColor: '#3a4450', color: 'var(--ice-dim)' }}>
