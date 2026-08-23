@@ -84,7 +84,8 @@ export default function C3({ Bg, Hud, Type, Btn }) {
         </div>
       </section>
 
-      {/* 부품 슬롯 1 · 계기 — 좌: threeui HUD / 우: 실데이터 스펙 */}
+      {/* 부품 슬롯 1 · 계기 — Hud가 (없음)이면 섹션 전체 숨김 */}
+      {Hud ? (
       <section className="relative mx-auto max-w-7xl px-6 pb-24">
         <h2 className="rise text-2xl tracking-tight">운영 계기</h2>
         <div className="rise d1 mt-6 grid items-stretch gap-8 md:grid-cols-[3fr_2fr]">
@@ -107,8 +108,10 @@ export default function C3({ Bg, Hud, Type, Btn }) {
           </div>
         </div>
       </section>
+      ) : null}
 
-      {/* 부품 슬롯 2 · 타입 — threeui 타입 이펙트(TypographyVortexCanvas는 phrase=F10W3R) */}
+      {/* 부품 슬롯 2 · 타입 — Type이 (없음)이면 섹션 전체 숨김 */}
+      {Type ? (
       <section className="relative mx-auto max-w-7xl px-6 pb-24">
         <h2 className="rise text-2xl tracking-tight">타입 시그널</h2>
         <div className="rise d1 relative mt-6 h-[380px] overflow-hidden border border-[#232b36] bg-[#0a0d11]">
@@ -121,8 +124,9 @@ export default function C3({ Bg, Hud, Type, Btn }) {
           </PartBoundary>
         </div>
       </section>
+      ) : null}
 
-      {/* 부품 슬롯 3 · 버튼 — threeui CTA(실링크 동작, 라벨은 컴포넌트 기본값) + 텍스트 링크 */}
+      {/* 부품 슬롯 3 · 버튼 — 직접 제작 CTA(기본) 또는 threeui CTA + 텍스트 링크 */}
       <section className="relative mx-auto max-w-7xl px-6 pb-24">
         <h2 className="rise text-2xl tracking-tight">액션</h2>
         <div className="rise d1 mt-6 flex flex-wrap items-center gap-x-10 gap-y-6 border border-[#232b36] p-8">

@@ -29,6 +29,7 @@
 - `portfolio/lab.html` (dev 서버 `/lab.html`) — B(배경·필드)/H(HUD·계기)/T(타입·모션)/C(버튼·CTA) 코드 반응
 - **2026-08-24 1차 반응 — 배경 승인 3종**: DataField(B-03) · ConstellationField(B-04) · RibbonFieldBackground(B-14)
 - **프로세스 전환(2026-08-24, 사용자)**: 나머지 부문은 원시 상태로 판정하지 않고 **"실제 적용된 모습을 먼저 보고 핀포인트 수정"** 하는 방식으로. H/T/C 캘리브레이션은 콘셉트 적용 상태에서 계속 진행. 콘셉트 피커에 배경 즉시 교체 컨트롤을 둔다.
+- **2026-08-24 부문 판정 (적용 목업 C3에서)**: ① 계기(HUD)·타입 이펙트 **미채택** — "장식만 한 섹션은 포트폴리오에 불필요"(사용자 판단, taste-skill "모션은 동기가 필요" 원칙과 일치). ② threeui 역할은 **히어로 배경에 집중** — C3 기본 RibbonFieldBackground(포인터 반응 있음). ③ 셰이더 버튼 전부 기각 → **직접 제작 CTA 채택**(볼트 아웃라인·hover 채움·눌림, 실링크). ④ ParticleWordmark는 고정 텍스트(NEUFORM/ThreeUI)라 워드마크로 부적합 확인 — 커스텀 텍스트 가능한 것은 TypographyVortexCanvas뿐(phrase prop).
 
 ## 콘셉트 가드레일 (원칙 수준 — 토큰은 탐색 변수로)
 

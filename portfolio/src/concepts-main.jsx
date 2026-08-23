@@ -30,8 +30,9 @@ const HUD_OPTIONS = ['InterfaceLines', 'DefenseLines', 'ConnectivityGraph', 'Dia
 const TYPE_OPTIONS = ['TypographyVortexCanvas', 'CharacterWave', 'OutlineTypeflow', 'NeonTypography', 'AudioWordmark', 'ParticleWordmark', NONE]
 const BTN_OPTIONS = [CUSTOM_BTN, 'IgnitionButton', 'TactileButton', 'LaunchButton', 'InductionButton', 'PlasmaButton', 'ThinkingButton', 'SlidingTextCta', 'FloatingDotsCta', 'DotBorderButton', 'SpinningBorderButton', NONE]
 
-// 사용자 2026-08-24 픽: C3 배경 RibbonField · 타입 ParticleWordmark(고정텍스트 주의) · 버튼 직접 제작
-const PART_DEFAULTS = { hud: 'InterfaceLines', type: 'ParticleWordmark', btn: CUSTOM_BTN }
+// 사용자 2026-08-24 판정: 계기·타입은 '장식만 한 섹션'이라 미채택(모션은 동기가 필요 — taste-skill 원칙과 일치).
+// threeui는 히어로 배경(RibbonField)에 집중. 버튼은 직접 제작 CTA 채택. 셀렉트로 언제든 되돌리기 가능.
+const PART_DEFAULTS = { hud: NONE, type: NONE, btn: CUSTOM_BTN }
 const PARTS = [
   ['배경', 'bg', BG_OPTIONS],
   ['계기 (C3)', 'hud', HUD_OPTIONS],
