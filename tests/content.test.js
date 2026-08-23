@@ -60,32 +60,33 @@ test('커리어: 선수 3팀 · 코치 9팀 · 하이라이트 팀 포함', () =
   assert.ok(playerTeams.includes('T1'), 'T1 누락');
   const coachTeams = content.career.coach.map((x) => x.team);
   assert.ok(coachTeams.includes('OUG'), 'OUG 누락');
-  assert.ok(coachTeams.includes('LG'), 'LG 누락');
+  assert.ok(coachTeams.includes('Luminosity Gaming'), 'Luminosity Gaming 누락');
+  assert.ok(coachTeams.includes('Autobotz Esports'), 'Autobotz Esports 누락');
 });
 
-// ── 4. 성적: 8개 항목 · 필수 필드 · 우승 1개 ──
-test('성적: 8개 항목, 날짜·티어·결과·역할 구비, 우승 정확히 1개', () => {
+// ── 4. 성적: 14개 항목(2026-08-24 Liquipedia 보강) · 우승 2개 ──
+test('성적: 14개 항목, 날짜·티어·결과·역할 구비, 우승 정확히 2개', () => {
   const list = content.achievements.list;
-  assert.equal(list.length, 8);
+  assert.equal(list.length, 14);
   for (const a of list) {
     assert.match(a.date, /^\d{4}\.\d{2}\.\d{2}$/, `${a.event}: 날짜 형식`);
-    assert.ok(a.tier === 'S' || a.tier === 'A', `${a.event}: tier`);
+    assert.ok(['S', 'A', 'B', 'C'].includes(a.tier), `${a.event}: tier`);
     assert.ok(a.result && a.result.ko && a.result.en, `${a.event}: result {ko,en}`);
     assert.ok(a.role && a.role.ko && a.role.en, `${a.event}: role {ko,en}`);
   }
-  assert.equal(list.filter((a) => a.won).length, 1);
-  assert.equal(list.filter((a) => a.won)[0].event, 'Snapdragon Pro Series S5: NA');
+  const wins = list.filter((a) => a.won);
+  assert.equal(wins.length, 2);
+  assert.deepEqual(wins.map((w) => w.event).sort(), ['CODM World Championship 2020: Korea', 'Snapdragon Pro Series S5: NA']);
 });
 
-// ── 5. 프로젝트: 6개 · 고유 id · 코칭 허브 데모 링크와 검증 수치 ──
-test('프로젝트: 6개 항목, 고유 id, 코칭 허브 389·2026.08 수치', () => {
+// ── 5. 프로젝트: 5개 · 사용자 확정 순서 고정 · 코칭 허브 데모 링크와 검증 수치 ──
+test('프로젝트: 5개 항목, 사용자 확정 순서, 코칭 허브 389·2026.08 수치', () => {
   const list = content.projects.list;
-  assert.equal(list.length, 6);
+  assert.equal(list.length, 5);
   const ids = list.map((p) => p.id);
-  assert.equal(new Set(ids).size, 6, 'id 중복');
-  for (const required of ['champions-queue', 'coaching-hub', 'community-series', 'tier-proposal', 'sportsday-hub', 'aim-research']) {
-    assert.ok(ids.includes(required), `${required} 누락`);
-  }
+  assert.equal(new Set(ids).size, 5, 'id 중복');
+  assert.deepEqual(ids, ['coaching-hub', 'community-series', 'sportsday-hub', 'champions-queue', 'aim-research'], '순서는 사용자 확정 순서');
+  assert.ok(!ids.includes('tier-proposal'), 'tier-proposal은 제외됨(2026-08-24 사용자 확인)');
   const hub = list.find((p) => p.id === 'coaching-hub');
   assert.equal(hub.links.demo, 'https://web-production-4deec.up.railway.app');
   const flat = JSON.stringify(hub);

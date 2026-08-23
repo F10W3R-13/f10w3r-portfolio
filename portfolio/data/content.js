@@ -49,7 +49,7 @@ export const PORTFOLIO_CONTENT = {
       // email은 신규 생성 전까지 null — 렌더러는 null이면 표시 생략
       email: null,
       github: 'https://github.com/F10W3R-13',
-      twitter: 'https://twitter.com/F__WR',
+      twitter: 'https://twitter.com/F_L_WR',
       youtube: 'https://www.youtube.com/channel/UC9h1aAAsOprTATC0_y2pt3A',
     },
   },
@@ -84,51 +84,42 @@ export const PORTFOLIO_CONTENT = {
       { period: '2021.04-2021.06', team: 'BK ROG Esports' },
       { period: '2021.06-2021.10', team: 'Oxygen Esports' },
       { period: '2021.11-2021.12', team: 'TR' },
-      { period: '2023.11-2024.01', team: 'abz' },
+      { period: '2023.11-2024.01', team: 'Autobotz Esports' },
       { period: '2024.03-2024.05', team: 'Seminal' },
       { period: '2024.07-2024.08', team: 'Nexus' },
-      { period: '2024.08-2024.10', team: 'LG', highlight: true },
+      { period: '2024.08-2024.10', team: 'Luminosity Gaming', highlight: true },
       { period: '2024.10-2024.11', team: 'Team Felines' },
       { period: '2025.03-2026.03', team: 'OUG', highlight: true },
     ],
   },
 
   achievements: {
-    // tier: 'S' | 'A' · won: 우승 여부 · role: 선수/코치 — 정렬·표시 변형은 이 필드로만
+    // tier: 'S'|'A'|'B'|'C' · won: 우승 여부 · role: 선수/코치 — 정렬·표시 변형은 이 필드로만
+    // 2026-08-24 Liquipedia 대조 보강(6건 추가). 역할 임시 태그: Unrivalled·Mobile Mayhem Summer·Mobile Mayhem Spring
     list: [
       { date: '2025.04.30', event: 'China Masters 2025: S9', tier: 'S', won: false, result: { ko: '7-8위', en: '7th-8th' }, role: { ko: '코치', en: 'Coach' } },
       { date: '2024.10.05', event: 'CODM World Championship 2024', tier: 'S', won: false, result: { ko: '5-8위', en: '5th-8th' }, role: { ko: '코치', en: 'Coach' } },
       { date: '2024.08.10', event: 'Snapdragon Pro Series S5: NA', tier: 'A', won: true, result: { ko: '우승', en: 'Champion' }, role: { ko: '코치', en: 'Coach' }, highlight: true },
       { date: '2024.04.13', event: 'Snapdragon Mobile Masters 2024', tier: 'S', won: false, result: { ko: '3-4위', en: '3rd-4th' }, role: { ko: '코치', en: 'Coach' } },
+      { date: '2023.12.01', event: 'Odyssey Gaming Festival', tier: 'A', won: false, result: { ko: '5-8위', en: '5th-8th' }, role: { ko: '코치', en: 'Coach' } },
       { date: '2023.08.06', event: 'Snapdragon Pro Series S3: Japan', tier: 'A', won: false, result: { ko: '3위', en: '3rd' }, role: { ko: '코치', en: 'Coach' } },
+      { date: '2022.01.14', event: 'Unrivalled', tier: 'C', won: false, result: { ko: '2위', en: '2nd' }, role: { ko: '코치', en: 'Coach' } },
       { date: '2021.12.12', event: 'CODM World Championship 2021: East Finals', tier: 'S', won: false, result: { ko: '11위', en: '11th' }, role: { ko: '선수', en: 'Player' } },
       { date: '2021.09.19', event: 'CODM World Championship 2021: Europe Finals', tier: 'A', won: false, result: { ko: '3위', en: '3rd' }, role: { ko: '선수', en: 'Player' } },
+      { date: '2021.08.26', event: 'Mobile Mayhem 2021 Summer: Europe', tier: 'B', won: false, result: { ko: '3위', en: '3rd' }, role: { ko: '코치', en: 'Coach' } },
       { date: '2021.07.18', event: 'CODM Masters 2021: Europe', tier: 'A', won: false, result: { ko: '3위', en: '3rd' }, role: { ko: '선수', en: 'Player' } },
+      { date: '2021.05.25', event: 'Mobile Mayhem 2021 Spring: Europe', tier: 'B', won: false, result: { ko: '3위', en: '3rd' }, role: { ko: '코치', en: 'Coach' } },
+      { date: '2020.12.01', event: 'CODM World Championship 2020: Global Finals', tier: 'S', won: false, result: { ko: '1-7위', en: '1st-7th' }, role: { ko: '선수', en: 'Player' } },
+      { date: '2020.08.09', event: 'CODM World Championship 2020: Korea', tier: 'A', won: true, result: { ko: '우승', en: 'Champion' }, role: { ko: '선수', en: 'Player' } },
     ],
   },
 
   projects: {
+    // 순서 = 표시 순서 (2026-08-24 사용자 확정). 티어·승강제 제안은 사용자 확인으로 제외됨.
     list: [
       {
-        id: 'champions-queue',
-        title: "Champion's Queue",
-        highlight: true,
-        role: { ko: '창설·운영 설계', en: 'Founder & Operations Design' },
-        summary: {
-          ko: '서부 CODM 경쟁 생태계를 위한 초청제 랭크 리그. 티어 5단계·4리전(NA/LATAM·EU·APAC·MENA) 체계를 설계하고, GPT-4.1 OCR→Airtable 파이프라인으로 MMR 집계·주간 리포트·RSVP를 자동화했습니다.',
-          en: 'An invitational rank league for the western CODM ecosystem. Designed the 5-tier, 4-region (NA/LATAM, EU, APAC, MENA) structure and automated MMR aggregation, weekly reports and RSVP through a GPT-4.1 OCR → Airtable pipeline.',
-        },
-        stack: ['GPT-4.1 Vision', 'Airtable', 'Make.com', 'Discord Bot API'],
-        metrics: [
-          { value: '5 × 4', label: { ko: '티어 × 리전', en: 'Tiers × Regions' } },
-          { value: '101', label: { ko: '관리 선수 (NA 시즌)', en: 'Players managed (NA season)' } },
-          { value: '864', label: { ko: '매치 기록', en: 'Matches recorded' } },
-        ],
-        links: {},
-      },
-      {
         id: 'coaching-hub',
-        title: '코칭 허브 (codm-team-stats)',
+        title: { ko: '코칭 허브', en: 'Coaching Hub' },
         highlight: true,
         role: { ko: '설계·개발·운영', en: 'Design, Build & Operations' },
         summary: {
@@ -157,24 +148,12 @@ export const PORTFOLIO_CONTENT = {
         metrics: [
           { value: '8', label: { ko: '에디션 (2023.07~)', en: 'Editions (since 2023.07)' } },
           { value: '77.8h', label: { ko: '누적 중계 방송', en: 'Total broadcast hours' } },
-          { value: '약 3.6만', label: { ko: 'VOD 25개 누적 조회', en: 'Views across 25 VODs' } },
-          { value: '8팀', label: { ko: '대회당 참가 (약 40명)', en: 'Teams per event (~40 players)' } },
+          { value: { ko: '약 3.6만', en: '~36k' }, label: { ko: 'VOD 25개 누적 조회', en: 'Views across 25 VODs' } },
+          { value: { ko: '8팀', en: '8 teams' }, label: { ko: '대회당 참가 (약 40명)', en: 'Teams per event (~40 players)' } },
         ],
         links: {
           youtube: 'https://www.youtube.com/channel/UC9h1aAAsOprTATC0_y2pt3A',
         },
-      },
-      {
-        id: 'tier-proposal',
-        title: { ko: '티어·승강제 제안', en: 'Tier & Promotion System Proposal' },
-        role: { ko: '생태계 설계 제안', en: 'Ecosystem Design Proposal' },
-        summary: {
-          ko: '서부 CODM 경쟁 생태계의 구조적 문제를 진단하고, Universe 서버 기반 티어·승강제로 재설계하는 제안서를 작성했습니다. Champion\'s Queue 설계의 이론적 토대가 된 문서입니다.',
-          en: 'Diagnosed structural problems in the western CODM competitive scene and proposed a rebuild around a Universe-server tier and promotion system. The document became the theoretical basis for Champion\'s Queue.',
-        },
-        stack: ['리그 설계', 'League design'],
-        metrics: [],
-        links: {},
       },
       {
         id: 'sportsday-hub',
@@ -186,6 +165,23 @@ export const PORTFOLIO_CONTENT = {
         },
         stack: ['Vercel', 'Cron', 'KakaoTalk API', 'Apps Script'],
         metrics: [],
+        links: {},
+      },
+      {
+        id: 'champions-queue',
+        title: "Champion's Queue",
+        highlight: true,
+        role: { ko: '창설·운영 설계', en: 'Founder & Operations Design' },
+        summary: {
+          ko: '서부 CODM 경쟁 생태계를 위한 초청제 랭크 리그. 티어 5단계·4리전(NA/LATAM·EU·APAC·MENA) 체계를 설계하고, GPT-4.1 OCR→Airtable 파이프라인으로 MMR 집계·주간 리포트·RSVP를 자동화했습니다.',
+          en: 'An invitational rank league for the western CODM ecosystem. Designed the 5-tier, 4-region (NA/LATAM, EU, APAC, MENA) structure and automated MMR aggregation, weekly reports and RSVP through a GPT-4.1 OCR → Airtable pipeline.',
+        },
+        stack: ['GPT-4.1 Vision', 'Airtable', 'Make.com', 'Discord Bot API'],
+        metrics: [
+          { value: '5 × 4', label: { ko: '티어 × 리전', en: 'Tiers × Regions' } },
+          { value: '101', label: { ko: '관리 선수 (NA 시즌)', en: 'Players managed (NA season)' } },
+          { value: '864', label: { ko: '매치 기록', en: 'Matches recorded' } },
+        ],
         links: {},
       },
       {

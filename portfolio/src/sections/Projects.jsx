@@ -29,8 +29,8 @@ export default function Projects() {
               </p>
               <div className="mt-4 flex flex-wrap gap-x-8 gap-y-2">
                 {p.metrics.map((m) => (
-                  <span key={m.value + m.label.en} className="text-sm tabular-nums" style={{ fontFamily: 'var(--font-mono)' }}>
-                    <span style={{ color: 'var(--ice)' }}>{m.value}</span>{' '}
+                  <span key={String(m.value) + m.label.en} className="text-sm tabular-nums" style={{ fontFamily: 'var(--font-mono)' }}>
+                    <span style={{ color: 'var(--ice)' }}>{t(m.value)}</span>{' '}
                     <span style={{ color: 'var(--ice-mute)' }}>{t(m.label)}</span>
                   </span>
                 ))}
