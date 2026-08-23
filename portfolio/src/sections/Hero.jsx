@@ -1,6 +1,7 @@
 import { RibbonFieldBackground } from '@designcodeio/threeui'
 import content from '../../data/content.js'
 import { useT } from '../lang.jsx'
+import CountUp from '../components/CountUp.jsx'
 
 /* L2 풀블리드 히어로 — F10W3R 초대형 타이포 + 통계 가로 스트립 (RibbonField 2026-08-24 확정) */
 export default function Hero() {
@@ -25,9 +26,11 @@ export default function Hero() {
       </div>
 
       <div className="rise d3 mt-16 grid grid-cols-2 border-t md:grid-cols-4" style={{ borderColor: 'var(--hairline)' }}>
-        {hero.stats.map((s) => (
+        {hero.stats.map((s, i) => (
           <div key={s.value + s.label.en} className="py-6 pr-4 md:border-l md:pl-6 md:first:border-l-0" style={{ borderColor: 'var(--hairline)' }}>
-            <p className="text-4xl tabular-nums">{s.value}</p>
+            <p className="text-4xl">
+              <CountUp value={s.value} delay={i * 0.06} />
+            </p>
             <p className="mt-1.5 text-[11px] leading-snug" style={{ fontFamily: 'var(--font-mono)', color: 'var(--ice-mute)' }}>{t(s.label)}</p>
           </div>
         ))}

@@ -28,6 +28,13 @@ export default function App() {
     document.documentElement.lang = lang
   }, [lang])
 
+  // 모션 검수용: ?motion=1 이면 OS reduce를 무시하고 재생(배포 동작에는 영향 없음)
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).has('motion')) {
+      document.body.dataset.forceMotion = '1'
+    }
+  }, [])
+
   return (
     <LangContext.Provider value={lang}>
       <div

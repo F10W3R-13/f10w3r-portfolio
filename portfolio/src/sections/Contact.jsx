@@ -17,20 +17,18 @@ export default function Contact() {
 
   return (
     <section className="mx-auto max-w-7xl px-6 pb-24">
-      <h2 className="rise text-3xl tracking-tight" style={{ fontFamily: 'var(--font-display)' }}>{t(content.ui.headings.contact)}</h2>
+      <h2 className="reveal text-3xl tracking-tight" style={{ fontFamily: 'var(--font-display)' }}>{t(content.ui.headings.contact)}</h2>
 
-      <div className="rise d1 mt-8 flex flex-wrap items-center gap-x-10 gap-y-6 border p-8" style={{ borderColor: 'var(--hairline)' }}>
+      <div className="reveal mt-8 flex flex-wrap items-center gap-x-10 gap-y-6 border p-8" style={{ borderColor: 'var(--hairline)' }}>
         <a
           href={hub.links.demo}
           target="_blank"
           rel="noreferrer"
-          className="group inline-flex items-center gap-3 border px-7 py-3.5 text-[13px] tracking-[0.18em] transition-[background-color,color,transform] duration-200 active:scale-[0.98]"
+          className="cta-volt inline-flex items-center gap-3 border px-7 py-3.5 text-[13px] tracking-[0.18em]"
           style={{ borderColor: 'var(--volt)', color: 'var(--volt)', fontFamily: 'var(--font-mono)' }}
-          onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = 'var(--volt)'; e.currentTarget.style.color = 'var(--bg)' }}
-          onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = 'var(--volt)' }}
         >
           {t(content.ui.liveDemoCta)}
-          <span aria-hidden="true" className="transition-transform duration-200 group-hover:translate-x-0.5">↗</span>
+          <span aria-hidden="true" className="cta-arrow">↗</span>
         </a>
         {links.map((l) => (
           <a key={l.label + l.href} href={l.href} target={l.href.startsWith('mailto') ? undefined : '_blank'} rel="noreferrer" className="text-sm hover:underline" style={{ fontFamily: 'var(--font-mono)', color: 'var(--ice-dim)' }}>

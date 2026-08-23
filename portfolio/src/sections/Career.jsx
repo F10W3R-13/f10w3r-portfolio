@@ -13,14 +13,14 @@ export default function Career() {
 
   return (
     <section className="mx-auto max-w-7xl px-6 py-24">
-      <h2 className="rise text-3xl tracking-tight" style={{ fontFamily: 'var(--font-display)' }}>{t(content.ui.headings.career)}</h2>
+      <h2 className="reveal text-3xl tracking-tight" style={{ fontFamily: 'var(--font-display)' }}>{t(content.ui.headings.career)}</h2>
 
       {groups.map((g, gi) => (
         <div key={g.label.en} className="mt-10">
-          <p className="rise text-[11px] tracking-[0.2em]" style={{ fontFamily: 'var(--font-mono)', color: 'var(--ice-mute)' }}>
+          <p className="reveal text-[11px] tracking-[0.2em]" style={{ fontFamily: 'var(--font-mono)', color: 'var(--ice-mute)' }}>
             {t(g.label)} · {g.items.length}
           </p>
-          <div className="rise mt-3">
+          <div className="reveal mt-3">
             {g.items.map((c, i) => (
               <div key={c.team + i} className="flex items-baseline justify-between gap-6 border-t py-3.5 last:border-b" style={{ borderColor: 'var(--hairline)' }}>
                 <span className="flex flex-wrap items-baseline gap-x-5 gap-y-1">

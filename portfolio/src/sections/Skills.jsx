@@ -11,13 +11,13 @@ export default function Skills() {
 
   return (
     <section className="mx-auto max-w-7xl px-6 py-24">
-      <h2 className="rise text-3xl tracking-tight" style={{ fontFamily: 'var(--font-display)' }}>{t(content.ui.headings.skills)}</h2>
+      <h2 className="reveal text-3xl tracking-tight" style={{ fontFamily: 'var(--font-display)' }}>{t(content.ui.headings.skills)}</h2>
 
       <div className="mt-8 grid gap-10 md:grid-cols-2">
         {groups.map((g) => (
           <div key={g.label.en}>
-            <p className="rise text-[11px] tracking-[0.2em]" style={{ fontFamily: 'var(--font-mono)', color: 'var(--ice-mute)' }}>{t(g.label)}</p>
-            <ul className="rise mt-4 flex flex-wrap gap-2">
+            <p className="reveal text-[11px] tracking-[0.2em]" style={{ fontFamily: 'var(--font-mono)', color: 'var(--ice-mute)' }}>{t(g.label)}</p>
+            <ul className="reveal mt-4 flex flex-wrap gap-2">
               {g.items.map((item) => (
                 <li
                   key={item}

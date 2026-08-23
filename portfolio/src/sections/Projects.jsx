@@ -7,7 +7,7 @@ export default function Projects() {
 
   return (
     <section className="mx-auto max-w-7xl px-6 py-24">
-      <h2 className="rise text-3xl tracking-tight" style={{ fontFamily: 'var(--font-display)' }}>{t(content.ui.headings.projects)}</h2>
+      <h2 className="reveal text-3xl tracking-tight" style={{ fontFamily: 'var(--font-display)' }}>{t(content.ui.headings.projects)}</h2>
 
       <div className="mt-8">
         {content.projects.list.map((p, i) => (

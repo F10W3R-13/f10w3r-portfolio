@@ -22,6 +22,7 @@
   --font-ko-display: 'Pretendard Variable', sans-serif;
   --font-body: 'Pretendard Variable', sans-serif;
   --font-mono: 'IBM Plex Mono', monospace;
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 body {
@@ -35,22 +36,52 @@ body {
   color: var(--bg);
 }
 
-/* 입장 모션 — reduced-motion 정지 (사용자 OS가 reduce 기본) */
+/*
+ * 모션 — animate 스킬 기준: transform/opacity만, 강한 ease-out, stagger 60ms.
+ * reduced-motion: 이동 없이 즉시 표시(텍스트·색 전환은 유지).
+ */
 @keyframes rise {
   from { opacity: 0; transform: translateY(14px); }
   to { opacity: 1; transform: none; }
 }
 
-.rise { opacity: 0; }
+/* 로드 진입(히어로) */
+.rise { opacity: 1; }
+.d1 { animation-delay: 60ms; }
+.d2 { animation-delay: 120ms; }
+.d3 { animation-delay: 180ms; }
+.d4 { animation-delay: 240ms; }
 
 @media (prefers-reduced-motion: no-preference) {
-  .rise { animation: rise 520ms cubic-bezier(0.16, 1, 0.3, 1) both; }
-  .d1 { animation-delay: 60ms; }
-  .d2 { animation-delay: 140ms; }
-  .d3 { animation-delay: 220ms; }
-  .d4 { animation-delay: 300ms; }
+  .rise { opacity: 0; animation: rise 480ms var(--ease-out) both; }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .rise { opacity: 1; }
+/* 스크롤 진입(섹션) — CSS scroll-timeline. 미지원 브라우저는 그냥 보임 */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .reveal { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% entry 45%; }
+  }
+}
+
+/* 검수용 강제 재생 — ?motion=1 (OS reduce 무시하고 재생 확인) */
+body[data-force-motion] .rise { opacity: 0; animation: rise 480ms var(--ease-out) both; }
+body[data-force-motion] .reveal { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% entry 45%; }
+
+/*
+ * CTA/버튼 — 정확한 속성 전환, hover는 포인터 게이팅
+ */
+.cta-volt { transition: background-color 150ms ease, color 150ms ease, transform 120ms ease; }
+.cta-arrow { transition: transform 150ms ease; }
+
+@media (hover: hover) and (pointer: fine) {
+  .cta-volt:hover { background-color: var(--volt); color: var(--bg); }
+  .cta-volt:hover .cta-arrow { transform: translateX(2px); }
+}
+
+.cta-volt:active { transform: scale(0.98); }
+
+.btn-line { transition: color 150ms ease, border-color 150ms ease; }
+
+@media (hover: hover) and (pointer: fine) {
+  .btn-line:hover { color: var(--volt); border-color: var(--volt); }
 }

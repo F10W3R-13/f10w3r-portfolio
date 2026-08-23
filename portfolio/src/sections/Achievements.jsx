@@ -32,9 +32,9 @@ export default function Achievements() {
 
   return (
     <section className="mx-auto max-w-7xl px-6 py-24">
-      <h2 className="rise text-3xl tracking-tight" style={{ fontFamily: 'var(--font-display)' }}>{t(content.ui.headings.achievements)}</h2>
+      <h2 className="reveal text-3xl tracking-tight" style={{ fontFamily: 'var(--font-display)' }}>{t(content.ui.headings.achievements)}</h2>
 
-      <div className="rise mt-8">
+      <div className="reveal mt-8">
         {primary.map((a) => (
           <Row key={a.event} a={a} t={t} />
         ))}
@@ -45,10 +45,8 @@ export default function Achievements() {
           <button
             onClick={() => setOpen((v) => !v)}
             aria-expanded={open}
-            className="border px-5 py-2.5 text-[12px] tracking-[0.14em] transition-colors"
+            className="btn-line border px-5 py-2.5 text-[12px] tracking-[0.14em]"
             style={{ fontFamily: 'var(--font-mono)', borderColor: 'var(--hairline)', color: 'var(--ice-dim)' }}
-            onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--volt)'; e.currentTarget.style.borderColor = 'var(--volt)' }}
-            onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--ice-dim)'; e.currentTarget.style.borderColor = 'var(--hairline)' }}
           >
             {open ? t(content.ui.collapse) : `${t(content.ui.expand)} (${lower.length})`}
           </button>
