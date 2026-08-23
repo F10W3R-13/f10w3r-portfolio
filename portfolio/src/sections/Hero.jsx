@@ -25,26 +25,34 @@ export default function Hero() {
             <span className="text-3xl font-black tracking-tight" style={{ fontFamily: 'var(--font-ko-display)' }}>{t(hero.name)}</span>
             <span className="max-w-[46ch] text-sm leading-relaxed" style={{ fontFamily: 'var(--font-mono)', color: 'var(--ice-dim)' }}>{t(hero.tagline)}</span>
           </div>
+          <p className="rise d3 mt-8 max-w-[54ch] text-justify text-sm leading-relaxed" style={{ fontFamily: 'var(--font-mono)', color: 'var(--ice-dim)' }}>
+            {t(hero.intro)}
+          </p>
         </div>
 
         {hero.portrait ? (
           <figure className="rise d3 mt-8 flex h-80 flex-col border md:col-start-2 md:row-span-2 md:row-start-1 md:mt-0 md:h-auto" style={{ borderColor: 'var(--hairline)' }}>
-            <img src={`/assets/photos/${hero.portrait}`} alt={t(hero.portraitAlt)} className="min-h-0 w-full flex-1 object-cover object-top" />
+            <img src={`/assets/photos/${hero.portrait}`} alt={t(hero.portraitAlt)} className="ph-treat min-h-0 w-full flex-1 object-cover object-top" />
             <figcaption className="shrink-0 border-t px-3 py-2 text-[10px] tracking-[0.16em]" style={{ borderColor: 'var(--hairline)', fontFamily: 'var(--font-mono)', color: 'var(--ice-mute)' }}>
               {t(hero.name)} · HEAD COACH
             </figcaption>
           </figure>
         ) : null}
 
-        <div className="rise d3 mt-16 grid grid-cols-2 self-end border-t md:row-start-2 md:grid-cols-4" style={{ borderColor: 'var(--hairline)' }}>
-          {hero.stats.map((s, i) => (
-            <div key={s.value + s.label.en} className="py-6 pr-4 md:border-l md:pl-6 md:first:border-l-0" style={{ borderColor: 'var(--hairline)' }}>
-              <p className="text-4xl">
-                <CountUp value={s.value} delay={i * 0.06} />
-              </p>
-              <p className="mt-1.5 text-[11px] leading-snug" style={{ fontFamily: 'var(--font-mono)', color: 'var(--ice-mute)' }}>{t(s.label)}</p>
-            </div>
-          ))}
+        <div className="self-end md:row-start-2">
+          <div className="rise d3 grid grid-cols-2 border-t md:grid-cols-4" style={{ borderColor: 'var(--hairline)' }}>
+            {hero.stats.map((s, i) => (
+              <div key={s.value + s.label.en} className="py-6 pr-4 md:border-l md:pl-6 md:first:border-l-0" style={{ borderColor: 'var(--hairline)' }}>
+                <p className="text-4xl">
+                  <CountUp value={s.value} delay={i * 0.06} />
+                </p>
+                <p className="mt-1.5 text-[11px] leading-snug" style={{ fontFamily: 'var(--font-mono)', color: 'var(--ice-mute)' }}>{t(s.label)}</p>
+              </div>
+            ))}
+          </div>
+          <p className="rise d3 mt-3 text-right text-[11px]" style={{ fontFamily: 'var(--font-mono)', color: 'var(--ice-mute)' }}>
+            {t(content.ui.scrollCue)}
+          </p>
         </div>
       </div>
     </section>

@@ -33,6 +33,7 @@ export const PORTFOLIO_CONTENT = {
     expand: { ko: '하위 티어 성적 더 보기', en: 'Show lower-tier results' },
     collapse: { ko: '접기', en: 'Collapse' },
     field: { ko: '현장', en: 'Field' },
+    scrollCue: { ko: '( 아래로 ↓ )', en: '( scroll ↓ )' },
     headings: {
       career: { ko: '커리어', en: 'Career' },
       achievements: { ko: '주요 성적', en: 'Results' },

@@ -103,6 +103,13 @@ body[data-force-motion] .reveal { animation: rise linear both; animation-timelin
   .row-hover:hover { background-color: rgba(232, 237, 242, 0.035); border-color: #33404e; }
 }
 
+/* 사진 톤 블렌드 — 다크 잉크 배경과의 이질감 완화.
+   정지 상태에선 한 단계 어둡고 채도를 낮춰 배경에 섞이고, hover에서 본래 톤(정보)을 돌려준다. */
+.ph-treat { filter: saturate(0.85) brightness(0.9); transition: filter 450ms var(--ease-out); }
+@media (hover: hover) and (pointer: fine) {
+  figure:hover .ph-treat { filter: none; }
+}
+
 /* 히어로 퇴장 드리프트 — 스크롤로 히어로가 나갈 때 콘텐츠가 위로 살짝(심도) */
 @keyframes hero-drift {
   to { transform: translateY(-28px); opacity: 0.25; }
