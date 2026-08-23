@@ -71,13 +71,13 @@ export const PORTFOLIO_CONTENT = {
       en: 'From player to coach, now building esports operations',
     },
     intro: {
-      ko: 'T1 선수 출신, 6년간 12개 팀. 무대 위 코칭부터 리그 운영, 데이터 파이프라인 구축까지 직접 해왔습니다.',
-      en: 'Ex-T1 player, twelve teams over six years. From on-stage coaching to league operations and data pipelines, I build it myself.',
+      ko: 'T1 선수 출신, 6년간 13개 팀. 무대 위 코칭부터 리그 운영, 데이터 파이프라인 구축까지 직접 해왔습니다.',
+      en: 'Ex-T1 player, thirteen teams over six years. From on-stage coaching to league operations and data pipelines, I build it myself.',
     },
     stats: [
       { value: '101', label: { ko: '관리 선수 (NA 시즌)', en: 'Players managed (NA season)' } },
       { value: '864', label: { ko: '기록한 매치', en: 'Matches recorded' } },
-      { value: '12', label: { ko: '거친 팀 (선수 3 · 코치 9)', en: 'Teams (3 as player, 9 as coach)' } },
+      { value: '13', label: { ko: '거친 팀 (선수 3 · 코치 10)', en: 'Teams (3 as player, 10 as coach)' } },
       { value: '1', label: { ko: '국제 대회 우승 (SPS S5 NA)', en: 'International title (SPS S5 NA)' } },
     ],
   },
@@ -91,8 +91,8 @@ export const PORTFOLIO_CONTENT = {
       { period: '2020.10.22-2021.03.30', team: 'T1' },
     ],
     coach: [
-      { period: '2021.04.09-2021.04.14', team: 'BK ROG White' },
-      { period: '2021.04.14-2021.06.14', team: 'BK ROG Esports' },
+      // BK ROG White(2021.04.09-04.14)·BK ROG Esports(04.14-06.14)는 한 조직 — 2026-08-24 사용자 확정 병합
+      { period: '2021.04.09-2021.06.14', team: 'BK ROG Esports' },
       { period: '2021.06.14-2021.10.05', team: 'Oxygen Esports' },
       { period: '2021.11.11-2021.12.31', team: 'TR' },
       { period: '2023.11.12-2024.01.09', team: 'abz' },

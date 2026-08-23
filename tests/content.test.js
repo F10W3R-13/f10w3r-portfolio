@@ -53,9 +53,9 @@ test('이중언어: 모든 현지화 문자열에 ko/en 쌍', () => {
 });
 
 // ── 3. 커리어: Liquipedia 원본 날짜와 일치(2026-08-24 사용자 확인) ──
-test('커리어: 선수 3팀 · 코치 11팀 · 현재 소속 Sybarites 포함', () => {
+test('커리어: 선수 3팀 · 코치 10팀(BK ROG 병합) · 현재 소속 Sybarites 포함', () => {
   assert.equal(content.career.player.length, 3);
-  assert.equal(content.career.coach.length, 11);
+  assert.equal(content.career.coach.length, 10);
   const playerTeams = content.career.player.map((x) => x.team);
   assert.ok(playerTeams.includes('T1'), 'T1 누락');
   const coachTeams = content.career.coach.map((x) => x.team);
