@@ -1,19 +1,14 @@
-import { RibbonFieldBackground } from '@designcodeio/threeui'
 import content from '../../data/content.js'
 import { useT } from '../lang.jsx'
 import CountUp from '../components/CountUp.jsx'
 
-/* L2 풀블리드 히어로 — F10W3R 초대형 타이포 + 통계 가로 스트립 (RibbonField 2026-08-24 확정) */
+/* L2 풀블리드 히어로 — F10W3R 초대형 타이포 + 통계 가로 스트립 (리본 배경은 PageShell이 페이지 전체에 깔음) */
 export default function Hero() {
   const t = useT()
   const { hero } = content
 
   return (
     <section className="relative flex min-h-[100dvh] flex-col px-6 pt-16 md:px-12" style={{ fontFamily: 'var(--font-display)' }}>
-      <div className="bg-in absolute inset-0">
-        <RibbonFieldBackground className="absolute inset-0" />
-      </div>
-
       {/* 풀블리드 그리드: 좌측 타이포+통계 / 우측 풀하이트 초상 패널 (2026-08-24 참고: sceneai 초상 히어로) */}
       <div className="relative grid min-h-[calc(100dvh-4rem)] grid-cols-1 md:grid-cols-[1fr_36%]">
         <div className="hero-drift md:row-start-1">

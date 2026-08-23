@@ -146,3 +146,10 @@ body[data-force-motion] .hero-drift { animation: hero-drift linear both; animati
   .bg-in { animation: bg-in 900ms var(--ease-out) both; }
 }
 body[data-force-motion] .bg-in { animation: bg-in 900ms var(--ease-out) both; }
+
+/* 페이지 전체 배경 흐름 — 히어로(상단 ~42%)는 온전히, 아래로 갈수록 리본이 잉크 배경에 가라앉는다.
+   데이터 행 가독성을 위해 감쇠 마스크 사용 (기능적 스크림, 장식 그라데이션 아님) */
+.bg-fade-down {
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 42%, rgba(0, 0, 0, 0.32) 100%);
+  mask-image: linear-gradient(180deg, #000 0%, #000 42%, rgba(0, 0, 0, 0.32) 100%);
+}
