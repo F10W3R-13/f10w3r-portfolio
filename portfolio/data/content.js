@@ -33,7 +33,6 @@ export const PORTFOLIO_CONTENT = {
     expand: { ko: '하위 티어 성적 더 보기', en: 'Show lower-tier results' },
     collapse: { ko: '접기', en: 'Collapse' },
     field: { ko: '현장', en: 'Field' },
-    scrollCue: { ko: '( 아래로 ↓ )', en: '( scroll ↓ )' },
     headings: {
       career: { ko: '커리어', en: 'Career' },
       achievements: { ko: '주요 성적', en: 'Results' },
@@ -71,8 +70,8 @@ export const PORTFOLIO_CONTENT = {
       en: 'From player to coach, now building esports operations',
     },
     intro: {
-      ko: 'T1 선수 출신, 6년간 12개 팀에서 CODM 무대를 누볐습니다. 리그 운영 체계를 설계하고, GPT-4.1 기반 데이터 파이프라인을 직접 구축하며 현장과 시스템을 함께 움직입니다.',
-      en: 'Ex-T1 player with 12 teams over six years on the CODM stage. I design league operations and build GPT-4.1 data pipelines myself. I move the front line and the systems behind it together.',
+      ko: 'T1 선수 출신, 6년간 12개 팀. 무대 위 코칭부터 리그 운영, 데이터 파이프라인 구축까지 직접 해왔습니다.',
+      en: 'Ex-T1 player, twelve teams over six years. From on-stage coaching to league operations and data pipelines, I build it myself.',
     },
     stats: [
       { value: '101', label: { ko: '관리 선수 (NA 시즌)', en: 'Players managed (NA season)' } },
@@ -108,6 +107,7 @@ export const PORTFOLIO_CONTENT = {
       { file: 'photo-2.png', caption: { ko: '대회 중계 화면에서의 코칭', en: 'Coaching during a championship broadcast' } },
       { file: 'photo-3.png', caption: { ko: '메이저 대회 스테이지 부스', en: 'Major tournament stage booth' } },
       { file: 'photo-4.png', caption: { ko: 'Luminosity Gaming 시절 팀', en: 'Luminosity Gaming squad' } },
+      { file: 'photo-5.jpg', caption: { ko: '대회 부스에서', en: 'At the tournament booth' } },
     ],
   },
 

@@ -15,7 +15,7 @@ export default function Hero() {
       </div>
 
       {/* 풀블리드 그리드: 좌측 타이포+통계 / 우측 풀하이트 초상 패널 (2026-08-24 참고: sceneai 초상 히어로) */}
-      <div className="relative grid min-h-[calc(100dvh-4rem)] grid-cols-1 md:grid-cols-[1fr_32%]">
+      <div className="relative grid min-h-[calc(100dvh-4rem)] grid-cols-1 md:grid-cols-[1fr_36%]">
         <div className="hero-drift md:row-start-1">
           <p className="rise d1 text-xs uppercase tracking-[0.24em]" style={{ fontFamily: 'var(--font-mono)', color: 'var(--ice-mute)' }}>
             {hero.ign} / CODM
@@ -31,9 +31,11 @@ export default function Hero() {
         </div>
 
         {hero.portrait ? (
-          <figure className="rise d3 mt-8 flex h-80 flex-col border md:col-start-2 md:row-span-2 md:row-start-1 md:mt-0 md:h-auto" style={{ borderColor: 'var(--hairline)' }}>
-            <img src={`/assets/photos/${hero.portrait}`} alt={t(hero.portraitAlt)} className="ph-treat min-h-0 w-full flex-1 object-cover object-top" />
-            <figcaption className="shrink-0 border-t px-3 py-2 text-[10px] tracking-[0.16em]" style={{ borderColor: 'var(--hairline)', fontFamily: 'var(--font-mono)', color: 'var(--ice-mute)' }}>
+          <figure className="rise d3 mt-8 flex h-80 flex-col md:col-start-2 md:row-span-2 md:row-start-1 md:mt-0 md:h-auto">
+            <div className="port-wrap min-h-0 w-full flex-1 overflow-hidden">
+              <img src={`/assets/photos/${hero.portrait}`} alt={t(hero.portraitAlt)} className="port-img ph-treat h-full w-full object-cover object-top" />
+            </div>
+            <figcaption className="shrink-0 pb-2 pt-3 text-[10px] tracking-[0.16em]" style={{ fontFamily: 'var(--font-mono)', color: 'var(--ice-mute)' }}>
               {t(hero.name)} · HEAD COACH
             </figcaption>
           </figure>
@@ -50,9 +52,6 @@ export default function Hero() {
               </div>
             ))}
           </div>
-          <p className="rise d3 mt-3 text-right text-[11px]" style={{ fontFamily: 'var(--font-mono)', color: 'var(--ice-mute)' }}>
-            {t(content.ui.scrollCue)}
-          </p>
         </div>
       </div>
     </section>

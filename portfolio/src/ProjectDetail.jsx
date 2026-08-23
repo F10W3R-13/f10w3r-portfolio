@@ -29,7 +29,7 @@ function Gallery({ p, t }) {
         <div className="grid gap-6 md:grid-cols-2">
           {items.map((g) => (
             <figure key={g.file} className="border" style={{ borderColor: 'var(--hairline)' }}>
-              <img src={`/assets/projects/${p.id}/${g.file}`} alt={t(g.caption)} className="ph-treat w-full" />
+              <img src={`/assets/projects/${p.id}/${g.file}`} alt={t(g.caption)} className="w-full" />
               <figcaption className="border-t px-4 py-2.5 text-[11px]" style={{ borderColor: 'var(--hairline)', fontFamily: 'var(--font-mono)', color: 'var(--ice-mute)' }}>
                 {t(g.caption)}
               </figcaption>
