@@ -39,7 +39,7 @@ export default function Projects() {
                   </span>
                 ))}
                 {p.links.demo ? (
-                  <a href={p.links.demo} target="_blank" rel="noreferrer" className="text-sm hover:underline" style={{ fontFamily: 'var(--font-mono)', color: 'var(--ice)' }}>
+                  <a href={p.links.demo} target="_blank" rel="noreferrer" className="text-sm hover:underline" style={{ fontFamily: 'var(--font-mono)', color: 'var(--volt)' }}>
                     {t(content.ui.demo)} <span aria-hidden="true">↗</span>
                   </a>
                 ) : null}

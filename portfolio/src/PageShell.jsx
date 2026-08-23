@@ -10,12 +10,6 @@ import { LangContext } from './lang.jsx'
  */
 export default function PageShell({ children }) {
   const [lang, setLang] = useState(() => localStorage.getItem('lang') || content.meta.defaultLang)
-  // 리본 rAF는 패키지가 reduce를 안 따르므로 여기서 마운트 자체를 게이트 (?motion=1이면 재생)
-  const [ribbonOn] = useState(() => {
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    const force = new URLSearchParams(window.location.search).get('motion') === '1'
-    return !reduce || force
-  })
 
   useEffect(() => {
     localStorage.setItem('lang', lang)
@@ -32,7 +26,7 @@ export default function PageShell({ children }) {
     <LangContext.Provider value={lang}>
       <div className="relative isolate min-h-dvh">
         <div className="bg-in fixed inset-0 -z-10">
-          {ribbonOn ? <RibbonFieldBackground className="absolute inset-0" /> : null}
+          <RibbonFieldBackground className="absolute inset-0" />
         </div>
         <div
           className="fixed right-4 top-4 z-50 flex gap-1 border px-1.5 py-1"
