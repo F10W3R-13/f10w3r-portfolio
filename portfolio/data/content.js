@@ -29,6 +29,9 @@ export const PORTFOLIO_CONTENT = {
     coach: { ko: '코치', en: 'Coach' },
     demo: { ko: '라이브 데모', en: 'LIVE DEMO' },
     liveDemoCta: { ko: '라이브 데모 보기', en: 'View live demo' },
+    current: { ko: '현재', en: 'Present' },
+    expand: { ko: '하위 티어 성적 더 보기', en: 'Show lower-tier results' },
+    collapse: { ko: '접기', en: 'Collapse' },
     headings: {
       career: { ko: '커리어', en: 'Career' },
       achievements: { ko: '주요 성적', en: 'Results' },
@@ -51,6 +54,7 @@ export const PORTFOLIO_CONTENT = {
       github: 'https://github.com/F10W3R-13',
       twitter: 'https://twitter.com/F_L_WR',
       youtube: 'https://www.youtube.com/channel/UC9h1aAAsOprTATC0_y2pt3A',
+      liquipedia: 'https://liquipedia.net/callofduty/F10W3R',
     },
   },
 
@@ -75,21 +79,24 @@ export const PORTFOLIO_CONTENT = {
 
   career: {
     span: '2020-2026',
+    // 기간·팀은 Liquipedia(Coaching/Results) 원본 날짜 그대로 (2026-08-24 사용자 확인)
     player: [
-      { period: '2020.05-2020.08', team: 'Allure' },
-      { period: '2020.08-2020.10', team: '1K Gaming' },
-      { period: '2020.10-2021.03', team: 'T1', highlight: true },
+      { period: '2020.05.27-2020.08.12', team: 'Allure' },
+      { period: '2020.08.12-2020.10.22', team: '1K Gaming' },
+      { period: '2020.10.22-2021.03.30', team: 'T1' },
     ],
     coach: [
-      { period: '2021.04-2021.06', team: 'BK ROG Esports' },
-      { period: '2021.06-2021.10', team: 'Oxygen Esports' },
-      { period: '2021.11-2021.12', team: 'TR' },
-      { period: '2023.11-2024.01', team: 'Autobotz Esports' },
-      { period: '2024.03-2024.05', team: 'Seminal' },
-      { period: '2024.07-2024.08', team: 'Nexus' },
-      { period: '2024.08-2024.10', team: 'Luminosity Gaming', highlight: true },
-      { period: '2024.10-2024.11', team: 'Team Felines' },
-      { period: '2025.03-2026.03', team: 'OUG', highlight: true },
+      { period: '2021.04.09-2021.04.14', team: 'BK ROG White' },
+      { period: '2021.04.14-2021.06.14', team: 'BK ROG Esports' },
+      { period: '2021.06.14-2021.10.05', team: 'Oxygen Esports' },
+      { period: '2021.11.11-2021.12.31', team: 'TR' },
+      { period: '2023.11.12-2024.01.09', team: 'abz' },
+      { period: '2024.03.27-2024.05.14', team: 'Seminal' },
+      { period: '2024.07.14-2024.08.27', team: 'Nexus' },
+      { period: '2024.08.27-2024.10.07', team: 'LG' },
+      { period: '2024.10.29-2024.11.17', team: 'Team Felines' },
+      { period: '2025.03.09-2026.03.09', team: 'OUG' },
+      { period: { ko: '2026.05.28-현재', en: '2026.05.28-Present' }, team: 'Sybarites', current: true },
     ],
   },
 

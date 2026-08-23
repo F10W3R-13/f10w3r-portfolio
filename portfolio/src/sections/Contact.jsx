@@ -11,6 +11,7 @@ export default function Contact() {
     { label: 'GitHub', href: profile.contact.github },
     { label: 'X', href: profile.contact.twitter },
     { label: 'YouTube', href: profile.contact.youtube },
+    { label: 'Liquipedia', href: profile.contact.liquipedia },
     ...(profile.contact.email ? [{ label: profile.contact.email, href: `mailto:${profile.contact.email}` }] : []),
   ]
 

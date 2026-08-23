@@ -13,8 +13,8 @@ export default function Projects() {
         {content.projects.list.map((p, i) => (
           <div
             key={p.id}
-            className={`grid grid-cols-[auto_1fr] gap-x-6 gap-y-3 border-t py-7 last:border-b md:grid-cols-[auto_1fr_auto] ${p.highlight ? 'pl-4' : ''}`}
-            style={{ borderColor: 'var(--hairline)', borderLeftWidth: p.highlight ? 2 : undefined, borderLeftColor: p.highlight ? 'var(--volt)' : undefined }}
+            className="grid grid-cols-[auto_1fr] gap-x-6 gap-y-3 border-t py-7 last:border-b md:grid-cols-[auto_1fr_auto]"
+            style={{ borderColor: 'var(--hairline)' }}
           >
             <span className="self-start pt-1.5 text-[11px]" style={{ fontFamily: 'var(--font-mono)', color: 'var(--ice-mute)' }}>{String(i + 1).padStart(2, '0')}</span>
 

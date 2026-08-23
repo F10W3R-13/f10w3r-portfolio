@@ -1,7 +1,8 @@
 import content from '../../data/content.js'
 import { useT } from '../lang.jsx'
 
-/* 커리어 — data.career의 player/coach 그룹 순서대로. 하이라이트 팀(T1·LG·OUG)은 highlight 필드로 표시 */
+/* 커리어 — data.career의 player/coach 그룹. 강조선 없음(2026-08-24 정리: 볼트=우승 전용),
+   현재 소속은 current 필드로 태그 표시 */
 export default function Career() {
   const t = useT()
   const { career } = content
@@ -21,18 +22,19 @@ export default function Career() {
           </p>
           <div className="rise mt-3">
             {g.items.map((c, i) => (
-              <div
-                key={c.team + c.period}
-                className={`flex items-baseline justify-between gap-6 border-t py-3.5 last:border-b ${c.highlight ? 'pl-4' : ''}`}
-                style={{ borderColor: 'var(--hairline)', borderLeftWidth: c.highlight ? 2 : undefined, borderLeftColor: c.highlight ? 'var(--volt)' : undefined }}
-              >
-                <span className="flex items-baseline gap-5">
-                  <span className="w-6 text-[11px]" style={{ fontFamily: 'var(--font-mono)', color: 'var(--ice-mute)' }}>
+              <div key={c.team + i} className="flex items-baseline justify-between gap-6 border-t py-3.5 last:border-b" style={{ borderColor: 'var(--hairline)' }}>
+                <span className="flex flex-wrap items-baseline gap-x-5 gap-y-1">
+                  <span className="w-7 text-[11px]" style={{ fontFamily: 'var(--font-mono)', color: 'var(--ice-mute)' }}>
                     {String(gi === 0 ? i + 1 : career.player.length + i + 1).padStart(2, '0')}
                   </span>
                   <span className="text-xl tracking-tight md:text-2xl" style={{ fontFamily: 'var(--font-display)' }}>{c.team}</span>
+                  {c.current ? (
+                    <span className="border px-1.5 py-0.5 text-[10px] tracking-widest" style={{ fontFamily: 'var(--font-mono)', borderColor: 'var(--volt)', color: 'var(--volt)' }}>
+                      {t(content.ui.current)}
+                    </span>
+                  ) : null}
                 </span>
-                <span className="shrink-0 text-[11px] tabular-nums" style={{ fontFamily: 'var(--font-mono)', color: c.highlight ? 'var(--volt)' : 'var(--ice-mute)' }}>{c.period}</span>
+                <span className="shrink-0 text-[11px] tabular-nums" style={{ fontFamily: 'var(--font-mono)', color: 'var(--ice-mute)' }}>{t(c.period)}</span>
               </div>
             ))}
           </div>

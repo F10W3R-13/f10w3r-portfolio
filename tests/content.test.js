@@ -52,16 +52,19 @@ test('이중언어: 모든 현지화 문자열에 ko/en 쌍', () => {
   assert.deepEqual(issues, [], `불완전한 {ko,en}: ${issues.join(', ')}`);
 });
 
-// ── 3. 커리어: profile.md 원천과 항목 수 일치 ──
-test('커리어: 선수 3팀 · 코치 9팀 · 하이라이트 팀 포함', () => {
+// ── 3. 커리어: Liquipedia 원본 날짜와 일치(2026-08-24 사용자 확인) ──
+test('커리어: 선수 3팀 · 코치 11팀 · 현재 소속 Sybarites 포함', () => {
   assert.equal(content.career.player.length, 3);
-  assert.equal(content.career.coach.length, 9);
+  assert.equal(content.career.coach.length, 11);
   const playerTeams = content.career.player.map((x) => x.team);
   assert.ok(playerTeams.includes('T1'), 'T1 누락');
   const coachTeams = content.career.coach.map((x) => x.team);
   assert.ok(coachTeams.includes('OUG'), 'OUG 누락');
-  assert.ok(coachTeams.includes('Luminosity Gaming'), 'Luminosity Gaming 누락');
-  assert.ok(coachTeams.includes('Autobotz Esports'), 'Autobotz Esports 누락');
+  assert.ok(coachTeams.includes('LG'), 'LG 누락');
+  assert.ok(coachTeams.includes('abz'), 'abz 누락');
+  assert.ok(coachTeams.includes('Sybarites'), 'Sybarites(현재 소속) 누락');
+  const current = content.career.coach.find((x) => x.current);
+  assert.ok(current && current.team === 'Sybarites', 'current 플래그는 Sybarites에만');
 });
 
 // ── 4. 성적: 14개 항목(2026-08-24 Liquipedia 보강) · 우승 2개 ──
