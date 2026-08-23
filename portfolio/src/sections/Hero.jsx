@@ -31,13 +31,10 @@ export default function Hero() {
         </div>
 
         {hero.portrait ? (
-          <figure className="rise d3 mt-8 flex h-80 flex-col md:col-start-2 md:row-span-2 md:row-start-1 md:mt-0 md:h-auto">
+          <figure className="rise d3 mt-8 flex h-80 md:col-start-2 md:row-span-2 md:row-start-1 md:mt-0 md:h-auto">
             <div className="port-wrap min-h-0 w-full flex-1 overflow-hidden">
               <img src={`/assets/photos/${hero.portrait}`} alt={t(hero.portraitAlt)} className="port-img ph-treat h-full w-full object-cover object-top" />
             </div>
-            <figcaption className="shrink-0 pb-2 pt-3 text-[10px] tracking-[0.16em]" style={{ fontFamily: 'var(--font-mono)', color: 'var(--ice-mute)' }}>
-              {t(hero.name)} · HEAD COACH
-            </figcaption>
           </figure>
         ) : null}
 
