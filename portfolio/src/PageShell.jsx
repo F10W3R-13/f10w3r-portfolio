@@ -17,7 +17,7 @@ export default function PageShell({ children }) {
   }, [lang])
 
   useEffect(() => {
-    if (new URLSearchParams(window.location.search).get('motion') === '1') {
+    if (new URLSearchParams(window.location.search).has('motion')) {
       document.body.dataset.forceMotion = '1'
     }
   }, [])

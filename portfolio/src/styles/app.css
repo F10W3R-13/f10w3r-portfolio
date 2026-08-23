@@ -51,6 +51,7 @@ body {
 .d1 { animation-delay: 60ms; }
 .d2 { animation-delay: 120ms; }
 .d3 { animation-delay: 180ms; }
+.d4 { animation-delay: 240ms; }
 
 @media (prefers-reduced-motion: no-preference) {
   .rise { opacity: 0; animation: rise 480ms var(--ease-out) both; }
@@ -104,20 +105,16 @@ body[data-force-motion] .reveal { animation: rise linear both; animation-timelin
 }
 
 /* 사진 톤 블렌드 — 다크 잉크 배경과의 이질감 완화 (히어로 초상 전용).
-   정지 상태에선 어둡고 채도를 낮춰 배경에 섞이고, hover에서 본래 톤(정보)을 돌려준다.
-   확대는 이동(movement)이라 reduce에서는 빼고 톤 복원만 남긴다. */
+   정지 상태에선 어둡고 채도를 낮춰 배경에 섞이고, hover에서 본래 톤 + 확대로 응답한다. */
 .ph-treat { filter: saturate(0.72) brightness(0.8); transition: filter 600ms var(--ease-out); }
 .port-wrap { transition: transform 700ms var(--ease-out); }
 @media (hover: hover) and (pointer: fine) {
   figure:hover .ph-treat { filter: none; }
-}
-@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
   figure:hover .port-wrap { transform: scale(1.03); }
 }
 
 /* 히어로 초상 모션 — 입장(스케일 다운+페이드) 후 느린 라이브 줌.
-   port-in이 900ms 동안 transform을 정착시키고, port-live가 1에서 1.045로 14s에 걸쳐 이어받는다(상시 모션은 linear).
-   사용자 지시(2026-08-24): 초상의 입장 애니메이션은 reduce에서도 생략하지 않는다 — reduce는 상시 줌만 끈다. */
+   port-in이 900ms 동안 transform을 정착시키고, port-live가 1에서 1.045로 14s에 걸쳐 이어받는다. */
 @keyframes port-in {
   from { opacity: 0; transform: scale(1.07); }
   to { opacity: 1; transform: scale(1); }
@@ -126,10 +123,10 @@ body[data-force-motion] .reveal { animation: rise linear both; animation-timelin
   from { transform: scale(1); }
   to { transform: scale(1.045); }
 }
-.port-img { animation: port-in 900ms var(--ease-out) 180ms both, port-live 14s linear 1080ms both; }
-@media (prefers-reduced-motion: reduce) {
-  .port-img { animation: port-in 900ms var(--ease-out) 180ms both; }
+@media (prefers-reduced-motion: no-preference) {
+  .port-img { animation: port-in 900ms var(--ease-out) 180ms both, port-live 14s ease-out 1080ms both; }
 }
+body[data-force-motion] .port-img { animation: port-in 900ms var(--ease-out) 180ms both, port-live 14s ease-out 1080ms both; }
 
 /* 히어로 퇴장 드리프트 — 스크롤로 히어로가 나갈 때 콘텐츠가 위로 살짝(심도) */
 @keyframes hero-drift {
