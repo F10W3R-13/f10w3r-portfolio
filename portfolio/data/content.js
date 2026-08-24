@@ -365,7 +365,12 @@ export const PORTFOLIO_CONTENT = {
             { label: { ko: '데이터 관리 (NA 시즌)', en: 'Data managed (NA season)' }, value: { ko: '선수 101명 · 매치 864경기', en: '101 players · 864 matches' } },
             { label: { ko: '스택', en: 'Stack' }, value: 'discord.py · GPT-4.1 Vision · Airtable · NeatQueue' },
           ],
-          gallery: [],
+          gallery: [
+            { file: 'cq-intro.png', caption: { ko: '서버 소개: 초대 기반 실전 연습 시스템', en: 'Server intro: invite-only competitive practice system' } },
+            { file: 'cq-access.png', caption: { ko: '접근 신청: 추천·지원·경력 3경로', en: 'Requesting access: referral, application, or credentials' } },
+            { file: 'cq-match.png', caption: { ko: '매치 리포트: impact 기반 MMR 조정 포함', en: 'Match report with impact-based MMR adjustments' } },
+            { file: 'cq-update.png', caption: { ko: '업데이트 로그: 퍼포먼스 MMR 수정·통계 가속', en: 'Update log: performance MMR fixes, faster stats' } },
+          ],
         },
       },
       {
