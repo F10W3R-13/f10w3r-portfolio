@@ -133,11 +133,11 @@ export const PORTFOLIO_CONTENT = {
   // 랜딩 카드 3분류 — 카드=서브페이지 진입 버튼(?page=), hover하면 소속 프로젝트 목록 공개
   categories: [
     { id: 'esports', label: { ko: '이스포츠', en: 'Esports' }, href: '/?page=esports',
-      image: '/assets/photos/photo-2.jpg',
+      image: '/assets/photos/card-esports.jpg',
       desc: { ko: '선수에서 코치로, 무대와 리그를 움직인 6년', en: 'Six years moving stages and leagues, from player to coach' },
       projects: ['coaching-hub', 'community-series', 'champions-queue'] },
     { id: 'campus', label: { ko: '캠퍼스', en: 'Campus' }, href: '/?page=campus',
-      image: '/assets/projects/skku-whatsapp-bot/chat-1.png',
+      image: '/assets/photos/card-campus.jpg',
       desc: { ko: '학교 일정과 학사제도를 도구로 푼 기록', en: 'University schedules and regulations, solved with tools' },
       projects: ['sportsday-hub', 'skku-whatsapp-bot'] },
     { id: 'dev', label: { ko: '개발', en: 'Development' }, href: '/?page=dev',

@@ -31,9 +31,6 @@ export default function Categories() {
                   decoding="async"
                   className="aspect-[4/5] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03] md:aspect-[3/4]"
                 />
-                <span className="absolute left-4 top-4 border px-2 py-1 text-[10px] tracking-[0.18em]" style={{ borderColor: 'rgba(232,237,242,0.35)', fontFamily: 'var(--font-mono)', color: 'var(--ice)', background: 'rgba(10,13,17,0.55)' }}>
-                  {String(i + 1).padStart(2, '0')} · {projects.length} {t(content.ui.categoryProjects)}
-                </span>
                 <div className="cat-reveal absolute inset-0 flex flex-col justify-end p-5" style={{ background: 'rgba(6,8,11,0.88)' }}>
                   <ul className="space-y-2">
                     {projects.map((p) => (
@@ -67,9 +64,16 @@ export default function Categories() {
                   </p>
                 </div>
               </a>
-              <div className="mt-4 flex items-baseline justify-between gap-3 px-1">
-                <h3 className="text-2xl tracking-tight md:text-3xl" style={{ fontFamily: 'var(--font-display)' }}>{t(c.label)}</h3>
-                <p className="hidden max-w-[24ch] text-right text-[11px] leading-snug md:block" style={{ fontFamily: 'var(--font-mono)', color: 'var(--ice-mute)' }}>{t(c.desc)}</p>
+              <div className="mt-4">
+                <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                  <h3 className="text-2xl tracking-tight md:text-3xl" style={{ fontFamily: 'var(--font-display)' }}>{t(c.label)}</h3>
+                  <span className="text-[11px]" style={{ fontFamily: 'var(--font-mono)', color: 'var(--ice-mute)' }}>
+                    {String(i + 1).padStart(2, '0')} · {projects.length} {t(content.ui.categoryProjects)}
+                  </span>
+                </div>
+                <p className="mt-2 text-[13px] leading-relaxed" style={{ fontFamily: 'var(--font-body)', color: 'var(--ice-dim)' }}>
+                  {t(c.desc)}
+                </p>
               </div>
             </div>
           )

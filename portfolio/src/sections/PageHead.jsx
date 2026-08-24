@@ -13,7 +13,7 @@ export default function PageHead({ def }) {
       <h1 className="mt-6 text-[clamp(3rem,8vw,7rem)] leading-none tracking-tight" style={{ fontFamily: 'var(--font-display)' }}>
         {t(def.label)}
       </h1>
-      <p className="mt-5 max-w-[52ch] text-sm leading-relaxed" style={{ fontFamily: 'var(--font-mono)', color: 'var(--ice-mute)' }}>
+      <p className="mt-5 max-w-[52ch] text-sm leading-relaxed" style={{ fontFamily: 'var(--font-body)', color: 'var(--ice-mute)' }}>
         {t(def.desc)}
       </p>
     </header>
