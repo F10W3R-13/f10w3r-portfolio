@@ -3,7 +3,6 @@ import content from '../data/content.js'
 import PageShell from './PageShell.jsx'
 import Hero from './sections/Hero.jsx'
 import Categories from './sections/Categories.jsx'
-import About from './sections/About.jsx'
 import Career from './sections/Career.jsx'
 import Achievements from './sections/Achievements.jsx'
 import Projects from './sections/Projects.jsx'
@@ -18,7 +17,6 @@ import PageHead from './sections/PageHead.jsx'
 const SECTIONS = {
   hero: Hero,
   categories: Categories,
-  about: About,
   career: Career,
   achievements: Achievements,
   projects: Projects,

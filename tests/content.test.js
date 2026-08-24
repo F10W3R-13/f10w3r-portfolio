@@ -135,7 +135,7 @@ test('연락: email은 null(미정)이거나 유효한 주소', () => {
 
 // ── 10. 페이지 조립: 메인+서브페이지 sections가 렌더러 화이트리스트 안에 ──
 test('페이지: 메인/서브 sections 유효(화이트리스트·중복 없음·flat 부분집합)', () => {
-  const whitelist = ['hero', 'categories', 'about', 'career', 'achievements', 'projects', 'skills', 'education', 'contact', 'hiclub'];
+  const whitelist = ['hero', 'categories', 'career', 'achievements', 'projects', 'skills', 'education', 'contact', 'hiclub'];
   const defs = [content.page, ...Object.values(content.pages)];
   for (const def of defs) {
     const sections = def.sections;

@@ -11,7 +11,7 @@ export default function Categories() {
 
   return (
     <section className="mx-auto flex min-h-[100dvh] max-w-7xl flex-col justify-center px-6 py-16 md:px-12">
-      <div className="grid flex-1 content-center gap-6 md:grid-cols-3 md:gap-8 mx-auto" style={{ maxWidth: '38rem' }}>
+      <div className="grid flex-1 content-center gap-6 md:grid-cols-3 md:gap-14 mx-auto" style={{ maxWidth: '44rem' }}>
         {content.categories.map((c, i) => {
           const projects = c.projects
             .map((id) => content.projects.list.find((p) => p.id === id))
@@ -20,8 +20,8 @@ export default function Categories() {
             <div key={c.id}>
               <a
                 href={c.href}
-                className="cat-card group relative block overflow-hidden border"
-                style={{ borderColor: 'var(--hairline)' }}
+                className="cat-card group relative block border p-2"
+                style={{ borderColor: 'var(--hairline-strong)' }}
                 aria-label={t(c.label)}
               >
                 <img
