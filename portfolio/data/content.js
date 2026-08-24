@@ -8,6 +8,19 @@
  *   4) 수치는 검증된 값만: 101명/864경기(NA 데이터 관리 시즌), 389경기·2026.08(코칭 허브 운영),
  *      8에디션/77.8시간/25 VOD/약3.6만 조회(커뮤니티 대회). 임의 수치 생성 금지.
  */
+import OVERRIDES from './content.overrides.js'
+
+// 오버라이드 깊은 병합(배열은 통째 교체) — 편집 모드 저장값 반영
+const deepMerge = (base, over) => {
+  if (Array.isArray(base) || Array.isArray(over)) return over !== undefined ? over : base
+  if (typeof base === 'object' && base && typeof over === 'object' && over) {
+    const out = { ...base }
+    for (const k of Object.keys(over)) out[k] = k in base ? deepMerge(base[k], over[k]) : over[k]
+    return out
+  }
+  return over !== undefined ? over : base
+}
+
 export const PORTFOLIO_CONTENT = {
 
   meta: {
@@ -465,5 +478,5 @@ export const PORTFOLIO_CONTENT = {
   },
 };
 
-// React(ESM import)로 직접 소비 — 단일 갱신 지점
-export default PORTFOLIO_CONTENT;
+// React(ESM import)로 직접 소비 — 단일 갱신 지점 (오버라이드 병합본)
+export default deepMerge(PORTFOLIO_CONTENT, OVERRIDES._content ?? OVERRIDES);

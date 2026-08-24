@@ -2,11 +2,12 @@ import { fileURLToPath } from 'node:url'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
+import { editModePlugin } from './scripts/vite-edit-plugin.mjs'
 
 // 앱 루트는 portfolio/ — data/content.js 경로 계약(minwo0___/00 문서) 유지
 export default defineConfig({
   root: 'portfolio',
-  plugins: [react(), tailwindcss()],
+  plugins: [react(), tailwindcss(), editModePlugin()],
   build: {
     outDir: 'dist',
     // dist는 scripts/clean-dist.mjs가 관리 — 잠긴 폴더 rmSync가 프로세스를 통째로 죽이는

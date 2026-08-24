@@ -18,6 +18,10 @@
   --volt: #b9de5f;
   --hairline: #232b36;
   --hairline-strong: #33404e;
+  /* 편집 모드 크기 노브(기본값) — ?edit=1 슬라이더/_style 오버라이드로 조정 */
+  --port-h: 92dvh;
+  --hero-type: clamp(6rem, 26vw, 26rem);
+  --cards-max: 64rem;
   --hairline-soft: #1a222c;
   --font-display: 'Anton', 'Black Han Sans', sans-serif;
   --font-body: 'Pretendard Variable', sans-serif;
