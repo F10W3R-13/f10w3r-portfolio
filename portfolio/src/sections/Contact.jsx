@@ -15,7 +15,7 @@ export default function Contact() {
   ]
 
   return (
-    <section className="mx-auto max-w-7xl px-6 pb-24">
+    <section className="mx-auto max-w-7xl px-6 pb-24 pt-20 md:pt-24">
       <h2 className="reveal text-3xl tracking-tight" style={{ fontFamily: 'var(--font-display)' }}>{t(content.ui.headings.contact)}</h2>
 
       <div className="reveal mt-8 flex flex-wrap items-center gap-x-10 gap-y-6 border p-8" style={{ borderColor: 'var(--hairline)' }}>

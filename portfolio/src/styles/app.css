@@ -204,3 +204,10 @@ body[data-force-motion] .bg-in { animation: bg-in 900ms var(--ease-out) both; }
 @media (prefers-reduced-motion: reduce) {
   .lightbox { animation: none; }
 }
+
+/* 모바일 모션 생략(2026-08-24 사용자 옵션 B) — 임팩트/관성 스크롤에서 진입·퇴장 모션이
+   뚝뚝 끊겨 보이는 문제. PC(768px+)는 그대로 재생. */
+@media (max-width: 767px) {
+  .reveal, body[data-force-motion] .reveal { animation: none; }
+  .hero-drift, body[data-force-motion] .hero-drift { animation: none; }
+}
