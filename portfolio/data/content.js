@@ -295,7 +295,9 @@ export const PORTFOLIO_CONTENT = {
           { ko: 'PyAutoGUI', en: 'PyAutoGUI' },
         ],
         metrics: [],
-        links: {},
+        links: {
+          demo: 'https://sportsday-hub.vercel.app',
+        },
         detail: {
           pitch: { ko: '행사 기획팀을 위한 프로젝트 관리 + 알림 자동화 허브', en: 'A project-management and notification hub for an event-planning team' },
           purpose: {
@@ -315,7 +317,11 @@ export const PORTFOLIO_CONTENT = {
             { label: { ko: '기능', en: 'Features' }, value: { ko: '마일스톤 긴급도 · 인계 · 의사결정 트래커', en: 'Milestone urgency · handoffs · decision tracker' } },
             { label: { ko: '스택', en: 'Stack' }, value: 'Next.js · Supabase · Vercel Cron · PyAutoGUI' },
           ],
-          gallery: [],
+          gallery: [
+            { file: 'home.png', caption: { ko: '메인 대시보드: D-Day 카운트다운·핵심 결정 추적표', en: 'Main dashboard: D-day countdown and key-decision tracker' } },
+            { file: 'content.png', caption: { ko: '컨텐츠팀 워크스페이스: 체크리스트·드라이브 파일', en: 'Content team workspace: checklist and drive files' } },
+            { file: 'handoffs.png', caption: { ko: '팀 간·외부 인계 게시판', en: 'Cross-team and external handoff board' } },
+          ],
         },
       },
       {
