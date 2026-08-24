@@ -456,7 +456,11 @@ export const PORTFOLIO_CONTENT = {
             { label: { ko: '언어', en: 'Language' }, value: { ko: '기획 KO · 행사 진행 EN', en: 'Planned in Korean, run in English' } },
           ],
           videos: [],
-          gallery: [],
+          gallery: [
+            { file: 'tunnel.jpg', caption: { ko: '제2땅굴 견학 (필드트립)', en: 'Second Tunnel visit (field trip)' } },
+            { file: 'buddy.jpg', caption: { ko: '버디 프로그램 진행', en: 'Buddy program session' } },
+            { file: 'fieldtrip.jpg', caption: { ko: '필드트립', en: 'Field trip' } },
+          ],
         },
       },
     ],
