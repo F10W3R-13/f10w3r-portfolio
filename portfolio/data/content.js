@@ -20,9 +20,56 @@ export const PORTFOLIO_CONTENT = {
 
   // 페이지 조립 — sections 배열 순서 = 렌더 순서 (순서 교체도 이 파일 편집으로)
   // flat: 리본 배경을 불투명 잉크로 덮는 섹션(가독성 밴드). 나머지는 리본이 그대로 보인다.
+  // 메인 페이지 — 카드(풀페이지) → 광범위 소개 → 스킬 → 연락.
+  // 커리어·성적·프로젝트는 이스포츠 서브페이지(?page=esports)로 이동(2026-08-24 사용자 확정).
   page: {
-    sections: ['hero', 'categories', 'career', 'achievements', 'projects', 'skills', 'education', 'contact'],
-    flat: ['career', 'achievements', 'contact'],
+    sections: ['hero', 'categories', 'about', 'skills', 'contact'],
+    flat: ['about', 'contact'],
+  },
+
+  // 서브페이지 — 랜딩 카드가 진입점. sections는 레지스트리 재사용, flat은 페이지별 밴드.
+  pages: {
+    esports: {
+      label: { ko: '이스포츠', en: 'Esports' },
+      desc: { ko: '선수에서 코치로, 무대와 리그를 움직인 6년', en: 'Six years moving stages and leagues, from player to coach' },
+      sections: ['career', 'achievements', 'projects'],
+      flat: ['career', 'achievements'],
+      projectFilter: 'esports',
+    },
+    campus: {
+      label: { ko: '캠퍼스', en: 'Campus' },
+      desc: { ko: '학교 일정과 학사제도를 도구로 푼 기록', en: 'University schedules and regulations, solved with tools' },
+      sections: ['hiclub', 'projects', 'education'],
+      flat: ['hiclub', 'education'],
+      projectFilter: 'campus',
+    },
+    dev: {
+      label: { ko: '개발', en: 'Development' },
+      desc: { ko: '반복되는 문제를 시스템으로 만드는 습관', en: 'Turning recurring problems into systems' },
+      sections: ['projects'],
+      flat: [],
+      projectFilter: 'dev',
+    },
+  },
+
+  // 광범위 자기소개(메인) — 검증된 사실만
+  about: {
+    body: {
+      ko: 'T1 선수로 출발해 6년간 13개 팀을 거친 CODM 코치입니다. 대회 무대에서는 팀을 지휘했고, 무대 밖에서는 리그 운영 체계와 데이터 인프라를 직접 설계·구축했습니다. 지금은 이스포츠 운영·기획에서 선수 경험과 개발 역량을 함께 쓰는 자리를 찾고 있습니다.',
+      en: "A CODM coach who started as a T1 player and passed through thirteen teams in six years. On stage I led teams; off stage I designed and built the league operations and data infrastructure myself. I am now looking for esports operations and planning roles where playing experience and engineering both matter.",
+    },
+  },
+
+  // 하이클럽 — 성균관대 국제처 산하 학생단체, 교환학생 맞이(2026-08-24 사용자 확인)
+  hiclub: {
+    desc: {
+      ko: '성균관대학교 국제처 산하 학생단체 하이클럽 부원으로 교환학생들을 맞이하는 역할을 합니다. 교환학생 그룹톡의 반복 질문을 줄이려 만든 WhatsApp 봇도 이 활동에서 시작했습니다.',
+      en: "As a member of HiClub, a student organization under SKKU's Office of International Affairs, I welcome incoming exchange students. The WhatsApp bot below started here, from the repeated questions in the exchange-student group chat.",
+    },
+    items: [
+      { ko: '교환학생 스프링파티 Blooming Night 콘텐츠 기획', en: 'Content planning for the exchange-student spring party Blooming Night' },
+      { ko: '입장·팔찌 수령 안내 등 행사 문서 KO/EN 번역', en: 'KO/EN translation of event guides: entry, wristbands, posters' },
+    ],
   },
 
   // UI 라벨 사전 (섹션 제목·버튼 문구 등 — 콘텐츠가 아닌 인터페이스 문자열)
@@ -83,15 +130,18 @@ export const PORTFOLIO_CONTENT = {
     ],
   },
 
-  // 랜딩 카드 3분류 — 클릭하면 각 세션으로 스크롤, hover하면 소속 프로젝트 목록 공개
+  // 랜딩 카드 3분류 — 카드=서브페이지 진입 버튼(?page=), hover하면 소속 프로젝트 목록 공개
   categories: [
-    { id: 'esports', label: { ko: '이스포츠', en: 'Esports' }, href: '#career',
+    { id: 'esports', label: { ko: '이스포츠', en: 'Esports' }, href: '/?page=esports',
+      image: '/assets/photos/photo-2.jpg',
       desc: { ko: '선수에서 코치로, 무대와 리그를 움직인 6년', en: 'Six years moving stages and leagues, from player to coach' },
       projects: ['coaching-hub', 'community-series', 'champions-queue'] },
-    { id: 'campus', label: { ko: '캠퍼스', en: 'Campus' }, href: '#education',
+    { id: 'campus', label: { ko: '캠퍼스', en: 'Campus' }, href: '/?page=campus',
+      image: '/assets/projects/skku-whatsapp-bot/chat-1.png',
       desc: { ko: '학교 일정과 학사제도를 도구로 푼 기록', en: 'University schedules and regulations, solved with tools' },
       projects: ['sportsday-hub', 'skku-whatsapp-bot'] },
-    { id: 'dev', label: { ko: '개발', en: 'Development' }, href: '#projects',
+    { id: 'dev', label: { ko: '개발', en: 'Development' }, href: '/?page=dev',
+      image: '/assets/projects/coaching-hub/home.png',
       desc: { ko: '반복되는 문제를 시스템으로 만드는 습관', en: 'Turning recurring problems into systems' },
       projects: ['coaching-hub', 'champions-queue', 'skku-whatsapp-bot'] },
   ],

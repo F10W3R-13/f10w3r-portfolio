@@ -1,16 +1,23 @@
 import content from '../../data/content.js'
 import { useT } from '../lang.jsx'
 
-/* 프로젝트 — 인덱스 행. 링크·하이라이트·수치는 전부 데이터 필드 presence로 렌더 (항목별 조건문 없음) */
-export default function Projects() {
+/* 프로젝트 — 인덱스 행. 링크·하이라이트·수치는 전부 데이터 필드 presence로 렌더 (항목별 조건문 없음).
+   서브페이지에서는 filter(카테고리 id)로 해당 프로젝트만 노출. */
+export default function Projects({ filter }) {
   const t = useT()
+  const all = content.projects.list
+  const list = filter
+    ? (content.categories.find((c) => c.id === filter)?.projects ?? [])
+        .map((id) => all.find((p) => p.id === id))
+        .filter(Boolean)
+    : all
 
   return (
     <section className="mx-auto max-w-7xl px-6 py-24">
       <h2 className="reveal text-3xl tracking-tight" style={{ fontFamily: 'var(--font-display)' }}>{t(content.ui.headings.projects)}</h2>
 
       <div className="mt-8">
-        {content.projects.list.map((p, i) => (
+        {list.map((p, i) => (
           <div
             key={p.id}
             className="row-hover grid grid-cols-[auto_1fr] gap-x-6 gap-y-3 border-t py-7 last:border-b md:grid-cols-[auto_1fr_auto]"
