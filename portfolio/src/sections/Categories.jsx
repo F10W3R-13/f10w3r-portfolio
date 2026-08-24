@@ -11,7 +11,7 @@ export default function Categories() {
 
   return (
     <section className="mx-auto flex min-h-[100dvh] max-w-7xl flex-col justify-center px-6 py-16 md:px-12">
-      <div className="grid flex-1 content-center gap-6 md:grid-cols-3">
+      <div className="grid flex-1 content-center gap-6 md:grid-cols-3 md:gap-8" style={{ maxWidth: '64rem' }}>
         {content.categories.map((c, i) => {
           const projects = c.projects
             .map((id) => content.projects.list.find((p) => p.id === id))
