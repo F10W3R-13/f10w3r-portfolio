@@ -166,3 +166,28 @@ body[data-force-motion] .bg-in { animation: bg-in 900ms var(--ease-out) both; }
 @media (min-width: 768px) {
   .gallery-grid > figure:nth-child(odd):last-child { grid-column: span 2; }
 }
+
+/* 랜딩 카테고리 카드 — hover에서 프로젝트 목록 공개(터치 기기는 항상 표시) */
+.cat-reveal { opacity: 1; }
+.cat-card { transition: background-color 150ms ease, border-color 150ms ease; }
+@media (hover: hover) and (pointer: fine) {
+  .cat-reveal {
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 300ms var(--ease-out), transform 300ms var(--ease-out);
+  }
+  .cat-card:hover { background-color: rgba(232, 237, 242, 0.035); border-color: var(--hairline-strong); }
+  .cat-card:hover .cat-reveal { opacity: 1; transform: none; }
+}
+
+/* 현장 사진 라이트박스 */
+.lightbox {
+  animation: lightbox-in 200ms var(--ease-out) both;
+}
+@keyframes lightbox-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lightbox { animation: none; }
+}

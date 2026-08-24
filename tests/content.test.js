@@ -60,8 +60,8 @@ test('커리어: 선수 3팀 · 코치 10팀(BK ROG 병합) · 현재 소속 Syb
   assert.ok(playerTeams.includes('T1'), 'T1 누락');
   const coachTeams = content.career.coach.map((x) => x.team);
   assert.ok(coachTeams.includes('OUG'), 'OUG 누락');
-  assert.ok(coachTeams.includes('LG'), 'LG 누락');
-  assert.ok(coachTeams.includes('abz'), 'abz 누락');
+  assert.ok(coachTeams.includes('Luminosity Gaming'), 'Luminosity Gaming 누락');
+  assert.ok(coachTeams.includes('Autobotz Esports'), 'Autobotz Esports 누락');
   assert.ok(coachTeams.includes('Sybarites'), 'Sybarites(현재 소속) 누락');
   const current = content.career.coach.find((x) => x.current);
   assert.ok(current && current.team === 'Sybarites', 'current 플래그는 Sybarites에만');
@@ -134,8 +134,8 @@ test('연락: email은 null(미정)이거나 유효한 주소', () => {
 });
 
 // ── 10. 페이지 조립: sections 순서 배열이 렌더러 화이트리스트와 정확히 일치 ──
-test('페이지: sections 순서 배열 유효(화이트리스트·중복 없음·7종 전부)', () => {
-  const whitelist = ['hero', 'career', 'achievements', 'projects', 'skills', 'education', 'contact'];
+test('페이지: sections 순서 배열 유효(화이트리스트·중복 없음·8종 전부)', () => {
+  const whitelist = ['hero', 'categories', 'career', 'achievements', 'projects', 'skills', 'education', 'contact'];
   const sections = content.page.sections;
   assert.ok(Array.isArray(sections) && sections.length === whitelist.length, 'sections 길이');
   assert.equal(new Set(sections).size, sections.length, 'sections 중복');
@@ -145,6 +145,21 @@ test('페이지: sections 순서 배열 유효(화이트리스트·중복 없음
   const flat = content.page.flat;
   assert.ok(Array.isArray(flat), 'page.flat 배열');
   for (const f of flat) assert.ok(sections.includes(f), `page.flat에 알 수 없는 섹션: ${f}`);
+});
+
+// ── 10b. 랜딩 카드: 3분류, 이중언어, 앵커는 실제 섹션, 프로젝트 id는 실존 ──
+test('카테고리: 3개, label/desc {ko,en}, href 앵커·프로젝트 id 유효', () => {
+  const cats = content.categories;
+  assert.equal(cats.length, 3, '카테고리 3개');
+  const ids = content.page.sections;
+  const projectIds = content.projects.list.map((p) => p.id);
+  for (const c of cats) {
+    assert.ok(c.label?.ko && c.label?.en, `${c.id}: label {ko,en}`);
+    assert.ok(c.desc?.ko && c.desc?.en, `${c.id}: desc {ko,en}`);
+    assert.ok(c.href?.startsWith('#') && ids.includes(c.href.slice(1)), `${c.id}: href가 실제 섹션 앵커`);
+    assert.ok(c.projects.length > 0, `${c.id}: 프로젝트 1개 이상`);
+    for (const pid of c.projects) assert.ok(projectIds.includes(pid), `${c.id}: 알 수 없는 프로젝트 ${pid}`);
+  }
 });
 
 // ── 11. UI 사전: 주요 라벨 {ko,en} 구비 ──

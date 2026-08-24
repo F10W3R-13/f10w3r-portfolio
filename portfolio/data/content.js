@@ -21,7 +21,7 @@ export const PORTFOLIO_CONTENT = {
   // 페이지 조립 — sections 배열 순서 = 렌더 순서 (순서 교체도 이 파일 편집으로)
   // flat: 리본 배경을 불투명 잉크로 덮는 섹션(가독성 밴드). 나머지는 리본이 그대로 보인다.
   page: {
-    sections: ['hero', 'career', 'achievements', 'projects', 'skills', 'education', 'contact'],
+    sections: ['hero', 'categories', 'career', 'achievements', 'projects', 'skills', 'education', 'contact'],
     flat: ['career', 'achievements', 'contact'],
   },
 
@@ -34,6 +34,7 @@ export const PORTFOLIO_CONTENT = {
     expand: { ko: '하위 티어 성적 더 보기', en: 'Show lower-tier results' },
     collapse: { ko: '접기', en: 'Collapse' },
     field: { ko: '현장', en: 'Field' },
+    categoryProjects: { ko: '개 프로젝트', en: 'projects' },
     headings: {
       career: { ko: '커리어', en: 'Career' },
       achievements: { ko: '주요 성적', en: 'Results' },
@@ -82,6 +83,19 @@ export const PORTFOLIO_CONTENT = {
     ],
   },
 
+  // 랜딩 카드 3분류 — 클릭하면 각 세션으로 스크롤, hover하면 소속 프로젝트 목록 공개
+  categories: [
+    { id: 'esports', label: { ko: '이스포츠', en: 'Esports' }, href: '#career',
+      desc: { ko: '선수에서 코치로, 무대와 리그를 움직인 6년', en: 'Six years moving stages and leagues, from player to coach' },
+      projects: ['coaching-hub', 'community-series', 'champions-queue'] },
+    { id: 'campus', label: { ko: '캠퍼스', en: 'Campus' }, href: '#education',
+      desc: { ko: '학교 일정과 학사제도를 도구로 푼 기록', en: 'University schedules and regulations, solved with tools' },
+      projects: ['sportsday-hub', 'skku-whatsapp-bot'] },
+    { id: 'dev', label: { ko: '개발', en: 'Development' }, href: '#projects',
+      desc: { ko: '반복되는 문제를 시스템으로 만드는 습관', en: 'Turning recurring problems into systems' },
+      projects: ['coaching-hub', 'champions-queue', 'skku-whatsapp-bot'] },
+  ],
+
   career: {
     span: '2020-2026',
     // 기간·팀은 Liquipedia(Coaching/Results) 원본 날짜 그대로 (2026-08-24 사용자 확인)
@@ -94,11 +108,11 @@ export const PORTFOLIO_CONTENT = {
       // BK ROG White(2021.04.09-04.14)·BK ROG Esports(04.14-06.14)는 한 조직 — 2026-08-24 사용자 확정 병합
       { period: '2021.04.09-2021.06.14', team: 'BK ROG Esports' },
       { period: '2021.06.14-2021.10.05', team: 'Oxygen Esports' },
-      { period: '2021.11.11-2021.12.31', team: 'TR' },
-      { period: '2023.11.12-2024.01.09', team: 'abz' },
+      { period: '2021.11.11-2021.12.31', team: 'True Tippers' },
+      { period: '2023.11.12-2024.01.09', team: 'Autobotz Esports' },
       { period: '2024.03.27-2024.05.14', team: 'Seminal' },
       { period: '2024.07.14-2024.08.27', team: 'Nexus' },
-      { period: '2024.08.27-2024.10.07', team: 'LG' },
+      { period: '2024.08.27-2024.10.07', team: 'Luminosity Gaming' },
       { period: '2024.10.29-2024.11.17', team: 'Team Felines' },
       { period: '2025.03.09-2026.03.09', team: 'OUG' },
       { period: { ko: '2026.05.28-현재', en: '2026.05.28-Present' }, team: 'Sybarites', current: true },

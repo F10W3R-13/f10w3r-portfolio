@@ -1,15 +1,30 @@
+import { useEffect, useState } from 'react'
 import content from '../../data/content.js'
 import { useT } from '../lang.jsx'
 
 /* 커리어 — data.career의 player/coach 그룹. 강조선 없음(2026-08-24 정리: 볼트=우승 전용),
-   현재 소속은 current 필드로 태그 표시 */
+   현재 소속은 current 필드로 태그 표시. 현장 사진은 클릭 시 원본 크기 라이트박스. */
 export default function Career() {
   const t = useT()
   const { career } = content
+  const [zoom, setZoom] = useState(null)
   const groups = [
     { label: content.ui.player, items: career.player },
     { label: content.ui.coach, items: career.coach },
   ]
+
+  useEffect(() => {
+    if (!zoom) return
+    const onKey = (e) => {
+      if (e.key === 'Escape') setZoom(null)
+    }
+    document.addEventListener('keydown', onKey)
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.removeEventListener('keydown', onKey)
+      document.body.style.overflow = ''
+    }
+  }, [zoom])
 
   return (
     <section className="mx-auto max-w-7xl px-6 py-24">
@@ -48,16 +63,51 @@ export default function Career() {
           </p>
           <div className="mt-3 grid gap-6 md:grid-cols-4">
             {career.photos.map((ph) => (
-              <figure key={ph.file} className="border" style={{ borderColor: 'var(--hairline)' }}>
-                <img src={`/assets/photos/${ph.file}`} alt={t(ph.caption)} loading="lazy" decoding="async" className="aspect-[4/3] w-full object-cover" />
-                <figcaption className="border-t px-4 py-2.5 text-[11px]" style={{ borderColor: 'var(--hairline)', fontFamily: 'var(--font-mono)', color: 'var(--ice-mute)' }}>
-                  {t(ph.caption)}
-                </figcaption>
-              </figure>
+              <div
+                key={ph.file}
+                role="button"
+                tabIndex={0}
+                aria-label={t(ph.caption)}
+                onClick={() => setZoom(ph)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault()
+                    setZoom(ph)
+                  }
+                }}
+                className="cursor-zoom-in"
+              >
+                <figure className="border" style={{ borderColor: 'var(--hairline)' }}>
+                  <img src={`/assets/photos/${ph.file}`} alt={t(ph.caption)} loading="lazy" decoding="async" className="aspect-[4/3] w-full object-cover" />
+                  <figcaption className="border-t px-4 py-2.5 text-[11px]" style={{ borderColor: 'var(--hairline)', fontFamily: 'var(--font-mono)', color: 'var(--ice-mute)' }}>
+                    {t(ph.caption)}
+                  </figcaption>
+                </figure>
+              </div>
             ))}
           </div>
         </div>
       )}
+
+      {zoom ? (
+        <div
+          className="lightbox fixed inset-0 z-[60] flex cursor-zoom-out flex-col items-center justify-center gap-4 px-6"
+          style={{ background: 'rgba(5,7,10,0.93)' }}
+          role="button"
+          tabIndex={-1}
+          aria-label={t(zoom.caption)}
+          onClick={() => setZoom(null)}
+        >
+          <img
+            src={`/assets/photos/${zoom.file}`}
+            alt={t(zoom.caption)}
+            className="max-h-[86dvh] max-w-[94vw] object-contain"
+          />
+          <p className="text-[11px]" style={{ fontFamily: 'var(--font-mono)', color: 'var(--ice-mute)' }}>
+            {t(zoom.caption)} · {t({ ko: '클릭하면 닫힘', en: 'click to close' })}
+          </p>
+        </div>
+      ) : null}
     </section>
   )
 }
