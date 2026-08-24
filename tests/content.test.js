@@ -83,12 +83,12 @@ test('성적: 14개 항목, 날짜·티어·결과·역할 구비, 우승 정확
 });
 
 // ── 5. 프로젝트: 5개 · 사용자 확정 순서 고정 · 코칭 허브 데모 링크와 검증 수치 ──
-test('프로젝트: 5개 항목, 사용자 확정 순서, 코칭 허브 389·2026.08 수치', () => {
+test('프로젝트: 6개 항목(하이클럽 포함), 사용자 확정 순서, 코칭 허브 389·2026.08 수치', () => {
   const list = content.projects.list;
-  assert.equal(list.length, 5);
+  assert.equal(list.length, 6);
   const ids = list.map((p) => p.id);
-  assert.equal(new Set(ids).size, 5, 'id 중복');
-  assert.deepEqual(ids, ['coaching-hub', 'community-series', 'sportsday-hub', 'champions-queue', 'skku-whatsapp-bot'], '순서는 사용자 확정 순서');
+  assert.equal(new Set(ids).size, ids.length, 'id 중복');
+  assert.deepEqual(ids, ['coaching-hub', 'community-series', 'sportsday-hub', 'champions-queue', 'skku-whatsapp-bot', 'hiclub'], '순서는 사용자 확정 순서');
   assert.ok(!ids.includes('tier-proposal'), 'tier-proposal은 제외됨(2026-08-24 사용자 확인)');
   const hub = list.find((p) => p.id === 'coaching-hub');
   assert.equal(hub.links.demo, 'https://web-production-4deec.up.railway.app');
@@ -135,7 +135,7 @@ test('연락: email은 null(미정)이거나 유효한 주소', () => {
 
 // ── 10. 페이지 조립: 메인+서브페이지 sections가 렌더러 화이트리스트 안에 ──
 test('페이지: 메인/서브 sections 유효(화이트리스트·중복 없음·flat 부분집합)', () => {
-  const whitelist = ['hero', 'categories', 'career', 'achievements', 'projects', 'skills', 'education', 'contact', 'hiclub'];
+  const whitelist = ['hero', 'categories', 'career', 'achievements', 'projects', 'skills', 'education', 'contact'];
   const defs = [content.page, ...Object.values(content.pages)];
   for (const def of defs) {
     const sections = def.sections;

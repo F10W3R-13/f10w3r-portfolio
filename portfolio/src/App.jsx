@@ -9,7 +9,6 @@ import Projects from './sections/Projects.jsx'
 import Skills from './sections/Skills.jsx'
 import Education from './sections/Education.jsx'
 import Contact from './sections/Contact.jsx'
-import HiClub from './sections/HiClub.jsx'
 import PageHead from './sections/PageHead.jsx'
 
 /* 섹션 렌더러 레지스트리 — 표시 순서는 page/pages 정의의 sections 배열이 결정한다.
@@ -23,7 +22,6 @@ const SECTIONS = {
   skills: Skills,
   education: Education,
   contact: Contact,
-  hiclub: HiClub,
 }
 
 export default function App() {

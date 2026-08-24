@@ -39,8 +39,8 @@ export const PORTFOLIO_CONTENT = {
     campus: {
       label: { ko: '캠퍼스', en: 'Campus' },
       desc: { ko: '학교 일정과 학사제도를 도구로 푼 기록', en: 'University schedules and regulations, solved with tools' },
-      sections: ['hiclub', 'projects', 'education'],
-      flat: ['hiclub', 'education'],
+      sections: ['projects', 'education'],
+      flat: ['education'],
       projectFilter: 'campus',
     },
     dev: {
@@ -50,18 +50,6 @@ export const PORTFOLIO_CONTENT = {
       flat: [],
       projectFilter: 'dev',
     },
-  },
-
-  // 하이클럽 — 성균관대 국제처 산하 학생단체, 교환학생 맞이(2026-08-24 사용자 확인)
-  hiclub: {
-    desc: {
-      ko: '성균관대학교 국제처 산하 학생단체 하이클럽 부원으로 교환학생들을 맞이하는 역할을 합니다. 교환학생 그룹톡의 반복 질문을 줄이려 만든 WhatsApp 봇도 이 활동에서 시작했습니다.',
-      en: "As a member of HiClub, a student organization under SKKU's Office of International Affairs, I welcome incoming exchange students. The WhatsApp bot below started here, from the repeated questions in the exchange-student group chat.",
-    },
-    items: [
-      { ko: '교환학생 스프링파티 Blooming Night 콘텐츠 기획', en: 'Content planning for the exchange-student spring party Blooming Night' },
-      { ko: '입장·팔찌 수령 안내 등 행사 문서 KO/EN 번역', en: 'KO/EN translation of event guides: entry, wristbands, posters' },
-    ],
   },
 
   // UI 라벨 사전 (섹션 제목·버튼 문구 등 — 콘텐츠가 아닌 인터페이스 문자열)
@@ -131,11 +119,11 @@ export const PORTFOLIO_CONTENT = {
     { id: 'campus', label: { ko: '캠퍼스', en: 'Campus' }, href: '/?page=campus',
       image: '/assets/photos/card-campus.jpg',
       desc: { ko: '학교 일정과 학사제도를 도구로 푼 기록', en: 'University schedules and regulations, solved with tools' },
-      projects: ['sportsday-hub', 'skku-whatsapp-bot'] },
+      projects: ['hiclub', 'sportsday-hub', 'skku-whatsapp-bot'] },
     { id: 'dev', label: { ko: '개발', en: 'Development' }, href: '/?page=dev',
       image: '/assets/projects/coaching-hub/home.png',
       desc: { ko: '반복되는 문제를 시스템으로 만드는 습관', en: 'Turning recurring problems into systems' },
-      projects: ['coaching-hub', 'champions-queue', 'skku-whatsapp-bot'] },
+      projects: ['coaching-hub', 'champions-queue'] },
   ],
 
   career: {
@@ -420,6 +408,49 @@ export const PORTFOLIO_CONTENT = {
             { file: 'chat-2.png', caption: { ko: '!ask 형식으로 학생증 발급을 묻는 질문', en: 'A student ID question in the !ask format' } },
             { file: 'chat-3.png', caption: { ko: '보험·동아리 가입 질문에 근거 문서를 인용한 답변', en: 'Insurance and club signup answers citing regulation docs' } },
           ],
+        },
+      },
+      {
+        id: 'hiclub',
+        title: { ko: '하이클럽', en: 'HiClub' },
+        role: { ko: '기획팀 · 프로젝트 팀장', en: 'Planning team · project lead' },
+        summary: {
+          ko: '성균관대 국제처 산하 학생단체 하이클럽 기획팀에서 2025년 봄부터 교환학생을 맞습니다. 봄·가을 OT에서 300~400명을 한 번에 맞이하고, 26-1 스포츠데이의 모든 콘텐츠를 기획한 뒤 26-2에는 총괄을 맡았습니다.',
+          en: "On the planning team of HiClub, SKKU's international-office student organization, since Spring 2025. We welcome 300-400 exchange students at each orientation, and after planning all content for the 26-1 Sports Day I took over as overall director for 26-2.",
+        },
+        stack: [
+          { ko: '행사 기획', en: 'Event planning' },
+          { ko: 'KO/EN 운영', en: 'KO/EN operations' },
+          { ko: '팀 리딩', en: 'Team leading' },
+        ],
+        metrics: [
+          { value: '4', label: { ko: '학기 연속 활동 (2025봄~)', en: 'Semesters active (Spring 2025~)' } },
+          { value: '300~400', label: { ko: 'OT마다 맞이하는 교환학생', en: 'Exchange students per OT' } },
+          { value: '1:3', label: { ko: '버디 매칭 (부원:교환학생)', en: 'Buddy ratio (member:student)' } },
+        ],
+        links: {},
+        detail: {
+          pitch: { ko: '교환학생 300명대의 첫 학기가 시작되는 현장에서, 기획팀 프로젝트 팀장으로', en: 'Where 300+ exchange students start their first semester, as a planning-team project lead' },
+          purpose: {
+            ko: '처음 한국에 온 교환학생이 캠퍼스와 학사 제도에서 길을 잃지 않게 하는 역할입니다. 반복되는 질문을 시스템으로 바꾸는 습관도 이 활동에서 발동해, 결국 학사제도 WhatsApp 봇으로 이어졌습니다.',
+            en: 'The job is making sure first-time exchange students never lose their way on campus or in the rules. My habit of turning repeated questions into systems kicked in here too, and it eventually grew into the regulations WhatsApp bot.',
+          },
+          background: {
+            ko: '하이클럽은 국제처 산하 선발제 학생단체로 기수당 20~30명으로 구성되고, 격주로 명륜·율전 캠퍼스를 오가며 매주 미팅을 합니다. 봄·가을 OT에서는 성균관대에 오는 모든 교환학생(300~400명)을 한 번에 맞이합니다.',
+            en: 'HiClub is a selective student organization of 20-30 members per cohort under the Office of International Affairs, meeting weekly and alternating between the two campuses. At spring and fall orientations we welcome every incoming exchange student, 300-400 at a time.',
+          },
+          approach: {
+            ko: 'OT 집합 맞이와 캠퍼스 투어, 부원 1명당 교환학생 3명의 버디 매칭, 그룹톡 관리와 민원 응대까지가 일상입니다. 26-1 스포츠데이에서는 게임 구성과 규칙을 포함한 모든 콘텐츠를 기획했고, 입장·팔찌 안내와 자보를 KO/EN으로 번역했으며 교환학생 스프링파티 Blooming Night 콘텐츠도 만들었습니다. 그 과정이 인정받아 26-2에는 스포츠데이 총괄을 맡았고(스포츠데이 허브 프로젝트로 확장), 필드트립 조장은 2025·2026 두 차례, 2025 홈커밍에는 스태프로 참가했습니다. 기획은 한국어로, 행사 진행은 전적으로 영어로 합니다.',
+            en: 'Day to day: orientation welcomes and campus tours, buddy matching at one member per three students, group-chat management and student support. For the 26-1 Sports Day I planned every piece of content including game formats and rules, translated the entry and wristband guides and posters between Korean and English, and built content for the exchange-student spring party Blooming Night. That track led to overall director for 26-2 (which grew into the Sports Day Hub project), plus field-trip team leader in 2025 and 2026 and staff at Homecoming 2025. Planning happens in Korean; the events run entirely in English.',
+          },
+          specs: [
+            { label: { ko: '활동', en: 'Tenure' }, value: { ko: '2025봄~ · 매주 미팅 (격주 명륜/율전)', en: 'Spring 2025~ · weekly meetings, two campuses' } },
+            { label: { ko: '맞이', en: 'Welcome' }, value: { ko: '봄·가을 OT · 교환학생 300~400명 · 버디 1:3', en: 'Spring/fall OTs · 300-400 students · 1:3 buddies' } },
+            { label: { ko: '행사', en: 'Events' }, value: { ko: '스포츠데이 콘텐츠 기획(26-1) → 총괄(26-2) · 필드트립 조장 2회 · 홈커밍 스태프', en: 'Sports Day content (26-1) -> director (26-2) · field-trip lead x2 · homecoming staff' } },
+            { label: { ko: '언어', en: 'Language' }, value: { ko: '기획 KO · 행사 진행 EN', en: 'Planned in Korean, run in English' } },
+          ],
+          videos: [],
+          gallery: [],
         },
       },
     ],
