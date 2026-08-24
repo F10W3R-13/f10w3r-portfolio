@@ -101,9 +101,9 @@ test('프로젝트: 5개 항목, 사용자 확정 순서, 코칭 허브 389·202
 });
 
 // ── 6. 데이터 정직성: 조작 금지 수치 회귀 가드 ──
-test('데이터 정직성: NA 시즌 101/864, 대회 8에디션·77.8h·3.6만 수치 보존', () => {
+test('데이터 정직성: NA 101/864, 대회 8에디션·77.8h·유튜브 수출 28,505/4,973h 보존', () => {
   const flat = JSON.stringify(content);
-  for (const needle of ['101', '864', '77.8', '3.6만']) assert.ok(flat.includes(needle), `${needle} 누락`);
+  for (const needle of ['101', '864', '77.8', '28,505', '4,973', '10분 28초', '124']) assert.ok(flat.includes(needle), `${needle} 누락`);
 });
 
 // ── 7. 민감 정보 필터: 포트폴리오 금지 항목이 content.js에 없음 ──

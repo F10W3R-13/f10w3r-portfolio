@@ -6,7 +6,7 @@
  *   2) 표시 변형(정렬·강조·티어·우승 여부)은 데이터 필드로 표현 — render.js의 항목별 조건문 금지.
  *   3) 민감 정보(병역·연봉·계약·학번·건강) 반영 금지 — tests/content.test.js가 차단.
  *   4) 수치는 검증된 값만: 101명/864경기(NA 데이터 관리 시즌), 389경기·2026.08(코칭 허브 운영),
- *      8에디션/77.8시간/25 VOD/약3.6만 조회(커뮤니티 대회). 임의 수치 생성 금지.
+ *      8에디션/77.8시간 중계(커뮤니티 대회) + 유튜브 공식 수출(2026-08-23): 조회 28,505·시청 4,973h·평균 10분 28초·구독 전환 124. 임의 수치 생성 금지.
  */
 export const PORTFOLIO_CONTENT = {
 
@@ -259,7 +259,7 @@ export const PORTFOLIO_CONTENT = {
         metrics: [
           { value: '8', label: { ko: '에디션 (2023.07~)', en: 'Editions (since 2023.07)' } },
           { value: '77.8h', label: { ko: '누적 중계 방송', en: 'Total broadcast hours' } },
-          { value: { ko: '약 3.6만', en: '~36k' }, label: { ko: 'VOD 25개 누적 조회', en: 'Views across 25 VODs' } },
+          { value: '28,505', label: { ko: 'VOD 누적 조회 (공식 통계)', en: 'VOD views (official export)' } },
           { value: { ko: '8팀', en: '8 teams' }, label: { ko: '대회당 참가 (약 40명)', en: 'Teams per event (~40 players)' } },
         ],
         links: {
@@ -281,9 +281,12 @@ export const PORTFOLIO_CONTENT = {
           },
           specs: [
             { label: { ko: '에디션', en: 'Editions' }, value: { ko: '8회 · 3년 연속 (2023.07~2026.08)', en: '8 over 3 straight years (2023.07-2026.08)' } },
-            { label: { ko: '중계', en: 'Broadcast' }, value: { ko: '77.8시간 · VOD 25개 · 조회 35,937회', en: '77.8h · 25 VODs · 35,937 views' } },
-            { label: { ko: '최다 시청 VOD', en: 'Top VOD' }, value: { ko: '2026 여름 결승 1,016회', en: '2026 summer final · 1,016 views' } },
-            { label: { ko: '규모', en: 'Scale' }, value: { ko: '대회당 8팀(약 40명) · 커뮤니티 500~1,000명', en: '8 teams (~40 players) per event · community of 500-1,000' } },
+            { label: { ko: '중계', en: 'Broadcast' }, value: { ko: '77.8시간 · VOD 22편 · 최다 1,793회(2025 드래프트 1일차)', en: '77.8h · 22 VODs · top 1,793 (2025 draft day 1)' } },
+            { label: { ko: '시청', en: 'Watch' }, value: { ko: '조회 28,505 · 시청 4,973시간 · 평균 10분 28초', en: '28,505 views · 4,973h watched · 10m28s average' } },
+            { label: { ko: '영향', en: 'Impact' }, value: { ko: '구독자 전환 124명 · 커뮤니티 500~1,000명', en: '124 subscriber conversions · community of 500-1,000' } },
+          ],
+          videos: [
+            { id: 'Eyb7AA09Pn8', caption: { ko: 'FS Tour 홍보 영상 (겨울 팀전 협업)', en: 'FS Tour promo video (winter team event)' } },
           ],
           gallery: [],
         },

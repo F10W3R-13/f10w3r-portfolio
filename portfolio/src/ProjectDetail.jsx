@@ -22,6 +22,32 @@ function Specs({ p, t }) {
   )
 }
 
+function Videos({ p, t }) {
+  const items = p.detail.videos
+  if (!items?.length) return null
+  return (
+    <div className="reveal mt-16 grid gap-6 md:grid-cols-2">
+      {items.map((v) => (
+        <figure key={v.id} className="border" style={{ borderColor: 'var(--hairline)' }}>
+          <div className="aspect-video w-full">
+            <iframe
+              src={`https://www.youtube-nocookie.com/embed/${v.id}`}
+              title={t(v.caption)}
+              loading="lazy"
+              allow="accelerometer; clipboard-write; encrypted-media; picture-in-picture"
+              allowFullScreen
+              className="h-full w-full"
+            />
+          </div>
+          <figcaption className="border-t px-4 py-2.5 text-[11px]" style={{ borderColor: 'var(--hairline)', fontFamily: 'var(--font-mono)', color: 'var(--ice-mute)' }}>
+            {t(v.caption)}
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+  )
+}
+
 function Gallery({ p, t }) {
   const items = p.detail.gallery
   if (!items.length) return null
@@ -137,6 +163,7 @@ export default function ProjectDetail({ id }) {
         </section>
       </div>
 
+      <Videos p={p} t={t} />
       <Gallery p={p} t={t} />
       <div className="mt-20 pb-10">
         <a
