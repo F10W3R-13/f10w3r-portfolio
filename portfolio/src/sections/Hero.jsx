@@ -17,13 +17,13 @@ export default function Hero() {
 
       {/* 타이포 — 정중앙, 후방 레이어 */}
       <div className="rise d2 absolute inset-0 flex items-center justify-center">
-        <h1 className="leading-none tracking-tight" style={{ fontSize: 'var(--hero-type)' }}>F10W3R</h1>
+        <h1 className="text-[clamp(6rem,26vw,26rem)] leading-none tracking-tight">F10W3R</h1>
       </div>
 
       {/* 초상 — 하단 고정(밑단이 화면 가장자리에 맞닿음), 전방 레이어 */}
       {hero.portrait ? (
         <div className="absolute bottom-0 left-1/2 z-10 -translate-x-1/2">
-          <figure className="rise d3" style={{ height: 'var(--port-h)' }}>
+          <figure className="rise d3 h-[92dvh]">
             <div className="port-wrap h-full">
               <img src={`/assets/photos/${hero.portrait}`} alt={t(hero.portraitAlt)} className="port-img ph-treat h-full w-auto object-contain" />
             </div>
