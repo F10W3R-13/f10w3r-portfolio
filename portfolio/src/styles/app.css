@@ -169,6 +169,10 @@ body[data-force-motion] .bg-in { animation: bg-in 900ms var(--ease-out) both; }
 
 /* 랜딩 카테고리 카드 — hover에서 프로젝트 목록 공개(터치 기기는 항상 표시) */
 .cat-reveal { opacity: 1; }
+@media (hover: none) {
+  /* 터치에서는 오버레이 상시 노출이 사진을 가림 — 숨기고 카드 탭=카테고리 페이지로 */
+  .cat-reveal { display: none; }
+}
 .cat-card { transition: background-color 150ms ease, border-color 150ms ease; }
 @media (hover: hover) and (pointer: fine) {
   .cat-reveal {

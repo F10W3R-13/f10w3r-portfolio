@@ -17,8 +17,8 @@ function Row({ a, t }) {
       <span className="order-3 text-sm tabular-nums" style={{ fontFamily: 'var(--font-mono)', color: a.won ? 'var(--volt)' : 'var(--ice-dim)' }}>
         {t(a.result)}
       </span>
-      <span className="order-4 hidden text-[11px] md:block" style={{ fontFamily: 'var(--font-mono)', color: 'var(--ice-mute)' }}>{t(a.role)}</span>
-      <span className="order-5 hidden text-[11px] tabular-nums md:block" style={{ fontFamily: 'var(--font-mono)', color: 'var(--ice-mute)' }}>{a.date}</span>
+      <span className="order-4 text-[10px] md:text-[11px]" style={{ fontFamily: 'var(--font-mono)', color: 'var(--ice-mute)' }}>{t(a.role)}</span>
+      <span className="order-5 text-[10px] tabular-nums md:text-[11px]" style={{ fontFamily: 'var(--font-mono)', color: 'var(--ice-mute)' }}>{a.date}</span>
     </div>
   )
 }

@@ -54,6 +54,11 @@ export const PORTFOLIO_CONTENT = {
 
   // 광범위 자기소개(메인) — 검증된 사실만
   about: {
+    highlight: {
+      ko: '현재 Sybarites 코치 · SPS S5 NA 우승(코치) · CODM 월드챔피언십 3회(2020·2021·2024)',
+      en: 'Current coach at Sybarites · SPS S5 NA champion (coach) · 3x CODM World Championship runs (2020, 2021, 2024)',
+    },
+    ctaLabel: { ko: '커리어·성적 보기', en: 'View career & results' },
     body: {
       ko: 'T1 선수로 출발해 6년간 13개 팀을 거친 CODM 코치입니다. 대회 무대에서는 팀을 지휘했고, 무대 밖에서는 리그 운영 체계와 데이터 인프라를 직접 설계·구축했습니다. 지금은 이스포츠 운영·기획에서 선수 경험과 개발 역량을 함께 쓰는 자리를 찾고 있습니다.',
       en: "A CODM coach who started as a T1 player and passed through thirteen teams in six years. On stage I led teams; off stage I designed and built the league operations and data infrastructure myself. I am now looking for esports operations and planning roles where playing experience and engineering both matter.",

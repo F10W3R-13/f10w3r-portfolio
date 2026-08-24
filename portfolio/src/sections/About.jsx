@@ -12,9 +12,15 @@ export default function About() {
       <p className="reveal mt-8 max-w-[62ch] text-lg leading-relaxed" style={{ color: 'var(--ice-dim)' }}>
         {t(content.about.body)}
       </p>
+      <p className="reveal mt-6 max-w-[62ch] text-sm leading-relaxed" style={{ fontFamily: 'var(--font-body)', color: 'var(--ice)' }}>
+        {t(content.about.highlight)}
+      </p>
       <p className="reveal mt-6 text-[11px]" style={{ fontFamily: 'var(--font-mono)', color: 'var(--ice-mute)' }}>
         {t(profile.base)} · {t(profile.availability)}
       </p>
+      <a href="/?page=esports" className="reveal mt-8 inline-flex items-center gap-3 border px-6 py-3 text-[13px] tracking-[0.18em] hover:underline" style={{ fontFamily: 'var(--font-mono)', borderColor: 'var(--hairline-strong)', color: 'var(--ice)' }}>
+        {t(content.about.ctaLabel)} <span aria-hidden="true">→</span>
+      </a>
     </section>
   )
 }

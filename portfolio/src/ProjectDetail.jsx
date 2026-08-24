@@ -68,13 +68,23 @@ export default function ProjectDetail({ id }) {
   const t = useT()
   const p = content.projects.list.find((x) => x.id === id)
   useEffect(() => {
-    if (p) document.title = `${p.title.ko} · ${content.profile.name.ko} ${content.profile.ign}`
+    if (p) document.title = `${t(p.title)} · ${t(content.profile.name)} ${content.profile.ign}`
   }, [p])
   if (!p) return <ProjectList />
 
   return (
     <main className="mx-auto max-w-7xl px-6 py-16 md:py-20">
-      <a href="/?page=esports#projects" className="text-[11px] tracking-[0.18em]" style={{ fontFamily: 'var(--font-mono)', color: 'var(--ice-mute)' }}>
+      <a
+        href="/?page=esports#projects"
+        onClick={(e) => {
+          if (window.history.length > 1) {
+            e.preventDefault()
+            window.history.back()
+          }
+        }}
+        className="text-[11px] tracking-[0.18em]"
+        style={{ fontFamily: 'var(--font-mono)', color: 'var(--ice-mute)' }}
+      >
         ← {t(content.ui.headings.projects)}
       </a>
 
@@ -129,7 +139,17 @@ export default function ProjectDetail({ id }) {
 
       <Gallery p={p} t={t} />
       <div className="mt-20 pb-10">
-        <a href="/?page=esports#projects" className="text-[11px] tracking-[0.18em]" style={{ fontFamily: 'var(--font-mono)', color: 'var(--ice-mute)' }}>
+        <a
+        href="/?page=esports#projects"
+        onClick={(e) => {
+          if (window.history.length > 1) {
+            e.preventDefault()
+            window.history.back()
+          }
+        }}
+        className="text-[11px] tracking-[0.18em]"
+        style={{ fontFamily: 'var(--font-mono)', color: 'var(--ice-mute)' }}
+      >
           ← {t({ ko: '목록으로', en: 'Back to list' })}
         </a>
       </div>

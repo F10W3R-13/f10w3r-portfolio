@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import content from '../data/content.js'
 import PageShell from './PageShell.jsx'
 import Hero from './sections/Hero.jsx'
@@ -31,6 +32,13 @@ export default function App() {
   const pageKey = new URLSearchParams(window.location.search).get('page')
   const def = pageKey && content.pages[pageKey] ? content.pages[pageKey] : content.page
   const isSub = def !== content.page
+
+  useEffect(() => {
+    const lang = localStorage.getItem('lang') || content.meta.defaultLang
+    document.title = isSub
+      ? `${def.label[lang] ?? def.label.ko} · 유민우 F10W3R`
+      : '유민우 F10W3R · 포트폴리오'
+  }, [isSub, def])
 
   return (
     <PageShell>
