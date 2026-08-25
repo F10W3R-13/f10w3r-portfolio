@@ -4,3 +4,5 @@ _snapshots/
 .DS_Store
 portfolio/dist/
 portfolio/dist*/
+
+.vercel
