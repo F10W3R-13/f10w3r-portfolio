@@ -37,7 +37,7 @@ export default function Hero() {
           <span className="text-3xl tracking-tight" style={{ fontFamily: 'var(--font-display)' }}>{t(hero.name)}</span>
           <span className="max-w-[46ch] text-sm leading-relaxed" style={{ color: 'var(--ice-dim)' }}>{t(hero.tagline)}</span>
         </div>
-        <p className="rise d3 mt-6 max-w-[54ch] text-[13px] leading-relaxed" style={{ color: 'var(--ice-mute)' }}>
+        <p className="rise d3 mt-6 min-h-0 max-w-[569px] font-['Noto_Sans',sans-serif] text-[13px] leading-relaxed" style={{ color: 'var(--ice-mute)' }}>
           {t(hero.intro)}
         </p>
 
