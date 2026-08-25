@@ -167,10 +167,10 @@ export const PORTFOLIO_CONTENT = {
       { date: '2023.12.01', event: 'Odyssey Gaming Festival', tier: 'A', won: false, result: { ko: '5-8위', en: '5th-8th' }, role: { ko: '코치', en: 'Coach' } },
       { date: '2023.08.06', event: 'Snapdragon Pro Series S3: Japan', tier: 'A', won: false, result: { ko: '3위', en: '3rd' }, role: { ko: '코치', en: 'Coach' } },
       { date: '2022.01.14', event: 'Unrivalled', tier: 'C', won: false, result: { ko: '2위', en: '2nd' }, role: { ko: '코치', en: 'Coach' } },
-      { date: '2021.12.12', event: 'CODM World Championship 2021: East Finals', tier: 'S', won: false, result: { ko: '11위', en: '11th' }, role: { ko: '선수', en: 'Player' } },
-      { date: '2021.09.19', event: 'CODM World Championship 2021: Europe Finals', tier: 'A', won: false, result: { ko: '3위', en: '3rd' }, role: { ko: '선수', en: 'Player' } },
+      { date: '2021.12.12', event: 'CODM World Championship 2021: East Finals', tier: 'S', won: false, result: { ko: '11위', en: '11th' }, role: { ko: '코치', en: 'Coach' } },
+      { date: '2021.09.19', event: 'CODM World Championship 2021: Europe Finals', tier: 'A', won: false, result: { ko: '3위', en: '3rd' }, role: { ko: '코치', en: 'Coach' } },
       { date: '2021.08.26', event: 'Mobile Mayhem 2021 Summer: Europe', tier: 'B', won: false, result: { ko: '3위', en: '3rd' }, role: { ko: '코치', en: 'Coach' } },
-      { date: '2021.07.18', event: 'CODM Masters 2021: Europe', tier: 'A', won: false, result: { ko: '3위', en: '3rd' }, role: { ko: '선수', en: 'Player' } },
+      { date: '2021.07.18', event: 'CODM Masters 2021: Europe', tier: 'A', won: false, result: { ko: '3위', en: '3rd' }, role: { ko: '코치', en: 'Coach' } },
       { date: '2021.05.25', event: 'Mobile Mayhem 2021 Spring: Europe', tier: 'B', won: false, result: { ko: '3위', en: '3rd' }, role: { ko: '코치', en: 'Coach' } },
       { date: '2020.12.01', event: 'CODM World Championship 2020: Global Finals', tier: 'S', won: false, result: { ko: '1-7위', en: '1st-7th' }, role: { ko: '선수', en: 'Player' } },
       { date: '2020.08.09', event: 'CODM World Championship 2020: Korea', tier: 'A', won: true, result: { ko: '우승', en: 'Champion' }, role: { ko: '선수', en: 'Player' } },
@@ -236,7 +236,7 @@ export const PORTFOLIO_CONTENT = {
         highlight: true,
         role: { ko: '1인 기획 / 주최 / 중계', en: 'Solo Organizer, Producer & Caster' },
         summary: {
-          ko: '2023년 7월부터 한국 CODM 커뮤니티 대회를 1인이 기획, 주최, 중계했습니다. 여름·겨울 사이클로 8에디션을 열었고, 드래프트 방식을 완전랜덤→밸런스랜덤→캡틴픽으로 진화시켰습니다. 후원 없이 순수 자체 운영.',
+          ko: '2023년 7월부터 한국 CODM 커뮤니티 대회를 1인이 기획, 주최, 중계했습니다. 여름·겨울 사이클로 8번의 대회를 열었고, 드래프트 대회는 재미를 위해 형식을 점점 진화시켰습니다.',
           en: 'Solo-planned, produced and cast Korean CODM community tournaments since July 2023: 8 editions across summer/winter cycles, with the draft format evolving from full-random to balance-random to captain pick. Entirely self-run, no sponsorship.',
         },
         stack: [
@@ -330,7 +330,7 @@ export const PORTFOLIO_CONTENT = {
         highlight: true,
         role: { ko: '창설·운영 설계', en: 'Founder & Operations Design' },
         summary: {
-          ko: '서부 CODM 경쟁 생태계를 위한 초청제 랭크 리그. 4리전(NA/LATAM, EU, APAC, MENA) 체계를 설계하고, GPT-4.1 OCR→Airtable 파이프라인으로 MMR 집계, 주간 리포트, RSVP를 자동화했습니다.',
+          ko: '서부 CODM 경쟁 생태계를 위한 초청제 사설 랭크 리그. 4개의 지역을 묶어 (NA/LATAM, EU, APAC, MENA) 체계를 설계하고, GPT-4.1 OCR→Airtable 파이프라인으로 MMR 집계, 주간 리포트, RSVP를 자동화했습니다.',
           en: 'An invitational rank league for the western CODM ecosystem. Designed the 4-region (NA/LATAM, EU, APAC, MENA) structure and automated MMR aggregation, weekly reports and RSVP through a GPT-4.1 OCR → Airtable pipeline.',
         },
         stack: [
