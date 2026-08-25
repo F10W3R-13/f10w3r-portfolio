@@ -167,7 +167,7 @@ export const PORTFOLIO_CONTENT = {
       { date: '2023.12.01', event: 'Odyssey Gaming Festival', tier: 'A', won: false, result: { ko: '5-8위', en: '5th-8th' }, role: { ko: '코치', en: 'Coach' } },
       { date: '2023.08.06', event: 'Snapdragon Pro Series S3: Japan', tier: 'A', won: false, result: { ko: '3위', en: '3rd' }, role: { ko: '코치', en: 'Coach' } },
       { date: '2022.01.14', event: 'Unrivalled', tier: 'C', won: false, result: { ko: '2위', en: '2nd' }, role: { ko: '코치', en: 'Coach' } },
-      { date: '2021.12.12', event: 'CODM World Championship 2021: East Finals', tier: 'S', won: false, result: { ko: '11위', en: '11th' }, role: { ko: '코치', en: 'Coach' } },
+      { date: '2021.12.12', event: 'CODM World Championship 2021: East Finals', tier: 'S', won: false, result: { ko: '11위', en: '11th' }, role: { ko: 'Coach', en: 'Coach' } },
       { date: '2021.09.19', event: 'CODM World Championship 2021: Europe Finals', tier: 'A', won: false, result: { ko: '3위', en: '3rd' }, role: { ko: '코치', en: 'Coach' } },
       { date: '2021.08.26', event: 'Mobile Mayhem 2021 Summer: Europe', tier: 'B', won: false, result: { ko: '3위', en: '3rd' }, role: { ko: '코치', en: 'Coach' } },
       { date: '2021.07.18', event: 'CODM Masters 2021: Europe', tier: 'A', won: false, result: { ko: '3위', en: '3rd' }, role: { ko: '코치', en: 'Coach' } },
