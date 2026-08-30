@@ -83,7 +83,7 @@ test('성적: 14개 항목, 날짜·티어·결과·역할 구비, 우승 정확
 });
 
 // ── 5. 프로젝트: 5개 · 사용자 확정 순서 고정 · 코칭 허브 데모 링크와 검증 수치 ──
-test('프로젝트: 6개 항목(하이클럽 포함), 사용자 확정 순서, 코칭 허브 389·2026.08 수치', () => {
+test('프로젝트: 6개 항목(하이클럽 포함), 사용자 확정 순서, 코칭 허브 400·2026.08 수치', () => {
   const list = content.projects.list;
   assert.equal(list.length, 6);
   const ids = list.map((p) => p.id);
@@ -93,7 +93,7 @@ test('프로젝트: 6개 항목(하이클럽 포함), 사용자 확정 순서, �
   const hub = list.find((p) => p.id === 'coaching-hub');
   assert.equal(hub.links.demo, 'https://web-production-4deec.up.railway.app');
   const flat = JSON.stringify(hub);
-  assert.ok(flat.includes('389') && flat.includes('2026.08'), '코칭 허브: 검증된 389·2026.08 수치 누락');
+  assert.ok(flat.includes('400') && flat.includes('2026.08'), '코칭 허브: 검증된 400·2026.08 수치 누락 (2026-08-30 배포 DB 백업 실측 갱신)');
   // 스택 칩은 {ko,en} 이중언어 (EN 화면에 한국어 칩 잔류 방지)
   for (const p of list) {
     for (const s of p.stack) assert.ok(s.ko && s.en, `${p.id}: stack 항목 {ko,en}`);

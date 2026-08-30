@@ -5,7 +5,7 @@
  *   1) 모든 표시 문자열은 { ko, en } 이중 구조. 새 항목 추가 시 두 언어 모두 필수.
  *   2) 표시 변형(정렬·강조·티어·우승 여부)은 데이터 필드로 표현 — render.js의 항목별 조건문 금지.
  *   3) 민감 정보(병역·연봉·계약·학번·건강) 반영 금지 — tests/content.test.js가 차단.
- *   4) 수치는 검증된 값만: 101명/864경기(NA 데이터 관리 시즌), 389경기·2026.08(코칭 허브 운영),
+ *   4) 수치는 검증된 값만: 101명/864경기(NA 데이터 관리 시즌), 400경기·2026.08.29(코칭 허브 운영 — 배포 DB 백업 실측),
  *      8에디션/77.8시간 중계(커뮤니티 대회) + 유튜브 공식 수출(2026-08-23): 조회 28,505·시청 4,973h·평균 10분 28초·구독 전환 124. 임의 수치 생성 금지.
  */
 export const PORTFOLIO_CONTENT = {
@@ -213,8 +213,8 @@ export const PORTFOLIO_CONTENT = {
         highlight: true,
         role: { ko: '설계 / 개발 / 운영', en: 'Design, Build & Operations' },
         summary: {
-          ko: '스크림 결과 스크린샷을 GPT-4.1이 읽어 DB에 적재하고, FastAPI로 한국어/영어/스페인어 3개 언어 대시보드를 제공하는 코칭 허브. Railway에 배포해 매일 운영 중입니다.',
-          en: 'A coaching hub where GPT-4.1 reads scrim screenshots into a database and FastAPI serves a trilingual (KO/EN/ES) dashboard. Deployed on Railway and in daily use.',
+          ko: '스크림 결과 스크린샷을 GPT-4.1이 읽어 DB에 적재하고, FastAPI로 한국어/영어/스페인어 3개 언어 대시보드를 제공하는 코칭 허브. 2026년 2월부터 Railway에서 매일 운영 중입니다.',
+          en: 'A coaching hub where GPT-4.1 reads scrim screenshots into a database and FastAPI serves a trilingual (KO/EN/ES) dashboard. Running daily on Railway since February 2026.',
         },
         stack: [
           { ko: 'Python', en: 'Python' },
@@ -225,7 +225,8 @@ export const PORTFOLIO_CONTENT = {
           { ko: 'Railway', en: 'Railway' },
         ],
         metrics: [
-          { value: '389', label: { ko: '기록된 경기 · 2026.08 기준', en: 'Matches logged · as of 2026.08' } },
+          { value: '400', label: { ko: '기록된 경기 · 2026.08.29 기준', en: 'Matches logged · as of 2026.08.29' } },
+          { value: '9', label: { ko: '기록 선수 (로스터 + 용병)', en: 'Players recorded (roster + stand-ins)' } },
           { value: { ko: '3개', en: '3' }, label: { ko: '언어 지원 (한국어·영어·스페인어)', en: 'Languages (KO · EN · ES)' } },
         ],
         links: {
@@ -242,12 +243,12 @@ export const PORTFOLIO_CONTENT = {
             en: 'Coaching overseas teams, I kept losing hours hand-logging scrim results. GPT-4.1 reads the screenshots players already post in Discord straight into a database, cutting logging time and letting the data compound.',
           },
           approach: {
-            ko: '워크플로: 스크린샷 2장 업로드 → GPT-4.1 Vision(temperature 0, JSON 강제) → 모드(HP/SND) 자동 판별 → SQLite(로컬 개발) / Railway PostgreSQL(운영) → FastAPI 대시보드. 재업로드된 경기는 기존 매치에 자동 병합되고, OCR이 잘못 읽은 닉네임은 별명으로 학습됩니다. 코칭 지표 ZCS·RDS는 자체 공식으로 계산하고, AI 인사이트 7종(매치·주간·트렌드·선수·맵·브리핑)에는 Obsidian 코칭 지식베이스가 프롬프트로 주입됩니다. 슬래시 명령 8종, 3개 언어(테스트로 키 동일성 강제), 어드민 도구, 대회용 토너먼트 앱(MVP 포스터 생성)까지 포함됩니다.',
-            en: 'Flow: upload two screenshots, GPT-4.1 Vision (temperature 0, schema-constrained JSON output) auto-detects the mode (HP/SND), writes to SQLite in local development and Railway PostgreSQL in production, and a FastAPI dashboard serves it. Re-uploaded games merge into the original match; misread nicknames are learned as aliases. Custom ZCS/RDS metrics use my own formulas, and seven AI insight functions inject an Obsidian coaching knowledge base into the prompts. Eight slash commands, three languages (enforced equal by tests), admin tooling, and a separate tournament app that generates MVP posters.',
+            ko: '워크플로: 스크린샷 2장 업로드 → GPT-4.1 Vision(temperature 0, JSON 강제) → 모드(HP/SND) 자동 판별 → SQLite(로컬 개발) / Railway PostgreSQL(운영) → FastAPI 대시보드. 재업로드된 경기는 기존 매치에 자동 병합되고, OCR이 잘못 읽은 닉네임은 별명으로 학습됩니다. 코칭 지표 ZCS·RDS는 자체 공식으로 계산하고, AI 인사이트 7종(매치·주간·트렌드·선수·맵·브리핑)에는 Obsidian 코칭 지식베이스가 프롬프트로 주입됩니다. 슬래시 명령 10종, 3개 언어(테스트로 키 동일성 강제), 어드민 도구, 대회용 토너먼트 앱(MVP 포스터 생성), 전체 DB 백업·복원과 중단 재개형 재처리 파이프라인까지 포함됩니다. ZCS는 거점 킬 가중 공식(1.1·오브젝트 + 8·캡처킬 + 4.1·일반킬 − 5·데스), RDS는 라운드 장악 공식으로 직접 설계해 승패 데이터로 AUC 검증을 거쳤고, 배포 DB 전수 점검에서 OCR 이상(캡처킬>킬)은 0건이었습니다.',
+            en: 'Flow: upload two screenshots, GPT-4.1 Vision (temperature 0, schema-constrained JSON output) auto-detects the mode (HP/SND), writes to SQLite in local development and Railway PostgreSQL in production, and a FastAPI dashboard serves it. Re-uploaded games merge into the original match; misread nicknames are learned as aliases. Seven AI insight functions inject an Obsidian coaching knowledge base into the prompts. Ten slash commands, three languages (enforced equal by tests), admin tooling, a separate tournament app that generates MVP posters, and a full-database backup/restore plus resumable reprocessing pipeline. The custom metrics are designed in-house — ZCS, a capture-kill-weighted hardpoint formula (1.1·OBJ + 8·capture kills + 4.1·kills − 5·deaths), and RDS, a round-control formula — and validated with win/loss AUC analysis; a full audit of the production database found zero OCR anomalies.',
           },
           specs: [
-            { label: { ko: '기록된 경기', en: 'Matches logged' }, value: { ko: '389경기 · 2026.08 기준', en: '389 · as of 2026.08' } },
-            { label: { ko: '자체 코칭 지표', en: 'Custom metrics' }, value: { ko: 'ZCS · RDS 직접 설계', en: 'ZCS · RDS, designed in-house' } },
+            { label: { ko: '기록된 경기', en: 'Matches logged' }, value: { ko: '400경기 · 2026.08.29 기준 · 2월부터 연속', en: '400 · as of 2026.08.29, since February' } },
+            { label: { ko: '자체 코칭 지표', en: 'Custom metrics' }, value: { ko: 'ZCS · RDS 직접 설계 · 승패 AUC 검증', en: 'ZCS · RDS, designed in-house, AUC-validated' } },
             { label: { ko: '언어', en: 'Languages' }, value: { ko: '한국어·영어·스페인어 (키 동일성 테스트)', en: 'Three languages, translation parity covered by automated tests' } },
             { label: { ko: '스택', en: 'Stack' }, value: 'FastAPI · SQLite/PostgreSQL · GPT-4.1 Vision · Railway' },
           ],
@@ -386,12 +387,12 @@ export const PORTFOLIO_CONTENT = {
             en: 'Designed and operated solo from the pilot stage. The user base is English and Spanish speaking, so the staff operations manual ships in both languages.',
           },
           approach: {
-            ko: '경기 결과 스크린샷을 GPT-4.1 Vision이 읽어 3단계 IGN 매칭(정확 일치 → 유사도 → 수동 리뷰)으로 Airtable 5개 테이블에 쌓습니다. 매치메이킹과 기본 MMR(승패 ±25)은 NeatQueue가 담당하고, 자체 Discord 봇은 impact 기반 MMR 조정(±10), 휴면 부식과 800점 자격 게이트, 큐 세션 자동화(T-2시간 리마인더부터 잠금까지), RSVP DM을 운영합니다. 슬래시 명령 21개(스태프용 16), 주간 리더보드와 시즌 리포트가 자동 생성됩니다. 참여율 문제는 데이터로 진단해 개선하고 있습니다. 등록부터 첫 경기까지 73%가 누수되는 구멍을 짚은 진단 문서도 직접 썼습니다.',
-            en: 'Result screenshots go through GPT-4.1 Vision, a three-stage IGN match (exact, fuzzy, manual review), and into five Airtable tables. NeatQueue owns matchmaking and base MMR (±25 per result); my Discord bot layers impact-based MMR modifiers (±10), inactivity decay with an 800-rating eligibility gate, queue-session automation (T-2h reminders through lock), and RSVP DMs. Twenty-one slash commands (sixteen for staff), weekly leaderboards and season reports generate themselves. When engagement dipped, I diagnosed it with data, including a written analysis of the 73% leak between registration and first game.',
+            ko: '경기 결과 스크린샷을 GPT-4.1 Vision이 읽어 3단계 IGN 매칭(정확 일치 → 유사도 → 수동 리뷰)으로 Airtable 5개 테이블에 쌓습니다. 매치메이킹과 기본 MMR(승패 ±25)은 NeatQueue가 담당하고, 자체 Discord 봇은 impact 기반 MMR 조정(±10), 휴면 부식과 800점 자격 게이트, 큐 세션 자동화(T-2시간 리마인더부터 잠금까지), RSVP DM을 운영합니다. 슬래시 명령 21개(스태프용 16), 주간 리더보드와 시즌 리포트가 자동 생성됩니다. 참여율 문제는 데이터로 진단했습니다. 등록 133명 중 첫 경기 기록이 36명(27%)인 온보딩 누수를 짚어 큐 리마인더·공유 RSVP 로스터와 등록 안내 패널·온보딩 DM을 배포했고, 전환율 회복 추적 지표를 진단 문서로 체계화했습니다.',
+            en: 'Result screenshots go through GPT-4.1 Vision, a three-stage IGN match (exact, fuzzy, manual review), and into five Airtable tables. NeatQueue owns matchmaking and base MMR (±25 per result); my Discord bot layers impact-based MMR modifiers (±10), inactivity decay with an 800-rating eligibility gate, queue-session automation (T-2h reminders through lock), and RSVP DMs. Twenty-one slash commands (sixteen for staff), weekly leaderboards and season reports generate themselves. When engagement dipped, I diagnosed it with data: only 36 of 133 registered players (27%) ever recorded a match. I shipped queue reminders, a shared RSVP roster, a registration help panel, and onboarding DMs, and wrote a diagnosis plan defining the funnel metrics to track recovery.',
           },
           specs: [
             { label: { ko: '리전', en: 'Regions' }, value: { ko: '4개 (NA/LATAM · EU · APAC · MENA)', en: '4 (NA/LATAM · EU · APAC · MENA)' } },
-            { label: { ko: '등록 선수', en: 'Registered players' }, value: { ko: '133명 (파일럿)', en: '133 (pilot)' } },
+            { label: { ko: '온보딩 퍼널', en: 'Onboarding funnel' }, value: { ko: '등록 133명 → 첫 경기 36명(27%) · RSVP·온보딩 개선 배포', en: '133 registered → 36 first match (27%) · RSVP & onboarding improvements shipped' } },
             { label: { ko: '데이터 관리 (NA 시즌)', en: 'Data managed (NA season)' }, value: { ko: '선수 101명 · 매치 864경기', en: '101 players · 864 matches' } },
             { label: { ko: '스택', en: 'Stack' }, value: 'discord.py · GPT-4.1 Vision · Airtable · NeatQueue' },
           ],
@@ -467,6 +468,7 @@ export const PORTFOLIO_CONTENT = {
         metrics: [
           { value: '3', label: { ko: '학기 활동 · 2026-2 총괄 예정', en: 'Semesters active · directing Fall 2026' } },
           { value: '300~400', label: { ko: 'OT 1회당 맞이하는 교환학생', en: 'Exchange students per OT' } },
+          { value: { ko: '200건', en: '200' }, label: { ko: '26-2 스포츠데이 신청 (최종 150명 선정)', en: 'Fall 2026 applications (150 selected)' } },
           { value: '1:3', label: { ko: '버디 매칭 (부원:교환학생)', en: 'Buddy ratio (member:student)' } },
         ],
         links: {},
@@ -481,8 +483,8 @@ export const PORTFOLIO_CONTENT = {
             en: 'HiClub is a selective student organization of 20-30 members per cohort under the Office of International Affairs, meeting weekly and alternating between the two campuses. At spring and fall orientations we welcome every incoming exchange student, 300-400 at a time.',
           },
           approach: {
-            ko: 'OT 집합 맞이와 캠퍼스 투어, 부원 1명당 교환학생 3명의 버디 매칭, 그룹톡 관리와 민원 응대까지가 일상입니다. 26-1 스포츠데이에서는 게임 구성과 규칙을 포함한 모든 콘텐츠를 기획했고, 입장·팔찌 안내와 자보를 KO/EN으로 번역했으며 교환학생 스프링파티 Blooming Night 콘텐츠도 만들었습니다. 그 과정이 인정받아 26-2에는 스포츠데이 총괄을 맡았고(스포츠데이 허브 프로젝트로 확장), 필드트립 조장은 2025·2026 두 차례, 2025 홈커밍에는 스태프로 참가했습니다. 기획은 한국어로, 행사 진행은 전적으로 영어로 합니다.',
-            en: 'Day to day: orientation welcomes and campus tours, buddy matching at one member per three students, group-chat management and student support. For the 26-1 Sports Day I planned every piece of content including game formats and rules, translated the entry and wristband guides and posters between Korean and English, and built content for the exchange-student spring party Blooming Night. That track led to overall director for 26-2 (which grew into the Sports Day Hub project), plus field-trip team leader in 2025 and 2026 and staff at Homecoming 2025. Planning happens in Korean; the events run entirely in English.',
+            ko: 'OT 집합 맞이와 캠퍼스 투어, 부원 1명당 교환학생 3명의 버디 매칭, 그룹톡 관리와 민원 응대까지가 일상입니다. 26-1 스포츠데이(5팀 · 6종목 · 참가 99명)에서는 게임 구성과 규칙을 포함한 모든 콘텐츠를 기획했고, 입장·팔찌 안내와 자보를 KO/EN으로 번역했으며 교환학생 스프링파티 Blooming Night 콘텐츠도 만들었습니다. 그 과정이 인정받아 26-2(6팀 · 12종목, 신청 약 200건에서 최종 150명 규모로 확대)에는 스포츠데이 총괄을 맡았고(스포츠데이 허브 프로젝트로 확장), 필드트립 조장은 2025·2026 두 차례, 2025 홈커밍에는 스태프로 참가했습니다. 기획은 한국어로, 행사 진행은 전적으로 영어로 합니다.',
+            en: 'Day to day: orientation welcomes and campus tours, buddy matching at one member per three students, group-chat management and student support. For the 26-1 Sports Day (5 teams, 6 game formats, 99 participants) I planned every piece of content including game formats and rules, translated the entry and wristband guides and posters between Korean and English, and built content for the exchange-student spring party Blooming Night. That track led to overall director for 26-2 (6 teams, 12 formats, scaled to 150 selected students from about 200 applications; it also grew into the Sports Day Hub project), plus field-trip team leader in 2025 and 2026 and staff at Homecoming 2025. Planning happens in Korean; the events run entirely in English.',
           },
           specs: [
             { label: { ko: '활동', en: 'Tenure' }, value: { ko: '2025봄~ · 매주 미팅 (격주 명륜/율전)', en: 'Spring 2025~ · weekly meetings, two campuses' } },
