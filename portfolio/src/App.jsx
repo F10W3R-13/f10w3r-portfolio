@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import content from '../data/content.js'
 import PageShell from './PageShell.jsx'
 import Hero from './sections/Hero.jsx'
@@ -29,12 +28,7 @@ export default function App() {
   const def = pageKey && content.pages[pageKey] ? content.pages[pageKey] : content.page
   const isSub = def !== content.page
 
-  useEffect(() => {
-    const lang = localStorage.getItem('lang') || content.meta.defaultLang
-    document.title = isSub
-      ? `${def.label[lang] ?? def.label.ko} · 유민우 F10W3R`
-      : '유민우 F10W3R · 포트폴리오'
-  }, [isSub, def])
+  // 문서 title·메타 갱신은 PageShell이 언어 전환까지 함께 담당한다(2026-08-31 이전 이곳의 하드코딩 제거)
 
   return (
     <PageShell>

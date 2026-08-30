@@ -12,43 +12,65 @@ export const PORTFOLIO_CONTENT = {
 
   meta: {
     version: 2,
-    updated: '2026-08-24',
+    updated: '2026-08-31',
     defaultLang: 'ko',
     langs: ['ko', 'en'],
     sourceOfTruth: 'minwo0___/60 개인 기록/profile.md',
   },
 
+  // 사이트 메타(브라우저 제목·검색 설명·OG) — EN 전환 시 함께 언어 전환된다(PageShell).
+  // index.html의 하드코딩은 JS 실행 전 기본값(ko)으로만 쓰인다.
+  siteMeta: {
+    title: { ko: '유민우 F10W3R · 포트폴리오', en: 'Yoo Min-woo F10W3R · Portfolio' },
+    description: {
+      ko: '유민우 F10W3R · CODM 프로 코치, 이스포츠 운영·기획 포트폴리오',
+      en: 'Yoo Min-woo F10W3R · CODM pro coach — esports operations & planning portfolio',
+    },
+    ogTitle: { ko: '유민우 F10W3R · 포트폴리오', en: 'Yoo Min-woo F10W3R · Portfolio' },
+    ogDescription: {
+      ko: 'CODM 프로 코치에서 이스포츠 운영·기획으로. 코칭 허브, 커뮤니티 대회, Champion\'s Queue, RAG 챗봇',
+      en: 'From CODM pro coach to esports operations. Coaching Hub, community tournaments, Champion\'s Queue, RAG chatbot',
+    },
+  },
+
   // 페이지 조립 — sections 배열 순서 = 렌더 순서 (순서 교체도 이 파일 편집으로)
   // flat: 리본 배경을 불투명 잉크로 덮는 섹션(가독성 밴드). 나머지는 리본이 그대로 보인다.
-  // 메인 페이지 — 카드(풀페이지) → 광범위 소개 → 스킬 → 연락.
-  // 커리어·성적·프로젝트는 이스포츠 서브페이지(?page=esports)로 이동(2026-08-24 사용자 확정).
+  // 메인 페이지 — 카드(풀페이지) → 스킬 → 학적 → 연락. (2026-08-31 안 B 개편: 학적은 캠퍼스 폐지로 메인으로)
   page: {
-    sections: ['hero', 'categories', 'skills', 'contact'],
-    flat: ['categories', 'contact'],
+    sections: ['hero', 'categories', 'skills', 'education', 'contact'],
+    flat: ['categories', 'contact', 'education'],
   },
 
   // 서브페이지 — 랜딩 카드가 진입점. sections는 레지스트리 재사용, flat은 페이지별 밴드.
+  // 2026-08-31 안 B 개편(사용자 확정): e스포츠 / 그로스·마케팅 / 글로벌 비즈니스 / 프로덕트·데이터 4분류.
   pages: {
     esports: {
       label: { ko: '이스포츠', en: 'Esports' },
-      desc: { ko: '선수에서 코치로, 무대와 리그를 움직인 6년', en: 'Six years moving stages and leagues, from player to coach' },
+      desc: { ko: '선수에서 코치로, 무대와 리그를 움직인 6년', en: 'Six years across professional competition, coaching, and league operations' },
       sections: ['career', 'achievements', 'projects'],
       flat: ['career', 'achievements'],
       projectFilter: 'esports',
     },
-    campus: {
-      label: { ko: '캠퍼스', en: 'Campus' },
-      desc: { ko: '학교 일정과 학사제도를 도구로 푼 기록', en: 'University schedules and regulations, solved with tools' },
-      sections: ['projects', 'education'],
-      flat: ['education'],
-      projectFilter: 'campus',
+    growth: {
+      label: { ko: '그로스·마케팅', en: 'Growth & Marketing' },
+      desc: { ko: '광고비 없이 키운 커뮤니티 대회와 콘텐츠 성과', en: 'Community tournaments and content, grown without ad spend' },
+      sections: ['projects'],
+      flat: [],
+      projectFilter: 'growth',
     },
-    dev: {
-      label: { ko: '개발', en: 'Development' },
+    business: {
+      label: { ko: '글로벌 비즈니스', en: 'Global Business' },
+      desc: { ko: '4개 지역 리그와 교환학생 프로그램을 묶은 국제 운영', en: 'Four-region league operations and exchange-student programs' },
+      sections: ['projects'],
+      flat: [],
+      projectFilter: 'business',
+    },
+    product: {
+      label: { ko: '프로덕트·데이터', en: 'Product & Data' },
       desc: { ko: '반복되는 문제를 시스템으로 만드는 습관', en: 'Turning recurring problems into systems' },
       sections: ['projects'],
       flat: [],
-      projectFilter: 'dev',
+      projectFilter: 'product',
     },
   },
 
@@ -77,7 +99,7 @@ export const PORTFOLIO_CONTENT = {
     ign: 'F10W3R',
     role: { ko: 'CODM 프로 코치 · 이스포츠 운영/기획 지원', en: 'CODM Pro Coach · Esports Operations & Planning' },
     base: { ko: '수도권, 대한민국', en: 'Seoul Capital Area, South Korea' },
-    availability: { ko: '수도권 + 해외 이동 가능', en: 'Open to relocation abroad' },
+    availability: { ko: '수도권 · 국내외 출장 가능', en: 'Available for domestic and international travel' },
     contact: {
       // email은 신규 생성 전까지 null — 렌더러는 null이면 표시 생략
       email: null,
@@ -100,30 +122,35 @@ export const PORTFOLIO_CONTENT = {
     },
     intro: {
       ko: 'T1 선수 출신, 6년간 13개 팀. 무대 위 코칭부터 리그 운영, 데이터 파이프라인 구축까지 직접 해왔습니다.',
-      en: 'Ex-T1 player, thirteen teams over six years. From on-stage coaching to league operations and data pipelines, I build it myself.',
+      en: 'Ex-T1 player, thirteen teams over six years. From on-stage coaching to league operations and data pipelines, I design, build, and operate the systems behind them.',
     },
     stats: [
-      { value: '101', label: { ko: '관리 선수 (NA 시즌)', en: 'Players managed (NA season)' } },
+      { value: '101', label: { ko: 'NA 시즌 데이터 운영 선수', en: 'NA-season data-ops players' } },
       { value: '864', label: { ko: '기록한 매치', en: 'Matches recorded' } },
       { value: '13', label: { ko: '거친 팀 (선수 3 · 코치 10)', en: 'Teams (3 as player, 10 as coach)' } },
-      { value: '1', label: { ko: '국제 대회 우승 (SPS S5 NA)', en: 'International title (SPS S5 NA)' } },
+      { value: '1', label: { ko: 'Snapdragon Pro Series S5 NA 우승', en: 'Snapdragon Pro Series S5 NA title' } },
     ],
   },
 
-  // 랜딩 카드 3분류 — 카드=서브페이지 진입 버튼(?page=), hover하면 소속 프로젝트 목록 공개
+  // 랜딩 카드 4분류 — 카드=서브페이지 진입 버튼(?page=), hover하면 소속 프로젝트 목록 공개
+  // 2026-08-31 안 B 개편(사용자 확정 매핑): 커뮤니티 대회는 e스포츠·그로스 양쪽에 노출.
   categories: [
     { id: 'esports', label: { ko: '이스포츠', en: 'Esports' }, href: '/?page=esports',
       image: '/assets/photos/card-esports.jpg',
-      desc: { ko: '선수에서 코치로, 무대와 리그를 움직인 6년', en: 'Six years moving stages and leagues, from player to coach' },
-      projects: ['coaching-hub', 'community-series', 'champions-queue'] },
-    { id: 'campus', label: { ko: '캠퍼스', en: 'Campus' }, href: '/?page=campus',
-      image: '/assets/photos/card-campus.jpg',
-      desc: { ko: '학교 일정과 학사제도를 도구로 푼 기록', en: 'University schedules and regulations, solved with tools' },
-      projects: ['hiclub', 'sportsday-hub', 'skku-whatsapp-bot'] },
-    { id: 'dev', label: { ko: '개발', en: 'Development' }, href: '/?page=dev',
+      desc: { ko: '선수에서 코치로, 무대와 리그를 움직인 6년', en: 'Six years across professional competition, coaching, and league operations' },
+      projects: ['community-series'] },
+    { id: 'growth', label: { ko: '그로스·마케팅', en: 'Growth & Marketing' }, href: '/?page=growth',
+      image: '/assets/photos/photo-2.jpg',
+      desc: { ko: '광고비 없이 키운 커뮤니티 대회와 콘텐츠 성과', en: 'Community tournaments and content, grown without ad spend' },
+      projects: ['community-series'] },
+    { id: 'business', label: { ko: '글로벌 비즈니스', en: 'Global Business' }, href: '/?page=business',
+      image: '/assets/projects/champions-queue/cq-intro.png',
+      desc: { ko: '4개 지역 리그와 교환학생 프로그램을 묶은 국제 운영', en: 'Four-region league operations and exchange-student programs' },
+      projects: ['champions-queue', 'hiclub'] },
+    { id: 'product', label: { ko: '프로덕트·데이터', en: 'Product & Data' }, href: '/?page=product',
       image: '/assets/projects/coaching-hub/home.png',
       desc: { ko: '반복되는 문제를 시스템으로 만드는 습관', en: 'Turning recurring problems into systems' },
-      projects: ['coaching-hub', 'champions-queue'] },
+      projects: ['coaching-hub', 'sportsday-hub', 'skku-whatsapp-bot'] },
   ],
 
   career: {
@@ -172,7 +199,7 @@ export const PORTFOLIO_CONTENT = {
       { date: '2021.08.26', event: 'Mobile Mayhem 2021 Summer: Europe', tier: 'B', won: false, result: { ko: '3위', en: '3rd' }, role: { ko: '코치', en: 'Coach' } },
       { date: '2021.07.18', event: 'CODM Masters 2021: Europe', tier: 'A', won: false, result: { ko: '3위', en: '3rd' }, role: { ko: '선수', en: 'Player' } },
       { date: '2021.05.25', event: 'Mobile Mayhem 2021 Spring: Europe', tier: 'B', won: false, result: { ko: '3위', en: '3rd' }, role: { ko: '코치', en: 'Coach' } },
-      { date: '2020.12.01', event: 'CODM World Championship 2020: Global Finals', tier: 'S', won: false, result: { ko: '1-7위', en: '1st-7th' }, role: { ko: '선수', en: 'Player' } },
+      { date: '2020.12.01', event: 'CODM World Championship 2020: Global Finals', tier: 'S', won: false, result: { ko: '진출 · 본선 취소', en: 'Qualified · finals cancelled' }, role: { ko: '선수', en: 'Player' } },
       { date: '2020.08.09', event: 'CODM World Championship 2020: Korea', tier: 'A', won: true, result: { ko: '우승', en: 'Champion' }, role: { ko: '선수', en: 'Player' } },
     ],
   },
@@ -186,19 +213,20 @@ export const PORTFOLIO_CONTENT = {
         highlight: true,
         role: { ko: '설계 / 개발 / 운영', en: 'Design, Build & Operations' },
         summary: {
-          ko: '스크림 결과 스크린샷을 GPT-4.1이 읽어 SQLite에 적재하고, FastAPI로 한국어/영어/스페인어 3개 언어 대시보드를 제공하는 코칭 허브. Railway에 배포해 매일 운영 중입니다.',
-          en: 'A coaching hub where GPT-4.1 reads scrim screenshots into SQLite and FastAPI serves a trilingual (KO/EN/ES) dashboard. Deployed on Railway and in daily use.',
+          ko: '스크림 결과 스크린샷을 GPT-4.1이 읽어 DB에 적재하고, FastAPI로 한국어/영어/스페인어 3개 언어 대시보드를 제공하는 코칭 허브. Railway에 배포해 매일 운영 중입니다.',
+          en: 'A coaching hub where GPT-4.1 reads scrim screenshots into a database and FastAPI serves a trilingual (KO/EN/ES) dashboard. Deployed on Railway and in daily use.',
         },
         stack: [
           { ko: 'Python', en: 'Python' },
           { ko: 'GPT-4.1 Vision', en: 'GPT-4.1 Vision' },
           { ko: 'FastAPI', en: 'FastAPI' },
           { ko: 'SQLite', en: 'SQLite' },
+          { ko: 'PostgreSQL', en: 'PostgreSQL' },
           { ko: 'Railway', en: 'Railway' },
         ],
         metrics: [
           { value: '389', label: { ko: '기록된 경기 · 2026.08 기준', en: 'Matches logged · as of 2026.08' } },
-          { value: '3', label: { ko: '대시보드 언어', en: 'Dashboard languages' } },
+          { value: { ko: '3개', en: '3' }, label: { ko: '언어 지원 (한국어·영어·스페인어)', en: 'Languages (KO · EN · ES)' } },
         ],
         links: {
           demo: 'https://web-production-4deec.up.railway.app',
@@ -210,21 +238,21 @@ export const PORTFOLIO_CONTENT = {
             en: 'I built it to automate the screenshot logging I was doing by hand after every match, and to turn numbers into a coaching tool. The AI never replaces the coach: map analytics report numeric tendencies only, and that policy is written into the project docs.',
           },
           background: {
-            ko: '해외 팀을 코칭하며 스크림 결과를 매번 텍스트로 정리하는 시간이 아까웠습니다. 선수가 Discord에 올린 스크린샷을 GPT-4.1이 읽어 그대로 DB에 쌓이게 하면, 정리 시간은 사라지고 데이터는 쌓이기 시작했습니다.',
-            en: 'Coaching overseas teams, I kept losing hours hand-logging scrim results. If GPT-4.1 could read the screenshots players already post in Discord straight into a database, the logging time disappears and the data compounds.',
+            ko: '해외 팀을 코칭하며 스크림 결과를 매번 텍스트로 정리하는 시간이 아까웠습니다. 선수가 Discord에 올린 스크린샷을 GPT-4.1이 읽어 그대로 DB에 쌓이게 하여, 정리 시간을 단축시키고 데이터가 쌓이도록 하였습니다.',
+            en: 'Coaching overseas teams, I kept losing hours hand-logging scrim results. GPT-4.1 reads the screenshots players already post in Discord straight into a database, cutting logging time and letting the data compound.',
           },
           approach: {
-            ko: '워크플로: 스크린샷 2장 업로드 → GPT-4.1 Vision(temperature 0, JSON 강제) → 모드(HP/SND) 자동 판별 → SQLite/Railway Postgres → FastAPI 대시보드. 재업로드된 경기는 기존 매치에 자동 병합되고, OCR이 잘못 읽은 닉네임은 별명으로 학습됩니다. 코칭 지표 ZCS·RDS는 자체 공식으로 계산하고, AI 인사이트 7종(매치·주간·트렌드·선수·맵·브리핑)에는 Obsidian 코칭 지식베이스가 프롬프트로 주입됩니다. 슬래시 명령 8종, 3개 언어(테스트로 키 동일성 강제), 어드민 도구, 대회용 토너먼트 앱(MVP 포스터 생성)까지 포함됩니다.',
-            en: 'Flow: upload two screenshots, GPT-4.1 Vision (temperature 0, forced JSON) auto-detects the mode (HP/SND), writes to SQLite or Railway Postgres, and a FastAPI dashboard serves it. Re-uploaded games merge into the original match; misread nicknames are learned as aliases. Custom ZCS/RDS metrics use my own formulas, and seven AI insight functions inject an Obsidian coaching knowledge base into the prompts. Eight slash commands, three languages (enforced equal by tests), admin tooling, and a separate tournament app that generates MVP posters.',
+            ko: '워크플로: 스크린샷 2장 업로드 → GPT-4.1 Vision(temperature 0, JSON 강제) → 모드(HP/SND) 자동 판별 → SQLite(로컬 개발) / Railway PostgreSQL(운영) → FastAPI 대시보드. 재업로드된 경기는 기존 매치에 자동 병합되고, OCR이 잘못 읽은 닉네임은 별명으로 학습됩니다. 코칭 지표 ZCS·RDS는 자체 공식으로 계산하고, AI 인사이트 7종(매치·주간·트렌드·선수·맵·브리핑)에는 Obsidian 코칭 지식베이스가 프롬프트로 주입됩니다. 슬래시 명령 8종, 3개 언어(테스트로 키 동일성 강제), 어드민 도구, 대회용 토너먼트 앱(MVP 포스터 생성)까지 포함됩니다.',
+            en: 'Flow: upload two screenshots, GPT-4.1 Vision (temperature 0, schema-constrained JSON output) auto-detects the mode (HP/SND), writes to SQLite in local development and Railway PostgreSQL in production, and a FastAPI dashboard serves it. Re-uploaded games merge into the original match; misread nicknames are learned as aliases. Custom ZCS/RDS metrics use my own formulas, and seven AI insight functions inject an Obsidian coaching knowledge base into the prompts. Eight slash commands, three languages (enforced equal by tests), admin tooling, and a separate tournament app that generates MVP posters.',
           },
           specs: [
             { label: { ko: '기록된 경기', en: 'Matches logged' }, value: { ko: '389경기 · 2026.08 기준', en: '389 · as of 2026.08' } },
             { label: { ko: '자체 코칭 지표', en: 'Custom metrics' }, value: { ko: 'ZCS · RDS 직접 설계', en: 'ZCS · RDS, designed in-house' } },
-            { label: { ko: '언어', en: 'Languages' }, value: { ko: '3개 (테스트 강제)', en: '3 (test-enforced)' } },
-            { label: { ko: '스택', en: 'Stack' }, value: 'FastAPI · SQLite · GPT-4.1 Vision · Railway' },
+            { label: { ko: '언어', en: 'Languages' }, value: { ko: '한국어·영어·스페인어 (키 동일성 테스트)', en: 'Three languages, translation parity covered by automated tests' } },
+            { label: { ko: '스택', en: 'Stack' }, value: 'FastAPI · SQLite/PostgreSQL · GPT-4.1 Vision · Railway' },
           ],
           gallery: [
-            { file: 'home.png', caption: { ko: '메인 대시보드: 매치 추이 차트와 풀 상승·정교 지표', en: 'Main dashboard: match trend charts and pool rise and precision metrics' } },
+            { file: 'home.png', caption: { ko: '메인 대시보드: 매치 추이 차트와 폼 상승·폼 경고 지표', en: 'Main dashboard: match trend charts and form-rise and form-warning metrics' } },
             { file: 'leaderboard.png', caption: { ko: '선수별 K/D 리더보드', en: 'Player K/D leaderboard' } },
             { file: 'player.png', caption: { ko: '선수 상세: 모드별 기록표', en: 'Player detail: per-mode stat tables' } },
           ],
@@ -247,8 +275,8 @@ export const PORTFOLIO_CONTENT = {
         metrics: [
           { value: '8', label: { ko: '에디션 (2023.07~)', en: 'Editions (since 2023.07)' } },
           { value: '77.8h', label: { ko: '누적 중계 방송', en: 'Total broadcast hours' } },
-          { value: '28,505', label: { ko: 'VOD 누적 조회 (공식 통계)', en: 'VOD views (official export)' } },
-          { value: { ko: '8팀', en: '8 teams' }, label: { ko: '대회당 참가 (약 40명)', en: 'Teams per event (~40 players)' } },
+          { value: '28,505', label: { ko: 'VOD 누적 조회 (공식 통계 · 2026.08 기준)', en: 'VOD views (official export, as of 2026.08)' } },
+          { value: { ko: '8팀', en: '8' }, label: { ko: '대회당 참가 (약 40명)', en: 'Teams per event (~40 players)' } },
         ],
         links: {
           youtube: 'https://www.youtube.com/channel/UC9h1aAAsOprTATC0_y2pt3A',
@@ -271,7 +299,7 @@ export const PORTFOLIO_CONTENT = {
             { label: { ko: '에디션', en: 'Editions' }, value: { ko: '8회 · 3년 연속 (2023.07~2026.08)', en: '8 over 3 straight years (2023.07-2026.08)' } },
             { label: { ko: '중계', en: 'Broadcast' }, value: { ko: '77.8시간 · VOD 22편 · 최다 1,793회(2025 드래프트 1일차)', en: '77.8h · 22 VODs · top 1,793 (2025 draft day 1)' } },
             { label: { ko: '시청', en: 'Watch' }, value: { ko: '조회 28,505 · 시청 4,973시간 · 평균 10분 28초', en: '28,505 views · 4,973h watched · 10m28s average' } },
-            { label: { ko: '영향', en: 'Impact' }, value: { ko: '구독자 전환 124명 · 커뮤니티 500~1,000명', en: '124 subscriber conversions · community of 500-1,000' } },
+            { label: { ko: '영향', en: 'Impact' }, value: { ko: '구독자 전환 124명 · 커뮤니티 500~1,000명', en: '124 subscribers gained through the series · community of 500-1,000' } },
           ],
           videos: [
             { id: 'Eyb7AA09Pn8', caption: { ko: 'FS Tour 홍보 영상 (겨울 팀전 협업)', en: 'FS Tour promo video (winter team event)' } },
@@ -295,8 +323,10 @@ export const PORTFOLIO_CONTENT = {
           { ko: 'PyAutoGUI', en: 'PyAutoGUI' },
         ],
         metrics: [],
+        // 읽기 전용 데모 인스턴스(2026-08-31 배포): 가상 데이터 + 쓰기 차단 RLS.
+        // 운영 인스턴스(sportsday-hub.vercel.app)는 보안상 노출 금지 — DEMO-DEPLOY-GUIDE.md 참조.
         links: {
-          demo: 'https://sportsday-hub.vercel.app',
+          demo: 'https://sportsday-hub-demo.vercel.app',
         },
         detail: {
           pitch: { ko: '행사 기획팀을 위한 프로젝트 관리 + 알림 자동화 허브', en: 'A project-management and notification hub for an event-planning team' },
@@ -330,8 +360,8 @@ export const PORTFOLIO_CONTENT = {
         highlight: true,
         role: { ko: '창설·운영 설계', en: 'Founder & Operations Design' },
         summary: {
-          ko: '서부 CODM 경쟁 생태계를 위한 초청제 랭크 리그. 4리전(NA/LATAM, EU, APAC, MENA) 체계를 설계하고, GPT-4.1 OCR→Airtable 파이프라인으로 MMR 집계, 주간 리포트, RSVP를 자동화했습니다.',
-          en: 'An invitational rank league for the western CODM ecosystem. Designed the 4-region (NA/LATAM, EU, APAC, MENA) structure and automated MMR aggregation, weekly reports and RSVP through a GPT-4.1 OCR → Airtable pipeline.',
+          ko: '4개 리전 CODM 경쟁 생태계를 위한 초청제 랭크 리그. 4리전(NA/LATAM, EU, APAC, MENA) 체계를 설계하고, GPT-4.1 OCR→Airtable 파이프라인으로 MMR 집계, 주간 리포트, RSVP를 자동화했습니다.',
+          en: 'An invitation-only ranked league for the four-region CODM ecosystem. Designed the 4-region (NA/LATAM, EU, APAC, MENA) structure and automated MMR aggregation, weekly reports and RSVP through a GPT-4.1 OCR → Airtable pipeline.',
         },
         stack: [
           { ko: 'GPT-4.1 Vision', en: 'GPT-4.1 Vision' },
@@ -341,7 +371,7 @@ export const PORTFOLIO_CONTENT = {
         ],
         metrics: [
           { value: '4', label: { ko: '리전', en: 'Regions' } },
-          { value: '101', label: { ko: '관리 선수 (NA 시즌)', en: 'Players managed (NA season)' } },
+          { value: '101', label: { ko: 'NA 시즌 데이터 운영 선수', en: 'NA-season data-ops players' } },
           { value: '864', label: { ko: '매치 기록', en: 'Matches recorded' } },
         ],
         links: {},
@@ -390,7 +420,7 @@ export const PORTFOLIO_CONTENT = {
         ],
         metrics: [
           { value: '91%', label: { ko: '골드셋 정답률 (138문항)', en: 'Gold-set accuracy (138 questions)' } },
-          { value: '0', label: { ko: '환각 답변', en: 'Hallucinated answers' } },
+          { value: '0', label: { ko: '비근거 답변 (138문항 골드셋)', en: 'Unsupported answers (138-Q gold set)' } },
           { value: '45', label: { ko: '규정 문서 코퍼스', en: 'Regulation documents' } },
         ],
         links: {},
@@ -432,11 +462,11 @@ export const PORTFOLIO_CONTENT = {
         stack: [
           { ko: '행사 기획', en: 'Event planning' },
           { ko: 'KO/EN 운영', en: 'KO/EN operations' },
-          { ko: '팀 리딩', en: 'Team leading' },
+          { ko: '팀 리딩', en: 'Team leadership' },
         ],
         metrics: [
-          { value: '4', label: { ko: '학기 연속 활동 (2025봄~)', en: 'Semesters active (Spring 2025~)' } },
-          { value: '300~400', label: { ko: 'OT마다 맞이하는 교환학생', en: 'Exchange students per OT' } },
+          { value: '3', label: { ko: '학기 활동 · 2026-2 총괄 예정', en: 'Semesters active · directing Fall 2026' } },
+          { value: '300~400', label: { ko: 'OT 1회당 맞이하는 교환학생', en: 'Exchange students per OT' } },
           { value: '1:3', label: { ko: '버디 매칭 (부원:교환학생)', en: 'Buddy ratio (member:student)' } },
         ],
         links: {},
@@ -472,22 +502,23 @@ export const PORTFOLIO_CONTENT = {
   },
 
   skills: {
+    // link(2026-08-31): 스킬 → 해당 스킬을 쓴 카테고리 페이지. 단순 나열 대신 사용 사례로 연결.
     ops: [
-      { ko: '리그·대회 운영 설계', en: 'League & tournament operations design' },
-      { ko: '팀 코칭·매니지먼트', en: 'Team coaching & management' },
-      { ko: 'Discord 커뮤니티 운영', en: 'Discord community operations' },
-      { ko: '데이터 기반 의사결정', en: 'Data-driven decision making' },
-      { ko: 'KO·EN 이중언어 실무', en: 'KO/EN bilingual operations' },
+      { ko: '리그·대회 운영 설계', en: 'League & tournament operations design', link: '/?page=esports' },
+      { ko: '팀 코칭·매니지먼트', en: 'Team coaching & management', link: '/?page=esports' },
+      { ko: 'Discord 커뮤니티 운영', en: 'Discord community operations', link: '/?page=growth' },
+      { ko: '데이터 기반 의사결정', en: 'Data-driven decision making', link: '/?page=product' },
+      { ko: 'KO·EN 이중언어 실무', en: 'KO/EN bilingual operations', link: '/?page=business' },
     ],
     tech: [
-      { ko: 'Python', en: 'Python' },
-      { ko: 'Discord Bot API', en: 'Discord Bot API' },
-      { ko: 'FastAPI', en: 'FastAPI' },
-      { ko: 'GPT-4.1 Vision OCR', en: 'GPT-4.1 Vision OCR' },
-      { ko: 'Make.com / Airtable', en: 'Make.com / Airtable' },
-      { ko: 'Google Apps Script', en: 'Google Apps Script' },
-      { ko: 'SQLite / Postgres', en: 'SQLite / Postgres' },
-      { ko: '데이터 분석', en: 'Data analysis' },
+      { ko: 'Python', en: 'Python', link: '/?page=product' },
+      { ko: 'Discord Bot API', en: 'Discord Bot API', link: '/?page=business' },
+      { ko: 'FastAPI', en: 'FastAPI', link: '/?page=product' },
+      { ko: 'GPT-4.1 Vision OCR', en: 'GPT-4.1 Vision OCR', link: '/?page=product' },
+      { ko: 'Make.com / Airtable', en: 'Make.com / Airtable', link: '/?page=business' },
+      { ko: 'Google Apps Script', en: 'Google Apps Script', link: '/?page=product' },
+      { ko: 'SQLite / Postgres', en: 'SQLite / Postgres', link: '/?page=product' },
+      { ko: '데이터 분석', en: 'Data analysis', link: '/?page=product' },
     ],
   },
 

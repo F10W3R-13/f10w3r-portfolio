@@ -156,7 +156,7 @@ test('페이지: 메인/서브 sections 유효(화이트리스트·중복 없음
 // ── 10b. 랜딩 카드: 3개, 서브페이지 라우트·이미지·프로젝트 id 유효 ──
 test('카테고리: 3개, /?page= 라우트·이미지 경로·프로젝트 id 유효', () => {
   const cats = content.categories;
-  assert.equal(cats.length, 3, '카테고리 3개');
+  assert.equal(cats.length, 4, '카테고리 4개 (2026-08-31 안 B 개편)');
   const projectIds = content.projects.list.map((p) => p.id);
   for (const c of cats) {
     assert.ok(c.label?.ko && c.label?.en, `${c.id}: label {ko,en}`);

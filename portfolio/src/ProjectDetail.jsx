@@ -93,6 +93,12 @@ export function ProjectList() {
 export default function ProjectDetail({ id }) {
   const t = useT()
   const p = content.projects.list.find((x) => x.id === id)
+  // 이 프로젝트가 소속된 첫 카테고리 페이지로 복귀(2026-08-31 버그 수정:
+  // 이전에는 모든 프로젝트가 e스포츠 페이지로 하드코딩됨). 실제 클릭은 history.back() 우선.
+  const backHref = (() => {
+    const cat = content.categories.find((c) => c.projects.includes(id))
+    return cat ? `/?page=${cat.id}#projects` : '/#categories'
+  })()
   useEffect(() => {
     if (p) document.title = `${t(p.title)} · ${t(content.profile.name)} ${content.profile.ign}`
   }, [p])
@@ -101,7 +107,7 @@ export default function ProjectDetail({ id }) {
   return (
     <main className="mx-auto max-w-7xl px-6 py-16 md:py-20">
       <a
-        href="/?page=esports#projects"
+        href={backHref}
         onClick={(e) => {
           if (window.history.length > 1) {
             e.preventDefault()
@@ -167,7 +173,7 @@ export default function ProjectDetail({ id }) {
       <Gallery p={p} t={t} />
       <div className="mt-20 pb-10">
         <a
-        href="/?page=esports#projects"
+        href={backHref}
         onClick={(e) => {
           if (window.history.length > 1) {
             e.preventDefault()

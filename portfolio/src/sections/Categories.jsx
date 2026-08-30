@@ -9,9 +9,11 @@ import { useT } from '../lang.jsx'
 export default function Categories() {
   const t = useT()
 
+  // 2026-08-31: 풀페이지(100dvh) 제거 — 세로 여백 과다 지적(문서·지인 피드백). 히어로만 포스터 유지
   return (
-    <section className="mx-auto flex min-h-[100dvh] max-w-7xl flex-col justify-center px-6 py-16 md:px-12">
-      <div className="grid flex-1 content-center gap-6 md:grid-cols-3 md:gap-14 mx-auto" style={{ maxWidth: '44rem' }}>
+    <section className="mx-auto w-full max-w-7xl px-6 pb-20 pt-4 md:px-12">
+      {/* 2026-08-31 안 B 개편: 4카테고리 — 2×2 그리드 */}
+      <div className="mx-auto grid gap-6 md:grid-cols-2 md:gap-14" style={{ maxWidth: '48rem' }}>
         {content.categories.map((c, i) => {
           const projects = c.projects
             .map((id) => content.projects.list.find((p) => p.id === id))

@@ -34,6 +34,12 @@ export default function Hero() {
       {/* 텍스트 — 모바일: 스테이지 아래 일반 흐름 / 데스크톱: 하단 오버레이 */}
       <div className="hero-drift relative z-20 -mx-6 bg-[var(--bg)] px-6 pb-12 pt-8 md:absolute md:inset-x-12 md:bottom-0 md:mx-0 md:bg-transparent md:px-0 md:pb-0 md:pt-0">
         <div className="rise d3 flex flex-wrap items-baseline gap-x-8 gap-y-2">
+          {/* 지원 직무 첫 노출(2026-08-31): profile.role이 그동안 어디에도 렌더되지 않았음 */}
+          <div className="w-full">
+            <p className="text-[11px] tracking-[0.22em]" style={{ fontFamily: 'var(--font-mono)', color: 'var(--ice-mute)' }}>
+              {t(content.profile.role)}
+            </p>
+          </div>
           <span className="text-3xl tracking-tight" style={{ fontFamily: 'var(--font-display)' }}>{t(hero.name)}</span>
           <span className="max-w-[46ch] text-sm leading-relaxed" style={{ color: 'var(--ice-dim)' }}>{t(hero.tagline)}</span>
         </div>
