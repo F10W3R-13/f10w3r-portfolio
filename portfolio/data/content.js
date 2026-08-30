@@ -117,12 +117,12 @@ export const PORTFOLIO_CONTENT = {
     portraitAlt: { ko: 'Luminosity 저지를 입은 유민우', en: 'Yoo Min-woo in a Luminosity Gaming jersey' },
     name: { ko: '유민우', en: 'Yoo Min-woo' },
     tagline: {
-      ko: '선수에서 코치로, 이제 운영·기획으로',
-      en: 'From player to coach, now building esports operations',
+      ko: '글로벌 커뮤니티 운영 경험과 데이터 기반 실행력을 바탕으로, 고객과 시장의 문제를 성장 기회로 전환합니다',
+      en: 'Global community operations and data-driven execution, turning customer and market problems into growth opportunities',
     },
     intro: {
-      ko: 'T1 선수 출신, 6년간 13개 팀. 무대 위 코칭부터 리그 운영, 데이터 파이프라인 구축까지 직접 해왔습니다.',
-      en: 'Ex-T1 player, thirteen teams over six years. From on-stage coaching to league operations and data pipelines, I design, build, and operate the systems behind them.',
+      ko: 'T1 선수 출신, 6년간 13개 팀. 무대 위 코칭부터 리그 운영, 데이터 파이프라인 구축까지 직접 해왔습니다. 4개 지역 서비스 운영 · 한국어와 영어 실무 · 8회 커뮤니티 대회 기획 · 데이터 기반 온보딩 개선.',
+      en: 'Ex-T1 player, thirteen teams over six years. From on-stage coaching to league operations and data pipelines, I design, build, and operate the systems behind them. Four-region service operations · Korean/English business · 8 community tournaments planned · data-driven onboarding improvements.',
     },
     stats: [
       { value: '101', label: { ko: 'NA 시즌 데이터 운영 선수', en: 'NA-season data-ops players' } },
