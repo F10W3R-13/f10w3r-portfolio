@@ -8,6 +8,7 @@ export default function Contact() {
 
   const links = [
     { label: 'GitHub', href: profile.contact.github },
+    ...(profile.contact.linkedin ? [{ label: 'LinkedIn', href: profile.contact.linkedin }] : []),
     { label: 'X', href: profile.contact.twitter },
     { label: 'YouTube', href: profile.contact.youtube },
     { label: 'Liquipedia', href: profile.contact.liquipedia },

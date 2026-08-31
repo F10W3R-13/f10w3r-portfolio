@@ -104,6 +104,7 @@ export const PORTFOLIO_CONTENT = {
       // email은 신규 생성 전까지 null — 렌더러는 null이면 표시 생략
       email: null,
       github: 'https://github.com/F10W3R-13',
+      linkedin: 'https://www.linkedin.com/in/minwoo-yoo-2a5b80214',
       twitter: 'https://twitter.com/F_L_WR',
       youtube: 'https://www.youtube.com/channel/UC9h1aAAsOprTATC0_y2pt3A',
       liquipedia: 'https://liquipedia.net/callofduty/F10W3R',
@@ -213,12 +214,12 @@ export const PORTFOLIO_CONTENT = {
         highlight: true,
         role: { ko: '설계 / 개발 / 운영', en: 'Design, Build & Operations' },
         summary: {
-          ko: '스크림 결과 스크린샷을 GPT-4.1이 읽어 DB에 적재하고, FastAPI로 한국어/영어/스페인어 3개 언어 대시보드를 제공하는 코칭 허브. 2026년 2월부터 Railway에서 매일 운영 중입니다.',
-          en: 'A coaching hub where GPT-4.1 reads scrim screenshots into a database and FastAPI serves a trilingual (KO/EN/ES) dashboard. Running daily on Railway since February 2026.',
+          ko: '스크림 결과 스크린샷을 GPT-5.6-luna가 읽어 DB에 적재하고, FastAPI로 한국어/영어/스페인어 3개 언어 대시보드를 제공하는 코칭 허브. 2026년 2월부터 Railway에서 매일 운영 중입니다.',
+          en: 'A coaching hub where GPT-5.6-luna reads scrim screenshots into a database and FastAPI serves a trilingual (KO/EN/ES) dashboard. Running daily on Railway since February 2026.',
         },
         stack: [
           { ko: 'Python', en: 'Python' },
-          { ko: 'GPT-4.1 Vision', en: 'GPT-4.1 Vision' },
+          { ko: 'GPT-5.6-luna Vision', en: 'GPT-5.6-luna Vision' },
           { ko: 'FastAPI', en: 'FastAPI' },
           { ko: 'SQLite', en: 'SQLite' },
           { ko: 'PostgreSQL', en: 'PostgreSQL' },
@@ -239,18 +240,18 @@ export const PORTFOLIO_CONTENT = {
             en: 'I built it to automate the screenshot logging I was doing by hand after every match, and to turn numbers into a coaching tool. The AI never replaces the coach: map analytics report numeric tendencies only, and that policy is written into the project docs.',
           },
           background: {
-            ko: '해외 팀을 코칭하며 스크림 결과를 매번 텍스트로 정리하는 시간이 아까웠습니다. 선수가 Discord에 올린 스크린샷을 GPT-4.1이 읽어 그대로 DB에 쌓이게 하여, 정리 시간을 단축시키고 데이터가 쌓이도록 하였습니다.',
-            en: 'Coaching overseas teams, I kept losing hours hand-logging scrim results. GPT-4.1 reads the screenshots players already post in Discord straight into a database, cutting logging time and letting the data compound.',
+            ko: '해외 팀을 코칭하며 스크림 결과를 매번 텍스트로 정리하는 시간이 아까웠습니다. 선수가 Discord에 올린 스크린샷을 GPT-5.6-luna가 읽어 그대로 DB에 쌓이게 하여, 정리 시간을 단축시키고 데이터가 쌓이도록 하였습니다.',
+            en: 'Coaching overseas teams, I kept losing hours hand-logging scrim results. GPT-5.6-luna reads the screenshots players already post in Discord straight into a database, cutting logging time and letting the data compound.',
           },
           approach: {
-            ko: '워크플로: 스크린샷 2장 업로드 → GPT-4.1 Vision(temperature 0, JSON 강제) → 모드(HP/SND) 자동 판별 → SQLite(로컬 개발) / Railway PostgreSQL(운영) → FastAPI 대시보드. 재업로드된 경기는 기존 매치에 자동 병합되고, OCR이 잘못 읽은 닉네임은 별명으로 학습됩니다. 코칭 지표 ZCS·RDS는 자체 공식으로 계산하고, AI 인사이트 7종(매치·주간·트렌드·선수·맵·브리핑)에는 Obsidian 코칭 지식베이스가 프롬프트로 주입됩니다. 슬래시 명령 10종, 3개 언어(테스트로 키 동일성 강제), 어드민 도구, 대회용 토너먼트 앱(MVP 포스터 생성), 전체 DB 백업·복원과 중단 재개형 재처리 파이프라인까지 포함됩니다. ZCS는 거점 킬 가중 공식(1.1·오브젝트 + 8·캡처킬 + 4.1·일반킬 − 5·데스), RDS는 라운드 장악 공식으로 직접 설계해 승패 데이터로 AUC 검증을 거쳤고, 배포 DB 전수 점검에서 OCR 이상(캡처킬>킬)은 0건이었습니다.',
-            en: 'Flow: upload two screenshots, GPT-4.1 Vision (temperature 0, schema-constrained JSON output) auto-detects the mode (HP/SND), writes to SQLite in local development and Railway PostgreSQL in production, and a FastAPI dashboard serves it. Re-uploaded games merge into the original match; misread nicknames are learned as aliases. Seven AI insight functions inject an Obsidian coaching knowledge base into the prompts. Ten slash commands, three languages (enforced equal by tests), admin tooling, a separate tournament app that generates MVP posters, and a full-database backup/restore plus resumable reprocessing pipeline. The custom metrics are designed in-house — ZCS, a capture-kill-weighted hardpoint formula (1.1·OBJ + 8·capture kills + 4.1·kills − 5·deaths), and RDS, a round-control formula — and validated with win/loss AUC analysis; a full audit of the production database found zero OCR anomalies.',
+            ko: '워크플로: 스크린샷 2장 업로드 → GPT-5.6-luna(temperature 0, JSON 강제) → 모드(HP/SND) 자동 판별 → SQLite(로컬 개발) / Railway PostgreSQL(운영) → FastAPI 대시보드. 재업로드된 경기는 기존 매치에 자동 병합되고, OCR이 잘못 읽은 닉네임은 별명으로 학습됩니다. 코칭 지표 ZCS·RDS는 자체 공식으로 계산하고, AI 인사이트 7종(매치·주간·트렌드·선수·맵·브리핑)에는 Obsidian 코칭 지식베이스가 프롬프트로 주입됩니다. 슬래시 명령 10종, 3개 언어(테스트로 키 동일성 강제), 어드민 도구, 대회용 토너먼트 앱(MVP 포스터 생성), 전체 DB 백업·복원과 중단 재개형 재처리 파이프라인까지 포함됩니다. ZCS는 거점 킬 가중 공식(1.1·오브젝트 + 8·캡처킬 + 4.1·일반킬 − 5·데스), RDS는 라운드 장악 공식으로 직접 설계해 승패 데이터로 AUC 검증을 거쳤고, 배포 DB 전수 점검에서 OCR 이상(캡처킬>킬)은 0건이었습니다.',
+            en: 'Flow: upload two screenshots, GPT-5.6-luna (temperature 0, schema-constrained JSON output) auto-detects the mode (HP/SND), writes to SQLite in local development and Railway PostgreSQL in production, and a FastAPI dashboard serves it. Re-uploaded games merge into the original match; misread nicknames are learned as aliases. Seven AI insight functions inject an Obsidian coaching knowledge base into the prompts. Ten slash commands, three languages (enforced equal by tests), admin tooling, a separate tournament app that generates MVP posters, and a full-database backup/restore plus resumable reprocessing pipeline. The custom metrics are designed in-house — ZCS, a capture-kill-weighted hardpoint formula (1.1·OBJ + 8·capture kills + 4.1·kills − 5·deaths), and RDS, a round-control formula — and validated with win/loss AUC analysis; a full audit of the production database found zero OCR anomalies.',
           },
           specs: [
             { label: { ko: '기록된 경기', en: 'Matches logged' }, value: { ko: '400경기 · 2026.08.29 기준 · 2월부터 연속', en: '400 · as of 2026.08.29, since February' } },
             { label: { ko: '자체 코칭 지표', en: 'Custom metrics' }, value: { ko: 'ZCS · RDS 직접 설계 · 승패 AUC 검증', en: 'ZCS · RDS, designed in-house, AUC-validated' } },
             { label: { ko: '언어', en: 'Languages' }, value: { ko: '한국어·영어·스페인어 (키 동일성 테스트)', en: 'Three languages, translation parity covered by automated tests' } },
-            { label: { ko: '스택', en: 'Stack' }, value: 'FastAPI · SQLite/PostgreSQL · GPT-4.1 Vision · Railway' },
+            { label: { ko: '스택', en: 'Stack' }, value: 'FastAPI · SQLite/PostgreSQL · GPT-5.6-luna · Railway' },
           ],
           gallery: [
             { file: 'home.png', caption: { ko: '메인 대시보드: 매치 추이 차트와 폼 상승·폼 경고 지표', en: 'Main dashboard: match trend charts and form-rise and form-warning metrics' } },
@@ -516,7 +517,7 @@ export const PORTFOLIO_CONTENT = {
       { ko: 'Python', en: 'Python', link: '/?page=product' },
       { ko: 'Discord Bot API', en: 'Discord Bot API', link: '/?page=business' },
       { ko: 'FastAPI', en: 'FastAPI', link: '/?page=product' },
-      { ko: 'GPT-4.1 Vision OCR', en: 'GPT-4.1 Vision OCR', link: '/?page=product' },
+      { ko: 'GPT Vision OCR', en: 'GPT Vision OCR', link: '/?page=product' },
       { ko: 'Make.com / Airtable', en: 'Make.com / Airtable', link: '/?page=business' },
       { ko: 'Google Apps Script', en: 'Google Apps Script', link: '/?page=product' },
       { ko: 'SQLite / Postgres', en: 'SQLite / Postgres', link: '/?page=product' },
