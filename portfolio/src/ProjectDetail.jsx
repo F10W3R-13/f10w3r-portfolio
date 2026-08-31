@@ -101,6 +101,12 @@ export default function ProjectDetail({ id }) {
   })()
   useEffect(() => {
     if (p) document.title = `${t(p.title)} · ${t(content.profile.name)} ${content.profile.ign}`
+    // 데모 워밍업(2026-09-01): 상세 페이지 진입 순간 데모 서버에 보이지 않는 요청 1회를 발사.
+    // Railway 무료 인스턴스(sleep mode)를 방문자가 글을 읽는 동안 미리 깨워, LIVE DEMO 클릭 시
+    // 즉시 접속되게 한다. no-cors 응답은 opaque라 실패해도 정상 — 요청 자체가 서버에 닿으면 된다.
+    if (p?.links?.demo) {
+      fetch(p.links.demo, { mode: 'no-cors' }).catch(() => {})
+    }
   }, [p])
   if (!p) return <ProjectList />
 
