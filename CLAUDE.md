@@ -46,5 +46,5 @@
 - [ ] 기록 화면에 Liquipedia 결과표 크롭 넣기.
 - [ ] 연락 화면 문구 "다음 시즌을 같이 만들 팀을 찾고 있습니다" 확정.
 - [ ] 덱을 shadcn 기반의 실제 사이트로 옮기기. 클릭 편집(무료 CMS, 예: Sveltia) 검토. KO/EN 토글 유지.
-- [ ] 이 브랜치를 main에 합칠 때 production 배포 방식을 사용자와 확인하기.
+- [x] 브랜치를 main에 합치고(2026-10-06) 이전 main 작업은 폐기, 다른 브랜치는 모두 삭제. `vercel deploy --prod`로 공개 사이트(https://f10w3r-portfolio.vercel.app)를 덱으로 교체. `.vercelignore`는 `deck/`·`api/`·설정만 올린다.
 - 기존 항목은 `TODO.md`에 있다.
