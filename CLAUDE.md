@@ -25,8 +25,8 @@
 
 ## 배포
 
-- Vercel 프로젝트 `f10w3r-portfolio`는 GitHub와 연결되어 있지 않다. 그래서 브랜치에 푸시해도 미리보기가 자동으로 생기지 않는다.
-- 미리보기는 CLI로 올린다: `vercel deploy --yes`. 로그인은 `vercel login` 기기 코드 방식이고, 사용자가 승인한다. `--prod`는 사용자 허락 없이 쓰지 않는다.
+- Vercel 프로젝트 `f10w3r-portfolio`는 GitHub와 연결되어 있다(2026-10-06). `main`에 푸시하면 공개 사이트가 자동 배포되고, 다른 브랜치에 푸시하면 미리보기가 생긴다. 그래서 `main` 푸시는 공개 배포와 같으니 사용자 허락을 받고 한다.
+- CLI가 필요하면 `npx vercel@latest`로 쓴다. 로그인은 기기 코드 방식이고, 사용자가 승인한다.
 - `vercel.json`은 `deck/`을 빌드 없이 그대로 서빙한다. 크론 keepalive는 3일마다 돈다.
 - 아티팩트(claude.ai)에서는 이 덱이 제대로 동작하지 않았다. 시안은 Vercel 미리보기로 보여준다.
 
