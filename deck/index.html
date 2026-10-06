@@ -22,7 +22,7 @@ body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.65 var(-
 a { color: inherit; }
 :focus-visible { outline: 2px solid var(--acc); outline-offset: 3px; }
 #gl { position: fixed; inset: 0; width: 100vw; height: 100vh; display: block; z-index: 0; }
-.chip { display: inline-block; font: 700 11px/1 var(--mono); letter-spacing: .02em; padding: 7px 8px; text-transform: uppercase; white-space: nowrap; text-decoration: none; border: 0; cursor: pointer; }
+.chip { transition: background .35s, color .35s; display: inline-block; font: 700 11px/1 var(--mono); letter-spacing: .02em; padding: 7px 8px; text-transform: uppercase; white-space: nowrap; text-decoration: none; border: 0; cursor: pointer; }
 .c-w { background: var(--fg); color: var(--bg); } .c-v { background: #3a2a9c; color: #f1efff; } .c-d { background: #1b1b1f; color: var(--fg); } .c-a { background: var(--acc); color: var(--bg); }
 @media (pointer: coarse) { .top .chip, .bot .chip { padding: 12px 13px; font-size: 12px; } .stg .rp { font-size: 2.6cqw; padding: 1.6cqw 2cqw; } }
 button.chip:hover, a.chip:hover { filter: brightness(1.12); }
@@ -1168,13 +1168,13 @@ const poster = (() => {
     ['h', .8,
       ['v', .18,
         ['h', .27, [null, 7], [4, 1]],
-        ['h', .34, ['v', .5, [1, 0], [5, 4]], ['v', .36, [6, 8], [7, 2]]]],
-      ['v', .4, [9, 3], [null, 5]]],
-    ['h', .22, [8, 6], ['h', .58, [2, 1], [3, 8]]]];
+        ['h', .4, ['v', .5, [1, 0], [5, 4]], ['v', .36, [6, 6], [7, 2]]]],
+      ['v', .4, [9, 4], [null, 0]]],
+    ['h', .22, [8, 6], ['h', .58, [2, 1], [3, 4]]]];
   const TALL = ['h', .62,
     ['h', .16, ['v', .55, [8, 6], [2, 1]],
-      ['h', .35, ['v', .5, [1, 0], [3, 4]], ['v', .3, [null, 5], [4, 2]]]],
-    ['v', .45, ['h', .82, [5, 3], [6, 8]], ['h', .74, [7, 7], [9, 1]]]];
+      ['h', .39, ['v', .5, [1, 0], [3, 4]], ['v', .3, [null, 6], [4, 2]]]],
+    ['v', .45, ['h', .82, [5, 3], [6, 8]], ['h', .74, [7, 4], [9, 6]]]];
   // 사진 속 얼굴 기준점(img/portrait.png 픽셀): 콧대 x, 눈 y, 머리끝~턱 높이
   const FACE = { x: 188, eye: 118, head: 208 };
   const NL = 9, MAXC = 16;
@@ -1192,6 +1192,7 @@ uniform float uS, uT;
 uniform vec4 uPh;
 uniform vec4 uR[${MAXC}];
 uniform float uL[${MAXC}];
+uniform float uE[${MAXC}];
 uniform int uN;
 out vec4 o;
 const vec3 K = vec3(13., 14., 16.) / 255., LI = vec3(214., 255., 61.) / 255., CY = vec3(124., 200., 230.) / 255.;
@@ -1208,58 +1209,67 @@ float bayer(vec2 p) {
   return B[i] / 16.;
 }
 float glyph(float idx, vec2 f) { return texture(uGly, vec2((idx + f.x) / 12., f.y)).a; }
-vec3 look(int k, vec2 p) {
-  // P: 사진에 붙은 좌표. 무늬 격자를 여기에 맞춰 인물과 함께 움직이게 한다.
-  float s = uS; vec2 P = p - uPh.xy; vec2 F = photo(p); bool on = F.y > .5;
-  if (k == 0) { // 라임 듀오톤
-    return on ? mix(K, LI, floor(pow(F.x, .85) * 5.) / 4.) : ((mod(P.x, 6. * s) < 2. * s && mod(P.y, 6. * s) < 2. * s) ? vec3(.59, .75, .12) : LI);
+vec3 look(int k, vec2 p, vec4 r, float e) {
+  // P: 칸에 붙은 좌표. 칸이 움직이면 무늬도 함께 밀리며 사진을 새로 읽는다.
+  // e: 칸이 지금 움직이는 정도(0~1). 칸이 빨리 움직일수록 필터가 크게 반응한다.
+  float s = uS; vec2 o0 = r.xy, P = p - o0; vec2 F = photo(p); bool on = F.y > .5;
+  if (k == 0) { // 라임 듀오톤 · 움직이면 잔 망점으로 풀린다
+    vec3 col = on ? mix(K, LI, floor(pow(F.x, .85) * 5.) / 4.) : ((mod(P.x, 6. * s) < 2. * s && mod(P.y, 6. * s) < 2. * s) ? vec3(.59, .75, .12) : LI);
+    if (e < .03) return col;
+    float c = 5. * s; vec2 q = mod(P, c) - c * .5; vec2 G = photo(p - q);
+    float rr = G.y > .5 ? (1. - G.x) * c * .66 : c * .18;
+    return mix(col, length(q) < rr ? K : LI, smoothstep(.05, .6, e));
   }
-  if (k == 1) { // 보라 듀오톤 + 주사선
+  if (k == 1) { // 보라 듀오톤 · 주사선이 움직임만큼 흐르고 굵어진다
     vec3 col = on ? mix(vec3(22., 14., 66.) / 255., CY, floor(F.x * 4.) / 3.) : VI;
-    return col * (1. - .2 * step(mod(P.y, 4. * s), s));
+    return col * (1. - (.18 + .3 * e) * step(mod(P.y + uT * 60. * s * e, 4. * s), s * (1. + 2. * e)));
   }
-  if (k == 2) { // 선화
-    if (!on) return DG;
+  if (k == 2) { // 선화 · 움직이면 선이 늘고 깜빡인다
+    if (!on) return DG + (h21(floor(P / (3. * s)) + floor(uT * 9.)) > .995 - .05 * e ? .25 : 0.) * LI;
     float gx = photo(p + vec2(s, 0.)).x - photo(p - vec2(s, 0.)).x, gy = photo(p + vec2(0., s)).x - photo(p - vec2(0., s)).x;
-    return length(vec2(gx, gy)) > .07 ? vec3(.38, 1., .47) : DG;
+    float fl = 1. - .5 * e * step(.6, h21(floor(P / (4. * s)) + floor(uT * 12.)));
+    return length(vec2(gx, gy)) > .07 - .045 * e ? mix(vec3(.38, 1., .47), LI, e) * fl : DG;
   }
-  if (k == 3) { // 망점
+  if (k == 3) { // 망점 · 움직이면 점이 커지고 라임으로 물든다
     float c = 7. * s; vec2 q = mod(P, c) - c * .5; vec2 G = photo(p - q);
-    float r = G.y > .5 ? (1. - G.x) * c * .62 : c * .14;
-    return length(q) < max(.5 * s, r) ? (G.y > .5 ? CY : vec3(92., 72., 200.) / 255.) : VI;
+    float rr = G.y > .5 ? (1. - G.x) * c * .62 * (1. + .5 * e) : c * .14 * (1. + 2. * e);
+    return length(q) < max(.5 * s, rr) ? mix(G.y > .5 ? CY : vec3(92., 72., 200.) / 255., LI, e * .8) : VI;
   }
-  if (k == 4) { // 모자이크(4색)
-    float b = 12. * s; vec2 c = P - mod(P, b) + b * .5; vec2 G = photo(c + uPh.xy);
+  if (k == 4) { // 모자이크(4색) · 움직이면 블록이 잘게 쪼개진다
+    float b = (e > .55 ? 5. : e > .25 ? 8. : 12.) * s; vec2 c = P - mod(P, b) + b * .5; vec2 G = photo(c + o0);
     if (G.y < .5) return mix(CY, PA, h21(floor(P / b)) * .35);
     int qi = int(min(3., floor(G.x * 4.)));
     return qi == 0 ? K : qi == 1 ? VI : qi == 2 ? CY : PA;
   }
-  if (k == 5) { // 문자
-    float c = 9. * s; vec2 g = floor(P / c), f = fract(P / c); vec2 G = photo(g * c + c * .5 + uPh.xy);
+  if (k == 5) { // 문자 · 움직이면 글자가 뒤섞인다
+    float c = 9. * s; vec2 g = floor(P / c), f = fract(P / c); vec2 G = photo(g * c + c * .5 + o0);
     float idx = G.y > .5 ? min(9., floor(G.x * 10.)) : (h21(g) > .86 ? 10. + step(.5, h21(g + 3.)) : 0.);
-    return mix(K, G.y > .5 ? PA : vec3(.2), glyph(idx, f));
+    if (h21(g + floor(uT * 14.)) < e * .85) idx = floor(h21(g * 1.7 + floor(uT * 14.)) * 12.);
+    return mix(K, G.y > .5 ? mix(PA, LI, e) : vec3(.2), glyph(idx, f));
   }
-  if (k == 6) { // 디더링
-    return on && F.x < bayer(floor(P / s)) ? vec3(24., 24., 28.) / 255. : PA;
+  if (k == 6) { // 디더링 · 움직이면 문턱값이 흔들린다
+    vec2 q = floor(P / s); float B = bayer(q) + (h21(q + floor(uT * 10.)) - .5) * .9 * e;
+    return on && F.x < B ? vec3(24., 24., 28.) / 255. : PA;
   }
-  if (k == 7) { // 글리치: 띠마다 옆으로 어긋나고 채널이 갈라진다(천천히 바뀜)
+  if (k == 7) { // 글리치 · 움직일수록 크고 빠르게 어긋난다
     float band = floor(P.y / (11. * s));
-    float sh = (h21(vec2(band, floor(uT * .8))) - .5) * 26. * s * step(.6, h21(vec2(band, 9.)));
+    float sh = (h21(vec2(band, floor(uT * (.8 + 12. * e)))) - .5) * 26. * s * min(1., step(.6, h21(vec2(band, 9.))) + step(.3, e)) * (1. + 2.5 * e);
     vec2 A = photo(p + vec2(sh + 6. * s, 0.)), Bc = photo(p + vec2(sh, 0.)), C = photo(p + vec2(sh - 6. * s, 0.));
     if (A.y < .5 && Bc.y < .5 && C.y < .5) return mod(floor(P.y / s), 3.) > 0. ? K : vec3(24., 22., 40.) / 255.;
     float a = floor(A.x * A.y * 3.) / 2., c = floor(C.x * C.y * 3.) / 2.;
     return K + vec3(.95, .15, .55) * a + vec3(.1, .78, .9) * c;
   }
-  // 8 격자망
+  // 8 격자망 · 움직이면 칸이 켜진다
   float c = 12. * s; vec2 g = mod(P, c); vec2 G = photo(p - g + c * .5);
-  if (g.x < 2. * s || g.y < 2. * s) return vec3(44., 78., 36.) / 255.;
-  return mix(DG, LI, G.y > .5 ? floor(G.x * 4.) / 3. : 0.);
+  if (g.x < 2. * s || g.y < 2. * s) return mix(vec3(44., 78., 36.) / 255., LI, e * .4);
+  float lv = G.y > .5 ? floor(G.x * 4.) / 3. : 0.;
+  return mix(DG, LI, clamp(lv + e * .7 * step(.55, h21(floor(P / c) + floor(uT * 6.))), 0., 1.));
 }
 void main() {
   vec2 p = vec2(gl_FragCoord.x, uRes.y - gl_FragCoord.y);
-  int k = 0;
-  for (int i = 0; i < ${MAXC}; i++) { if (i >= uN) break; vec4 r = uR[i]; if (p.x >= r.x && p.y >= r.y && p.x < r.z && p.y < r.w) { k = int(uL[i]); break; } }
-  vec3 col = look(k, p) + (h21(p / uS + floor(uT * 12.)) - .5) * .07;
+  int k = 0; vec4 r = vec4(0.); float e = 0.;
+  for (int i = 0; i < ${MAXC}; i++) { if (i >= uN) break; vec4 q = uR[i]; if (p.x >= q.x && p.y >= q.y && p.x < q.z && p.y < q.w) { k = int(uL[i]); r = q; e = uE[i]; break; } }
+  vec3 col = look(k, p, r, e) + (h21(p / uS + floor(uT * 12.)) - .5) * .07;
   o = vec4(col, 1.);
 }`;
   const sh = (type, src) => { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s)); return s; };
@@ -1271,7 +1281,7 @@ void main() {
   gl.useProgram(prog);
   const buf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
   const aLoc = gl.getAttribLocation(prog, 'a'); gl.enableVertexAttribArray(aLoc); gl.vertexAttribPointer(aLoc, 2, gl.FLOAT, false, 0, 0);
-  const U = {}; ['uImg', 'uGly', 'uRes', 'uS', 'uT', 'uPh', 'uR', 'uL', 'uN'].forEach((n) => { U[n] = gl.getUniformLocation(prog, n); });
+  const U = {}; ['uImg', 'uGly', 'uRes', 'uS', 'uT', 'uPh', 'uR', 'uL', 'uE', 'uN'].forEach((n) => { U[n] = gl.getUniformLocation(prog, n); });
   const tex = (unit, src) => { const t = gl.createTexture(); gl.activeTexture(gl.TEXTURE0 + unit); gl.bindTexture(gl.TEXTURE_2D, t);
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, src);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
@@ -1282,6 +1292,8 @@ void main() {
     [...' .:-=+*#%@01'].forEach((ch, i) => x.fillText(ch, i * z + z / 2, z / 2 + 2)); return c;
   }
 
+  const FACEC = [2, 3, 5]; // 얼굴이 걸친 세 칸(두 배치 모두 같은 순번)
+  let fixed = false, prevR = null;
   let tree = null, splits = [], cells = [], hov = -1, active = false, raf = 0, imgReady = false, t = 0, last = 0;
   let mx = .5, my = .5, sx = .5, sy = .5;
   const img = new Image();
@@ -1289,7 +1301,7 @@ void main() {
   function layout() {
     const next = innerHeight > innerWidth ? TALL : WIDE;
     if (next === tree) return;
-    tree = next; splits = []; cells = [];
+    tree = next; splits = []; cells = []; fixed = false; prevR = null;
     // 나무를 펼친다: 자르기마다 움직일 상태를, 잎마다 칸을 만든다
     const walk = (n) => {
       if (typeof n[0] !== 'string') { const k = cells.length; cells.push({ go: n[0], look: n[1] }); return { leaf: k, ks: [k] }; }
@@ -1310,8 +1322,31 @@ void main() {
       if (b.classList.contains('dec')) b.addEventListener('click', shuffle);
     });
   }
-  function shuffle() { // 모든 칸이 한 번에, 지금과 다른 필터로
-    cells.forEach((c) => { c.look = (c.look + 1 + Math.floor(Math.random() * (NL - 1))) % NL; });
+  // 붙어 있는 칸끼리 바탕색 계열이 겹치지 않게 한다(한 칸으로 보이지 않도록).
+  // 계열: 0 라임 · 1 보라(듀오톤, 망점) · 2 어두운 바탕(선화, 문자, 글리치, 격자망) · 3 하늘 · 4 종이
+  const FAM = [0, 1, 2, 1, 3, 2, 4, 2, 2];
+  const touch = (a, b) => { const e = .002, ox = Math.min(a[2], b[2]) - Math.max(a[0], b[0]), oy = Math.min(a[3], b[3]) - Math.max(a[1], b[1]);
+    return (ox > e && (Math.abs(a[3] - b[1]) < e || Math.abs(b[3] - a[1]) < e)) || (oy > e && (Math.abs(a[2] - b[0]) < e || Math.abs(b[2] - a[0]) < e)); };
+  function assign(all) {
+    const R = rects(), order = cells.map((_, i) => i);
+    if (all) order.sort(() => Math.random() - .5);
+    const done = new Set();
+    order.forEach((i) => {
+      const nb = [...done].filter((j) => touch(R[i], R[j])), fam = new Set(nb.map((j) => FAM[cells[j].look]));
+      if (all || fam.has(FAM[cells[i].look])) {
+        let free = [...Array(NL).keys()].filter((l) => !fam.has(FAM[l]) && !(all && l === cells[i].look));
+        if (!free.length) free = [...Array(NL).keys()].filter((l) => !nb.some((j) => cells[j].look === l));
+        cells[i].look = free[Math.floor(Math.random() * free.length)];
+      }
+      done.add(i);
+    });
+  }
+  // 필터마다 칩에 쓸 [바탕, 글자] 색
+  const CHIP = [['#d6ff3d', '#0d0e10'], ['#3a2a9c', '#f1efff'], ['#142411', '#60ff78'], ['#7cc8e6', '#2a1e7a'], ['#0d0e10', '#7cc8e6'], ['#0d0e10', '#ecece8'], ['#ecece8', '#18181c'], ['#1a1626', '#f04ca0'], ['#2c4e24', '#d6ff3d']];
+  const chips = [...document.querySelectorAll('.top > div:first-child .chip')];
+  function shuffle() { // 모든 칸이 한 번에 무작위로. 칩은 얼굴 세 칸의 필터 색을 따른다.
+    assign(true);
+    FACEC.forEach((k, i) => { const [bg, fg] = CHIP[cells[k].look]; if (chips[i]) { chips[i].style.background = bg; chips[i].style.color = fg; } });
   }
   function step(dt) { // 자르는 위치: 떠다님 + 마우스 쪽으로 밀림 + 올린 칸 키우기
     const A = reduce ? 0 : 1, E = .035, ease = Math.min(1, dt * (reduce ? 20 : 3));
@@ -1344,15 +1379,21 @@ void main() {
     if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; }
     gl.viewport(0, 0, w, h);
     const R = rects(), tall = h > w;
+    if (!fixed) { assign(false); fixed = true; }
+    // 칸마다 움직임 정도: 네 변이 움직인 속도를 0~1로
+    R.forEach((r, i) => { const q = prevR ? prevR[i] : r, v = dt ? (Math.abs(r[0] - q[0]) + Math.abs(r[1] - q[1]) + Math.abs(r[2] - q[2]) + Math.abs(r[3] - q[3])) / dt : 0;
+      const c = cells[i]; c.e = (c.e || 0) + (Math.min(1, v * 12) - (c.e || 0)) * Math.min(1, dt * 6); });
+    prevR = R;
     // 얼굴 기준으로 놓는다: 머리 높이, 콧대가 화면 가운데, 눈 높이. 마우스 반대쪽으로 화면의 3%만큼 움직인다.
-    const sc = (tall ? Math.min(h * .25, w * .5) : h * .34) / FACE.head, eyeY = tall ? .28 : .26;
+    const sc = (tall ? Math.min(h * .25, w * .5) : h * .34) / FACE.head, eyeY = tall ? .33 : .32;
     const par = reduce ? 0 : 1, ox = -(sx - .5) * w * .03 * par, oy = -(sy - .5) * h * .03 * par;
     const px = w * .5 - FACE.x * sc + ox, py = h * eyeY - FACE.eye * sc + oy;
     gl.uniform2f(U.uRes, w, h); gl.uniform1f(U.uS, S); gl.uniform1f(U.uT, t);
     gl.uniform4f(U.uPh, px, py, img.width * sc, img.height * sc);
     const rv = new Float32Array(MAXC * 4), lv = new Float32Array(MAXC);
-    R.forEach((r, i) => { rv.set([r[0] * w, r[1] * h, r[2] * w, r[3] * h], i * 4); lv[i] = cells[i].look; });
-    gl.uniform4fv(U.uR, rv); gl.uniform1fv(U.uL, lv); gl.uniform1i(U.uN, R.length);
+    const ev = new Float32Array(MAXC);
+    R.forEach((r, i) => { rv.set([r[0] * w, r[1] * h, r[2] * w, r[3] * h], i * 4); lv[i] = cells[i].look; ev[i] = reduce ? 0 : cells[i].e; });
+    gl.uniform4fv(U.uR, rv); gl.uniform1fv(U.uL, lv); gl.uniform1fv(U.uE, ev); gl.uniform1i(U.uN, R.length);
     gl.uniform1i(U.uImg, 0); gl.uniform1i(U.uGly, 1);
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
     layer.querySelectorAll('button').forEach((b) => { const [x0, y0, x1, y1] = R[Number(b.dataset.k)];
