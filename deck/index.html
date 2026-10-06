@@ -996,19 +996,18 @@ const poster = (() => {
   const cv = document.getElementById('pc'), layer = document.getElementById('pcells'), root = document.getElementById('poster');
   // 나무: ['v'|'h', 자르는 위치(화면 비율), 앞쪽, 뒤쪽] · 잎: [열 화면, 처음 필터]
   // 화면 번호: 1 소개, 2~7 프로젝트, 8 기록, 9 연락, null 장식(누르면 필터 섞기)
-  const WIDE = ['v', .76,
-    ['h', .8,
-      ['v', .18,
-        ['h', .27, [null, 7], [4, 1]],
-        ['h', 'eye', ['v', .5, [1, 0], [5, 4]], ['v', .36, [6, 6], [7, 2]]]],
-      ['v', .4, [9, 4], [null, 0]]],
-    ['h', .22, [8, 6], ['h', .58, [2, 1], [3, 4]]]];
-  const TALL = ['h', .62,
-    ['h', .16, ['v', .55, [8, 6], [2, 1]],
-      ['h', 'eye', ['v', .5, [1, 0], [3, 4]], ['v', .3, [null, 6], [4, 2]]]],
-    ['v', .45, ['h', .82, [5, 3], [6, 8]], ['h', .74, [7, 4], [9, 6]]]];
+  // 인물 가운데(콧대)를 지나는 큰 세로선('nose') 하나가 기준이다. 그 왼쪽에서만 가로선 하나가 눈 바로 위('eye')를 지난다.
+  // 얼굴은 왼쪽 위(이마) · 왼쪽 아래(눈부터) · 오른쪽 칸, 세 칸에 걸친다. 나머지 자르는 위치는 들어올 때마다 조금씩 무작위로 달라진다.
+  const WIDE = ['v', 'nose',
+    ['h', 'eye', [1, 0], ['h', .7, ['v', .22, [null, 7], [2, 4]], ['v', .3, [9, 1], [3, 6]]]],
+    ['h', .55, ['v', .8, [5, 2], ['h', .26, [8, 6], [4, 3]]], ['v', .68, ['h', .8, [6, 0], [null, 5]], [7, 1]]]];
+  WIDE.face = [0, 2, 5];
+  const TALL = ['v', 'nose',
+    ['h', 'eye', [1, 0], ['h', .6, [2, 4], ['h', .8, [3, 1], [9, 6]]]],
+    ['h', .14, [8, 6], ['h', .46, [4, 2], ['h', .7, ['v', .62, [null, 5], [5, 3]], ['h', .86, [6, 0], [7, 1]]]]]];
+  TALL.face = [0, 1, 5];
   // 사진 속 얼굴 기준점(img/portrait.png 픽셀): 콧대 x, 눈 y, 눈 바로 위 y, 머리끝~턱 높이
-  // 'eye' 자르기는 떠다니지 않고 늘 눈 바로 위(사진을 따라)를 지난다.
+  // 'nose'·'eye' 자르기는 떠다니지 않고 늘 사진을 따라 콧대와 눈 바로 위를 지난다.
   const FACE = { x: 188, eye: 118, brow: 109, head: 208 };
   const NL = 9, MAXC = 16;
   const noop = { show() {} };
@@ -1125,12 +1124,11 @@ void main() {
     [...' .:-=+*#%@01'].forEach((ch, i) => x.fillText(ch, i * z + z / 2, z / 2 + 2)); return c;
   }
 
-  const FACEC = [2, 3, 5]; // 얼굴이 걸친 세 칸(두 배치 모두 같은 순번)
   let fixed = false, prevR = null;
   // 펼침 상태: ex 펼친 칸, exGo 그 칸이 여는 화면, exP 진행(0~1), exOpen 여는 중/열림이면 true
   let ex = -1, exGo = 0, exP = 0, exOpen = false, dim = 0, idleN = 0;
   let tree = null, splits = [], cells = [], hov = -1, raf = 0, imgReady = false, t = 0, last = 0;
-  let mx = .5, my = .5, sx = .5, sy = .5, eyeLine = .34;
+  let mx = .5, my = .5, sx = .5, sy = .5, eyeLine = .34, noseLine = .5;
   const img = new Image();
 
   function layout() {
@@ -1140,7 +1138,8 @@ void main() {
     // 나무를 펼친다: 자르기마다 움직일 상태를, 잎마다 칸을 만든다
     const walk = (n) => {
       if (typeof n[0] !== 'string') { const k = cells.length; cells.push({ go: n[0], look: n[1] }); return { leaf: k, ks: [k] }; }
-      const eye = n[1] === 'eye', sp = { d: n[0], at: eye ? .34 : n[1], cur: eye ? .34 : n[1], eye, i: splits.length }; splits.push(sp);
+      const anchor = typeof n[1] === 'string' ? n[1] : null, at = anchor ? .5 : n[1] + (Math.random() - .5) * .08;
+      const sp = { d: n[0], at, cur: at, anchor, i: splits.length }; splits.push(sp);
       const a = walk(n[2]), b = walk(n[3]); sp.a = a; sp.b = b;
       return { sp, a, b, ks: [...a.ks, ...b.ks] };
     };
@@ -1182,12 +1181,12 @@ void main() {
   const chips = [...document.querySelectorAll('.top > div:first-child .chip')];
   function shuffle() { // 모든 칸이 한 번에 무작위로. 칩은 얼굴 세 칸의 필터 색을 따른다.
     assign(true);
-    FACEC.forEach((k, i) => { const [bg, fg] = CHIP[cells[k].look]; if (chips[i]) { chips[i].style.background = bg; chips[i].style.color = fg; } });
+    tree.face.forEach((k, i) => { const [bg, fg] = CHIP[cells[k].look]; if (chips[i]) { chips[i].style.background = bg; chips[i].style.color = fg; } });
   }
   function step(dt) { // 자르는 위치: 떠다님 + 마우스 쪽으로 밀림 + 올린 칸 키우기
     const A = reduce ? 0 : 1, E = .035, ease = Math.min(1, dt * (reduce ? 20 : 3));
     splits.forEach((sp) => {
-      if (sp.eye) { sp.cur = eyeLine; return; }
+      if (sp.anchor) { sp.cur = sp.anchor === 'eye' ? eyeLine : noseLine; return; }
       const sign = sp.i % 2 ? -1 : 1, m = sp.d === 'v' ? sx : sy;
       let tgt = sp.at + A * (.014 * Math.sin(t * .45 + sp.i * 1.9) + (m - .5) * .05 * sign);
       if (hov >= 0) { if (sp.a.ks.includes(hov)) tgt += E; else if (sp.b.ks.includes(hov)) tgt -= E; }
@@ -1221,7 +1220,7 @@ void main() {
     const sc = (tall ? Math.min(h * .25, w * .5) : h * .34) / FACE.head, eyeY = .35;
     const par = reduce ? 0 : 1, ox = -(sx - .5) * w * .03 * par, oy = -(sy - .5) * h * .03 * par;
     const px = w * .5 - FACE.x * sc + ox, py = h * eyeY - FACE.eye * sc + oy;
-    eyeLine = (py + FACE.brow * sc) / h;
+    eyeLine = (py + FACE.brow * sc) / h; noseLine = (px + FACE.x * sc) / w;
     step(dt);
     const R = rects();
     if (!fixed) { assign(false); fixed = true; }
