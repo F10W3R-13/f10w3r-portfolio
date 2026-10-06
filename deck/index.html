@@ -23,7 +23,7 @@ a { color: inherit; }
 :focus-visible { outline: 2px solid var(--acc); outline-offset: 3px; }
 .chip { transition: background .35s, color .35s; display: inline-block; font: 700 11px/1 var(--mono); letter-spacing: .02em; padding: 7px 8px; text-transform: uppercase; white-space: nowrap; text-decoration: none; border: 0; cursor: pointer; }
 .c-w { background: var(--fg); color: var(--bg); } .c-v { background: #3a2a9c; color: #f1efff; } .c-d { background: #1b1b1f; color: var(--fg); } .c-a { background: var(--acc); color: var(--bg); }
-@media (pointer: coarse) { .top .chip, .bot .chip { padding: 12px 13px; font-size: 12px; } .stg .rp { font-size: 2.6cqw; padding: 1.6cqw 2cqw; } }
+@media (pointer: coarse) { .top .chip { padding: 12px 13px; font-size: 12px; } }
 button.chip:hover, a.chip:hover { filter: brightness(1.12); }
 .mono { font-family: var(--mono); }
 
@@ -34,8 +34,6 @@ button.chip:hover, a.chip:hover { filter: brightness(1.12); }
 .idx button { background: #1b1b1f; color: var(--muted); }
 .idx button[aria-current="true"] { background: var(--fg); color: var(--bg); }
 @media (max-width: 760px) { .idx { display: none; } }
-.bot { position: fixed; z-index: 20; left: 14px; right: 14px; bottom: calc(14px + env(safe-area-inset-bottom, 0px)); display: flex; justify-content: space-between; align-items: end; gap: 12px; pointer-events: none; }
-.bot > * { pointer-events: auto; display: flex; }
 
 /* 슬라이드 */
 .slide { position: fixed; inset: 0; z-index: 5; display: flex; flex-direction: column; justify-content: center; padding: 72px clamp(16px, 5vw, 72px) 72px; visibility: hidden; overflow-y: auto; overscroll-behavior: contain; }
@@ -70,8 +68,8 @@ body:not(.on-poster) .pcells { opacity: 0; pointer-events: none; }
 body.on-poster .top { top: 50%; translate: 0 -50%; }
 body.on-poster .top .chip { font-size: 12px; padding: 9px 10px; }
 .pcells .dec { cursor: crosshair; }
-.bot, .idx, .cl { transition: opacity .45s .35s; }
-body.on-poster .bot, body.on-poster .idx, body.on-poster .cl { opacity: 0; pointer-events: none; transition-delay: 0s; }
+.idx, .cl { transition: opacity .45s .35s; }
+body.on-poster .idx, body.on-poster .cl { opacity: 0; pointer-events: none; transition-delay: 0s; }
 
 /* 01 소개 */
 .lead { font-size: clamp(28px, 3.8vw, 54px); line-height: 1.25; letter-spacing: -.035em; font-weight: 500; max-width: 19em; margin: 18px 0 0; text-wrap: balance; }
@@ -155,9 +153,11 @@ body.on-poster .bot, body.on-poster .idx, body.on-poster .cl { opacity: 0; point
 .stg .cap i { font: 700 clamp(10px, 2cqw, 15px)/1 var(--mono); font-style: normal; color: var(--bg); background: var(--acc); padding: .5cqw .8cqw; flex: none; }
 .stg .prog { position: absolute; left: 3.2cqw; right: 3.2cqw; bottom: 2cqw; z-index: 6; display: flex; gap: .6cqw; }
 .stg .prog span { flex: 1; height: .4cqw; min-height: 2px; background: #2a2a2e; overflow: hidden; }
-.stg .prog span::after { content: ""; display: block; height: 100%; width: 100%; background: var(--acc); transform: scaleX(0); transform-origin: left; }
-.stg .prog span.on::after { transform: scaleX(1); transition: transform var(--d, 3s) linear; }
+.stg .prog span::after { content: ""; display: block; height: 100%; width: 100%; background: var(--acc); transform: scaleX(var(--p, 0)); transform-origin: left; }
 .stg .prog span.past::after { transform: scaleX(1); }
+.stg { cursor: e-resize; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; touch-action: manipulation; }
+.stg[data-side="l"] { cursor: w-resize; }
+.stg.ff *, .stg.ff *::after { transition: none !important; }
 /* 1 · 업로드 */
 .stg .up { left: 4cqw; top: 10cqw; width: 48cqw; background: #2b2d31; border-radius: 1cqw; padding: 2.2cqw; color: #dbdee1; opacity: 0; transform: translateY(4cqw); }
 .stg .up .who { font: 600 1.9cqw/1.2 var(--sans); color: #fff; } .stg .up .who small { font: 400 1.4cqw var(--mono); color: #949ba4; margin-left: 1cqw; }
@@ -205,8 +205,6 @@ body.on-poster .bot, body.on-poster .idx, body.on-poster .cl { opacity: 0; point
 .stg .call p { margin: 1cqw 0 0; font: 500 1.55cqw/1.5 var(--sans); }
 .stg .call code { display: block; margin-top: 1.2cqw; padding-top: 1cqw; border-top: 1px solid rgba(0,0,0,.25); font: 700 1.25cqw/1.6 var(--mono); white-space: nowrap; }
 .stg .call code span { font: 500 1.25cqw/1.6 var(--sans); white-space: normal; }
-.stg .rp { position: absolute; z-index: 7; right: 3.2cqw; bottom: 3.6cqw; font: 700 1.7cqw/1 var(--mono); background: #1b1b1f; color: var(--fg); border: 1px solid #333; padding: 1cqw 1.2cqw; cursor: pointer; opacity: 0; pointer-events: none; transition: opacity .4s; }
-.stg.done .rp { opacity: 1; pointer-events: auto; }
 
 .stg .card { background: #141418; border: 1px solid #2a2a2f; }
 .stg .pop { opacity: 0; transform: translateY(1.6cqw); transition: opacity .6s, transform .8s var(--ease); }
@@ -365,6 +363,10 @@ body.on-poster .bot, body.on-poster .idx, body.on-poster .cl { opacity: 0; point
 .panel .gal button:hover img { transform: scale(1.05); }
 .panel .gl { margin-top: 18px; font: 500 11px/1 var(--mono); text-transform: uppercase; color: #55554f; }
 .panel .lk { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; }
+.panel .pm { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 18px; padding-top: 14px; border-top: 1px solid rgba(0,0,0,.15); }
+.panel .pm b { display: block; font: 700 22px/1 var(--mono); letter-spacing: -.02em; }
+.panel .pm span { display: block; margin-top: 6px; font-size: 12px; line-height: 1.35; color: #55554f; }
+.panel .role { margin-top: 16px; font-size: 14px; } .panel .role span { font: 500 11px/1 var(--mono); text-transform: uppercase; color: #55554f; margin-right: 8px; }
 .lb { position: fixed; inset: 0; z-index: 40; background: rgba(6,6,8,.94); display: none; flex-direction: column; align-items: center; justify-content: center; padding: 56px 16px 24px; }
 .lb.open { display: flex; }
 .lb img { max-width: min(1200px, 100%); max-height: calc(100vh - 140px); object-fit: contain; display: block; }
@@ -435,7 +437,7 @@ html.rm .slide [data-a], html.rm .media { transition: none !important; }
       <span class="lbl" data-a>10 · 연락 · 수도권 · 국내외 출장 가능</span>
       <p class="big" data-a style="transition-delay:.08s">함께 이야기 나누고 싶다면, 언제든 연락 주세요.</p>
       <div class="ll" data-a style="transition-delay:.16s">
-        <a href="mailto:spideman671@gmail.com">spideman671@gmail.com<span>↗</span></a>
+        <a href="mailto:spideman671@gmail.com">Email<span>↗</span></a>
         <a href="https://www.linkedin.com/in/minwoo-yoo-2a5b80214" target="_blank" rel="noopener">LinkedIn<span>↗</span></a>
         <a href="https://github.com/F10W3R-13" target="_blank" rel="noopener">GitHub<span>↗</span></a>
         <a href="https://www.youtube.com/channel/UC9h1aAAsOprTATC0_y2pt3A" target="_blank" rel="noopener">YouTube<span>↗</span></a>
@@ -446,10 +448,6 @@ html.rm .slide [data-a], html.rm .media { transition: none !important; }
   </section>
 </main>
 
-<div class="bot">
-  <div><span class="chip c-d" id="tc">00:00:00:00</span></div>
-  <div><button class="chip c-d" id="prev" aria-label="이전 화면">↑</button><span class="chip c-w" id="cnt">01 / 10</span><button class="chip c-a" id="next" aria-label="다음 화면">↓</button></div>
-</div>
 <aside class="panel" id="panel" aria-live="polite"></aside>
 
 <script>
@@ -809,62 +807,88 @@ function stageShell(key) {
             <span class="ex">${esc(d.ex)}</span>${d.html()}
             <div class="cap out"><i>1/${d.caps.length}</i><span></span></div>
             <div class="prog">${'<span></span>'.repeat(d.caps.length)}</div>
-            <button class="rp" type="button" aria-label="다시 재생">↻ 다시 보기</button>
           </div>`;
 }
 
+// 인스타그램 스토리처럼 본다: 오른쪽(가로 2/3)을 누르면 다음 장면, 왼쪽(1/3)을 누르면 이전 장면, 누르고 있으면 일시정지.
+// 장면은 자동으로 넘어가지 않고, 끝나면 그 모습에서 멈춰 다음 누름을 기다린다. 반복 재생과 다시 보기는 없다.
+// 장면은 앞 장면 위에 쌓이므로, i번째로 갈 때는 앞 장면들을 빨리 감기(ff)로 즉시 끝내고 i번째만 제 속도로 튼다.
 function makeStage(root) {
   const def = STAGES[root.dataset.stage];
   const $ = (s) => root.querySelector(s), $$ = (s) => [...root.querySelectorAll(s)];
   const segs = $$('.prog span'), cap = $('.cap'), capN = $('.cap i'), capT = $('.cap span');
-  let token = 0;
+  let token = 0, ff = false, paused = false, at = 0;
   const fmt = (v, f) => (f ? v.toFixed(Number(f)) : Math.round(v).toLocaleString('en-US'));
+  // 일시정지 동안은 멈추고, 빨리 감기면 바로 끝나는 시계. onTick에는 진행률(0~1)을 넘긴다.
+  const clock = (ms, t, onTick) => new Promise((res, rej) => {
+    if (ff) { onTick?.(1); res(); return; }
+    let left = ms, last = performance.now();
+    const tick = (now) => {
+      if (t !== token) { rej('cancel'); return; }
+      if (!paused) left -= now - last; last = now;
+      if (left <= 0 || ff) { onTick?.(1); res(); return; }
+      onTick?.(1 - left / ms); requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  });
   const h = {
     $, $$, fmt,
-    wait(ms) { const t = token; return new Promise((r, j) => setTimeout(() => (t === token ? r() : j('cancel')), ms)); },
+    wait(ms) { return clock(ms, token); },
     show(el, on) { el.style.opacity = on ? 1 : 0; el.style.transform = on ? 'none' : ''; },
     count(el, dur, f) {
-      const t = token, to = Number(el.dataset.n), t0 = performance.now(), out = f || ((v) => fmt(v, el.dataset.f));
-      const tick = (n) => { if (t !== token) return; const p = Math.min(1, (n - t0) / dur), e = 1 - Math.pow(1 - p, 3); el.textContent = out(to * e); if (p < 1) requestAnimationFrame(tick); };
-      requestAnimationFrame(tick);
+      const to = Number(el.dataset.n), out = f || ((v) => fmt(v, el.dataset.f));
+      clock(dur, token, (p) => { el.textContent = out(to * (1 - Math.pow(1 - p, 3))); }).catch(() => {});
     },
     fill() { $$('[data-n]').forEach((el) => { el.textContent = fmt(Number(el.dataset.n), el.dataset.f) + (el.closest('.cq-big, .rg-eval .br') ? '%' : ''); }); },
   };
   const S = def.init(root, h);
   const n = def.caps.length;
-  async function caption(i) {
+  function caption(i, now) {
+    capN.textContent = `${i + 1}/${n}`;
+    if (now) { capT.textContent = def.caps[i]; cap.classList.remove('out'); return; }
     const t = token; cap.classList.add('out');
-    await new Promise((r) => setTimeout(r, 350)); if (t !== token) return;
-    capN.textContent = `${i + 1}/${n}`; capT.textContent = def.caps[i]; cap.classList.remove('out');
+    setTimeout(() => { if (t !== token) return; capT.textContent = def.caps[i]; cap.classList.remove('out'); }, 350);
   }
   function reset() {
-    root.classList.remove('done'); segs.forEach((s) => s.classList.remove('on', 'past')); cap.classList.add('out');
+    segs.forEach((s) => { s.classList.remove('past'); s.style.setProperty('--p', 0); }); cap.classList.add('out');
     $$('.sc').forEach((el) => { el.style.opacity = 0; el.style.transform = ''; });
     $$('[data-n]').forEach((el) => { el.textContent = '0'; });
     S.reset();
   }
-  function final() {
-    S.final(); root.classList.add('done'); segs.forEach((s) => s.classList.add('past'));
-    capN.textContent = `${n}/${n}`; capT.textContent = def.caps[n - 1]; cap.classList.remove('out');
-  }
-  async function play() {
-    ++token; reset(); S.start?.();
-    if (reduce) return final();
+  const setPause = (on) => { paused = on; root.classList.toggle('paused', on); };
+  async function show(i) {
+    const t = ++token; at = i; setPause(false);
+    reset(); S.start?.();
     try {
-      await h.wait(500);
-      for (let i = 0; i < n; i++) {
-        segs.forEach((s, k) => { s.classList.toggle('past', k < i); s.classList.toggle('on', k === i); s.style.setProperty('--d', def.dur[i] + 'ms'); });
-        caption(i);
-        const t0 = performance.now();
-        await S.scenes[i]();
-        await h.wait(Math.max(0, def.dur[i] - (performance.now() - t0)));
-      }
-      root.classList.add('done'); segs.forEach((s) => { s.classList.remove('on'); s.classList.add('past'); });
-    } catch (e) { /* 다른 화면으로 이동해 취소됨 */ }
+      ff = true; root.classList.add('ff');
+      for (let k = 0; k < i; k++) await S.scenes[k]();
+      ff = reduce; // 동작 줄이기면 이번 장면도 끝 모습으로 바로
+      void root.offsetWidth; // 빨리 감은 모습을 확정한 뒤 전환 효과를 다시 켠다
+      root.classList.toggle('ff', reduce);
+      segs.forEach((s, k) => { s.classList.toggle('past', k < i); });
+      caption(i, reduce);
+      const seg = segs[i];
+      await Promise.all([S.scenes[i](), clock(def.dur[i], t, (p) => seg.style.setProperty('--p', p))]);
+      seg.classList.add('past');
+    } catch (e) { /* 다른 장면이나 화면으로 넘어가 취소됨 */ }
+    finally { if (t === token) { ff = false; root.classList.remove('ff'); } }
   }
-  $('.rp').addEventListener('click', play);
+  // 누름: 짧게 누르면 넘기기, 220ms 넘게 누르고 있으면 일시정지(떼면 이어서)
+  let down = false, held = false, holdT = 0;
+  const side = (e) => { const r = root.getBoundingClientRect(); return e.clientX - r.left < r.width / 3 ? -1 : 1; };
+  root.addEventListener('pointerdown', (e) => { if (e.button) return; down = true; held = false; holdT = setTimeout(() => { held = true; setPause(true); }, 220); });
+  root.addEventListener('pointerup', (e) => {
+    clearTimeout(holdT); if (!down) return; down = false;
+    if (held) { setPause(false); return; }
+    const k = at + side(e);
+    if (k < n) show(Math.max(0, k));
+  });
+  const cancel = () => { clearTimeout(holdT); if (down && held) setPause(false); down = false; };
+  root.addEventListener('pointercancel', cancel); root.addEventListener('pointerleave', cancel);
+  root.addEventListener('pointermove', (e) => { root.dataset.side = side(e) < 0 ? 'l' : 'r'; });
+  root.addEventListener('contextmenu', (e) => e.preventDefault());
   reset();
-  return { play, stop() { ++token; reset(); S.stopDraw?.(); } };
+  return { play() { show(0); }, stop() { ++token; ff = false; setPause(false); reset(); S.stopDraw?.(); } };
 }
 
 
@@ -880,8 +904,7 @@ ps.outerHTML = PROJECTS.map((p, i) => `
         <div class="tR" data-a style="transition-delay:.12s">${esc(p.b)}</div>
         <div class="below">
           <p class="pitch" data-a style="transition-delay:.3s">${esc(p.pitch)}</p>
-          <div class="m3" data-a style="transition-delay:.38s">${p.m.map(([v, l]) => `<div><b>${esc(v)}</b><span>${esc(l)}</span></div>`).join('')}</div>
-          <div class="acts" data-a style="transition-delay:.46s"><span class="chip c-d">${esc(p.r)}</span><button class="chip c-w" data-info="${i}">자세히</button>${p.links.map(([l, h]) => `<a class="chip c-a" href="${h}" target="_blank" rel="noopener">${esc(l)}</a>`).join('')}</div>
+          <div class="acts" data-a style="transition-delay:.4s"><button class="chip c-w" data-info="${i}">자세히</button></div>
         </div>
       </div>
     </div>
@@ -903,9 +926,14 @@ idx.innerHTML = slides.map((s, i) => `<button class="chip" role="tab" data-go="$
 const panel = document.getElementById('panel');
 function openInfo(i) {
   const p = PROJECTS[i];
-  panel.innerHTML = `<button class="chip c-d x" type="button">닫기</button><span class="lbl" style="color:#55554f">Project ${String(i + 1).padStart(3, '0')} · ${esc(p.r)}</span><h2 style="margin-top:10px">${esc(p.a + ' ' + p.b)}</h2><p><b>${esc(p.pitch)}</b></p><p>${esc(p.body)}</p><div class="tags">${p.tags.map((t) => `<span>${esc(t)}</span>`).join('')}</div>`
+  // 프로젝트 화면에는 문구만 두고, 숫자 · 역할 · 링크 · 설명 · 사진은 모두 여기에 모은다
+  panel.innerHTML = `<button class="chip c-d x" type="button">닫기</button><span class="lbl" style="color:#55554f">Project ${String(i + 1).padStart(3, '0')} · ${esc(p.cat)}</span><h2 style="margin-top:10px">${esc(p.a + ' ' + p.b)}</h2><p><b>${esc(p.pitch)}</b></p>`
+    + `<div class="pm">${p.m.map(([v, l]) => `<div><b>${esc(v)}</b><span>${esc(l)}</span></div>`).join('')}</div>`
+    + `<div class="role"><span>역할</span>${esc(p.r)}</div>`
+    + (p.links.length ? `<div class="lk">${p.links.map(([l, h]) => `<a class="chip c-a" href="${h}" target="_blank" rel="noopener">${esc(l)}</a>`).join('')}</div>` : '')
+    + `<p>${esc(p.body)}</p><div class="tags">${p.tags.map((t) => `<span>${esc(t)}</span>`).join('')}</div>`
     + (p.gallery ? `<div class="gl">실제 화면 · ${p.gallery.length}장</div><div class="gal">${p.gallery.map(([src, c], k) => `<button type="button" data-lb="${i}:${k}" aria-label="${esc(c)} 크게 보기"><img src="${src}-t.jpg" alt="${esc(c)}" loading="lazy"></button>`).join('')}</div>` : '')
-    + (p.links.length ? `<div class="lk">${p.links.map(([l, h]) => `<a class="chip c-a" href="${h}" target="_blank" rel="noopener">${esc(l)}</a>`).join('')}</div>` : '');
+    ;
   panel.classList.add('open');
   panel.querySelector('.x').onclick = () => panel.classList.remove('open');
   panel.querySelector('.x').focus();
@@ -935,7 +963,6 @@ document.addEventListener('click', (e) => {
 /* ---------- 덱 이동 ---------- */
 // 포스터가 첫 화면이고, 칸을 누르면 그 화면이 열린다. 화면마다 주소(#hub 등)가 있어 뒤로 가기와 링크 공유가 된다.
 let cur = -1, lock = 0, fromPop = false;
-const cnt = document.getElementById('cnt');
 const SLUG = ['', 'about', ...PROJECTS.map((p) => p.stage), 'records', 'contact'];
 const fromHash = () => Math.max(0, SLUG.indexOf(decodeURIComponent(location.hash.slice(1))));
 addEventListener('popstate', () => { fromPop = true; go(fromHash()); fromPop = false; });
@@ -959,7 +986,6 @@ function go(n, dir) {
     requestAnimationFrame(() => requestAnimationFrame(() => next.classList.add('shown')));
   }, !prev || reduce ? 0 : fromPoster ? 560 : 260);
   cur = n;
-  cnt.textContent = `${String(n + 1).padStart(2, '0')} / ${N}`;
   idx.querySelectorAll('button').forEach((b, i) => b.setAttribute('aria-current', String(i === n)));
   document.body.classList.toggle('on-poster', n === 0);
   poster.show(n, !!prev && !reduce);
@@ -967,21 +993,16 @@ function go(n, dir) {
   stages.forEach((st, sl) => { if (sl === next) setTimeout(() => st.play(), reduce ? 0 : fromPoster ? 1500 : 1200); else st.stop(); });
   lock = performance.now();
 }
-document.getElementById('prev').onclick = () => go(cur - 1, false);
-document.getElementById('next').onclick = () => go(cur + 1, true);
 addEventListener('keydown', (e) => {
   if (lb.classList.contains('open')) { if (e.key === 'Escape') closeLb(); else if (e.key === 'ArrowLeft') showLb(lbP, lbK - 1); else if (e.key === 'ArrowRight') showLb(lbP, lbK + 1); return; }
   if (e.key === 'Escape') { if (panel.classList.contains('open')) panel.classList.remove('open'); else if (cur) go(0); return; }
   if (cur === 0) return;
-  if (['ArrowDown', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); go(cur + 1, true); }
-  else if (['ArrowUp', 'PageUp'].includes(e.key)) { e.preventDefault(); go(cur - 1, false); }
+  // 화면 넘기기는 좌우 키(위아래 키는 화면 안 스크롤에 쓴다)
+  if (e.key === 'ArrowRight') { e.preventDefault(); go(cur + 1, true); }
+  else if (e.key === 'ArrowLeft') { e.preventDefault(); go(cur - 1, false); }
   else if (e.key === 'Home') go(0); else if (e.key === 'End') go(N - 1);
 });
 
-/* ---------- 타임코드 ---------- */
-const tc = document.getElementById('tc'), t0 = performance.now();
-const pad = (v) => String(v).padStart(2, '0');
-setInterval(() => { const f = Math.floor((performance.now() - t0) / (1000 / 30)); tc.textContent = `${pad(Math.floor(f / 108000))}:${pad(Math.floor(f / 1800) % 60)}:${pad(Math.floor(f / 30) % 60)}:${pad(f % 30)}`; }, 33);
 
 
 /* ---------- 포스터 ----------
@@ -1006,9 +1027,8 @@ const poster = (() => {
     ['h', 'eye', [1, 0], ['h', .6, [2, 4], ['h', .8, [3, 1], [9, 6]]]],
     ['h', .14, [8, 6], ['h', .46, [4, 2], ['h', .7, ['v', .62, [null, 5], [5, 3]], ['h', .86, [6, 0], [7, 1]]]]]];
   TALL.face = [0, 1, 5];
-  // 사진 속 얼굴 기준점(img/portrait.png 픽셀): 콧대 x, 눈 y, 눈 바로 위 y, 머리끝~턱 높이
-  // 'nose'·'eye' 자르기는 떠다니지 않고 늘 사진을 따라 콧대와 눈 바로 위를 지난다.
-  const FACE = { x: 188, eye: 118, brow: 109, head: 208 };
+  // 사진 속 얼굴 기준점(img/portrait.png 픽셀): 콧대 x, 눈 y, 머리끝~턱 높이
+  const FACE = { x: 188, eye: 118, head: 208 };
   const NL = 9, MAXC = 16;
   const noop = { show() {} };
   const gl = cv.getContext('webgl2', { antialias: false, premultipliedAlpha: false });
@@ -1128,7 +1148,7 @@ void main() {
   // 펼침 상태: ex 펼친 칸, exGo 그 칸이 여는 화면, exP 진행(0~1), exOpen 여는 중/열림이면 true
   let ex = -1, exGo = 0, exP = 0, exOpen = false, dim = 0, idleN = 0;
   let tree = null, splits = [], cells = [], hov = -1, raf = 0, imgReady = false, t = 0, last = 0;
-  let mx = .5, my = .5, sx = .5, sy = .5, eyeLine = .34, noseLine = .5;
+  let mx = .5, my = .5, sx = .5, sy = .5;
   const img = new Image();
 
   function layout() {
@@ -1138,8 +1158,9 @@ void main() {
     // 나무를 펼친다: 자르기마다 움직일 상태를, 잎마다 칸을 만든다
     const walk = (n) => {
       if (typeof n[0] !== 'string') { const k = cells.length; cells.push({ go: n[0], look: n[1] }); return { leaf: k, ks: [k] }; }
-      const anchor = typeof n[1] === 'string' ? n[1] : null, at = anchor ? .5 : n[1] + (Math.random() - .5) * .08;
-      const sp = { d: n[0], at, cur: at, anchor, i: splits.length }; splits.push(sp);
+      // 'nose'(가운데 세로선)·'eye'(눈 위 가로선)는 시작 위치가 고정이고, 나머지는 들어올 때마다 조금씩 달라진다
+      const at = n[1] === 'nose' ? .5 : n[1] === 'eye' ? .335 : n[1] + (Math.random() - .5) * .08;
+      const sp = { d: n[0], at, cur: at, i: splits.length }; splits.push(sp);
       const a = walk(n[2]), b = walk(n[3]); sp.a = a; sp.b = b;
       return { sp, a, b, ks: [...a.ks, ...b.ks] };
     };
@@ -1186,7 +1207,6 @@ void main() {
   function step(dt) { // 자르는 위치: 떠다님 + 마우스 쪽으로 밀림 + 올린 칸 키우기
     const A = reduce ? 0 : 1, E = .035, ease = Math.min(1, dt * (reduce ? 20 : 3));
     splits.forEach((sp) => {
-      if (sp.anchor) { sp.cur = sp.anchor === 'eye' ? eyeLine : noseLine; return; }
       const sign = sp.i % 2 ? -1 : 1, m = sp.d === 'v' ? sx : sy;
       let tgt = sp.at + A * (.014 * Math.sin(t * .45 + sp.i * 1.9) + (m - .5) * .05 * sign);
       if (hov >= 0) { if (sp.a.ks.includes(hov)) tgt += E; else if (sp.b.ks.includes(hov)) tgt -= E; }
@@ -1220,7 +1240,6 @@ void main() {
     const sc = (tall ? Math.min(h * .25, w * .5) : h * .34) / FACE.head, eyeY = .35;
     const par = reduce ? 0 : 1, ox = -(sx - .5) * w * .03 * par, oy = -(sy - .5) * h * .03 * par;
     const px = w * .5 - FACE.x * sc + ox, py = h * eyeY - FACE.eye * sc + oy;
-    eyeLine = (py + FACE.brow * sc) / h; noseLine = (px + FACE.x * sc) / w;
     step(dt);
     const R = rects();
     if (!fixed) { assign(false); fixed = true; }
