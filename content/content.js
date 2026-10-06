@@ -40,8 +40,7 @@ export const PORTFOLIO_CONTENT = {
     base: { ko: '수도권, 대한민국', en: 'Seoul Capital Area, South Korea' },
     availability: { ko: '수도권 · 국내외 출장 가능', en: 'Available for domestic and international travel' },
     contact: {
-      // email은 새 주소를 만들기 전까지 null
-      email: null,
+            email: 'spideman671@gmail.com',
       github: 'https://github.com/F10W3R-13',
       linkedin: 'https://www.linkedin.com/in/minwoo-yoo-2a5b80214',
       twitter: 'https://twitter.com/F_L_WR',
@@ -216,7 +215,7 @@ export const PORTFOLIO_CONTENT = {
           { value: { ko: '8팀', en: '8' }, label: { ko: '대회당 참가 (약 40명)', en: 'Teams per event (~40 players)' } },
         ],
         links: {
-          youtube: 'https://www.youtube.com/channel/UC9h1aAAsOprTATC0_y2pt3A',
+          youtube: 'https://www.youtube.com/playlist?list=PLSAikjREnA4Q',
         },
         detail: {
           pitch: { ko: '뛸 무대가 없어서 무대를 만들고, 3년간 혼자 굴렸다', en: 'No stage to play on, so I built one and ran it solo for three years' },
@@ -393,8 +392,8 @@ export const PORTFOLIO_CONTENT = {
         title: { ko: '하이클럽', en: 'HiClub' },
         role: { ko: '기획팀 · 프로젝트 팀장', en: 'Planning team · project lead' },
         summary: {
-          ko: '성균관대 국제처 산하 학생단체 하이클럽 기획팀에서 2025년 봄부터 교환학생을 맞습니다. 봄·가을 OT에서 300~400명을 한 번에 맞이하고, 26-1 스포츠데이의 모든 콘텐츠를 기획한 뒤 26-2에는 총괄을 맡았습니다.',
-          en: "On the planning team of HiClub, SKKU's international-office student organization, since Spring 2025. We welcome 300-400 exchange students at each orientation, and after planning all content for the 26-1 Sports Day I took over as overall director for 26-2.",
+          ko: '성균관대 국제처 산하 공식 학생단체 하이클럽(GSN HI-Club) 기획팀에서 2025년 1학기부터 교환학생을 맞습니다. 봄·가을 OT에서 300~400명을 한 번에 맞이하고, 26-1 스포츠데이의 모든 콘텐츠를 기획한 뒤 26-2에는 총괄을 맡았습니다.',
+          en: "On the planning team of GSN HI-Club, the official student organization of SKKU's Office of International Affairs, since Spring 2025. We welcome 300-400 exchange students at each orientation, and after planning all content for the 26-1 Sports Day I took over as overall director for 26-2.",
         },
         stack: [
           { ko: '행사 기획', en: 'Event planning' },
@@ -415,15 +414,15 @@ export const PORTFOLIO_CONTENT = {
             en: 'The job is making sure first-time exchange students never lose their way on campus or in the rules. My habit of turning repeated questions into systems kicked in here too, and it eventually grew into the regulations WhatsApp bot.',
           },
           background: {
-            ko: '하이클럽은 국제처 산하 선발제 학생단체로 기수당 20~30명으로 구성되고, 격주로 명륜·율전 캠퍼스를 오가며 매주 미팅을 합니다. 봄·가을 OT에서는 성균관대에 오는 모든 교환학생(300~400명)을 한 번에 맞이합니다.',
-            en: 'HiClub is a selective student organization of 20-30 members per cohort under the Office of International Affairs, meeting weekly and alternating between the two campuses. At spring and fall orientations we welcome every incoming exchange student, 300-400 at a time.',
+            ko: '하이클럽(Global Student Network Help&Information Club)은 국제처 산하 공식 학생단체이자 교환학생 지원을 전담하는 선발제 단체로, 부원 약 50명 규모이며 격주로 명륜·율전 캠퍼스를 오가며 매주 미팅을 합니다. 봄·가을 OT에서는 성균관대에 오는 모든 교환학생(300~400명)을 한 번에 맞이합니다.',
+            en: 'GSN HI-Club (Global Student Network Help&Information Club) is the official, selective student organization under the Office of International Affairs dedicated to supporting exchange students, about 50 members strong, meeting weekly and alternating between the two campuses. At spring and fall orientations we welcome every incoming exchange student, 300-400 at a time.',
           },
           approach: {
             ko: 'OT 집합 맞이와 캠퍼스 투어, 부원 1명당 교환학생 3명의 버디 매칭, 그룹톡 관리와 민원 응대까지가 일상입니다. 26-1 스포츠데이(5팀 · 6종목 · 참가 99명)에서는 게임 구성과 규칙을 포함한 모든 콘텐츠를 기획했고, 입장·팔찌 안내와 자보를 KO/EN으로 번역했으며 교환학생 스프링파티 Blooming Night 콘텐츠도 만들었습니다. 그 과정이 인정받아 26-2(6팀 · 12종목, 신청 약 200건에서 최종 150명 규모로 확대)에는 스포츠데이 총괄을 맡았고(스포츠데이 허브 프로젝트로 확장), 필드트립 조장은 2025·2026 두 차례, 2025 홈커밍에는 스태프로 참가했습니다. 기획은 한국어로, 행사 진행은 전적으로 영어로 합니다.',
             en: 'Day to day: orientation welcomes and campus tours, buddy matching at one member per three students, group-chat management and student support. For the 26-1 Sports Day (5 teams, 6 game formats, 99 participants) I planned every piece of content including game formats and rules, translated the entry and wristband guides and posters between Korean and English, and built content for the exchange-student spring party Blooming Night. That track led to overall director for 26-2 (6 teams, 12 formats, scaled to 150 selected students from about 200 applications; it also grew into the Sports Day Hub project), plus field-trip team leader in 2025 and 2026 and staff at Homecoming 2025. Planning happens in Korean; the events run entirely in English.',
           },
           specs: [
-            { label: { ko: '활동', en: 'Tenure' }, value: { ko: '2025봄~ · 매주 미팅 (격주 명륜/율전)', en: 'Spring 2025~ · weekly meetings, two campuses' } },
+            { label: { ko: '활동', en: 'Tenure' }, value: { ko: '2025-1학기~ · 부원 약 50명 · 매주 미팅 (격주 명륜/율전)', en: 'Spring 2025~ · ~50 members · weekly meetings, two campuses' } },
             { label: { ko: '맞이', en: 'Welcome' }, value: { ko: '봄·가을 OT · 교환학생 300~400명 · 버디 1:3', en: 'Spring/fall OTs · 300-400 students · 1:3 buddies' } },
             { label: { ko: '행사', en: 'Events' }, value: { ko: '스포츠데이 콘텐츠 기획(26-1) → 총괄(26-2) · 필드트립 조장 2회 · 홈커밍 스태프', en: 'Sports Day content (26-1) -> director (26-2) · field-trip lead x2 · homecoming staff' } },
             { label: { ko: '언어', en: 'Language' }, value: { ko: '기획 KO · 행사 진행 EN', en: 'Planned in Korean, run in English' } },
