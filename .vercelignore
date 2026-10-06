@@ -1,2 +1,6 @@
-node_modules
-_snapshots
+# 덱 서빙과 keepalive 크론에 필요한 것만 올린다. 나머지(로컬 메모, 옛 빌드, 원본 자료)는 업로드하지 않는다.
+/*
+!/deck
+!/api
+!/vercel.json
+!/package.json
