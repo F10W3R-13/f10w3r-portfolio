@@ -163,7 +163,8 @@ button.chip:hover, a.chip:hover { filter: brightness(1.12); }
 .stg.done .rp { opacity: 1; }
 .stg.done .steps { opacity: .0; transition: opacity .4s; }
 
-@media (prefers-reduced-motion: reduce) { .slide [data-a], .media { transition: none !important; } }
+html.rm .slide [data-a], html.rm .media { transition: none !important; }
+.mt[aria-pressed="false"] { background: #1b1b1f; color: var(--muted); }
 </style>
 
 </head>
@@ -171,7 +172,7 @@ button.chip:hover, a.chip:hover { filter: brightness(1.12); }
 <canvas id="gl" aria-hidden="true"></canvas>
 
 <header class="top">
-  <div><button class="chip c-w" data-go="0">F10W3R</button><span class="chip c-a">● Coach &amp; Builder</span></div>
+  <div><button class="chip c-w" data-go="0">F10W3R</button><span class="chip c-a">● Coach &amp; Builder</span><button class="chip c-w mt" id="mt" type="button" aria-pressed="true">Motion on</button></div>
   <div class="idx" id="idx" role="tablist" aria-label="Screens"></div>
 </header>
 
@@ -323,6 +324,15 @@ ps.outerHTML = PROJECTS.map((p, i) => `
 document.getElementById('rbody').innerHTML = RESULTS.map((r) => `<tr class="${r[4] ? 'win' : ''}"><td class="d">${r[0]}</td><td>${esc(r[1])}</td><td class="res">${r[4] ? '● ' : ''}${esc(r[2])}</td><td class="role">${r[3]}</td></tr>`).join('');
 
 const slides = [...document.querySelectorAll('.slide')];
+/* ---------- 모션 설정: 기본은 OS의 '동작 줄이기'를 따르고, 버튼으로 직접 켜고 끈다 ---------- */
+let pref = null; try { pref = localStorage.getItem('motion'); } catch (e) {}
+let reduce = pref ? pref === 'off' : matchMedia('(prefers-reduced-motion: reduce)').matches;
+const mt = document.getElementById('mt');
+function applyMotion() {
+  document.documentElement.classList.toggle('rm', reduce);
+  mt.setAttribute('aria-pressed', String(!reduce)); mt.textContent = reduce ? 'Motion off' : 'Motion on';
+}
+applyMotion();
 /* ---------- 코칭 허브 파이프라인 재생 ---------- */
 function hubStage(root) {
   const $ = (s) => root.querySelector(s);
@@ -333,7 +343,6 @@ function hubStage(root) {
   const cv = $('.dash canvas');
   const img = new Image(); img.src = SRC.dash;
   let token = 0;
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const wait = (ms, t) => new Promise((r, j) => setTimeout(() => (t === token ? r() : j('cancel')), ms));
   const step = (i) => steps.forEach((s, k) => s.classList.toggle('on', k === i));
 
@@ -430,7 +439,6 @@ document.addEventListener('click', (e) => {
 });
 
 /* ---------- 덱 이동 ---------- */
-const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 let cur = -1, lock = 0;
 const cnt = document.getElementById('cnt');
 function go(n, dir) {
@@ -495,7 +503,7 @@ setInterval(() => { const f = Math.floor((performance.now() - t0) / (1000 / 30))
 const particles = (() => { try { return (() => {
   const cv = document.getElementById('gl');
   const gl = cv.getContext('webgl2', { antialias: false, premultipliedAlpha: false });
-  const api = { setHero() {} };
+  const api = { setHero() {}, replay() {} };
   if (!gl) return api;
   const VS = `#version 300 es
   precision highp float;
@@ -621,6 +629,7 @@ const particles = (() => { try { return (() => {
   }
 
   function animG(to, dur) { gFrom = g; gTarget = to; gStart = now(); gDur = dur; }
+  api.replay = () => { if (hero && !reduce) { g = 0; animG(1, 2.4); lastBreath = now(); } };
   api.setHero = (on) => { if (on === hero) return; hero = on; animG(on ? 1 : 0, on ? 1.8 : 1.1); lastBreath = now(); };
 
   addEventListener('pointermove', (e) => { mouse = [e.clientX, e.clientY]; mOn = 1; });
@@ -659,8 +668,14 @@ const particles = (() => { try { return (() => {
     requestAnimationFrame(frame);
   })().catch((e) => console.error(e));
   return api;
-})(); } catch (e) { console.error(e); return { setHero() {} }; } })();
+})(); } catch (e) { console.error(e); return { setHero() {}, replay() {} }; } })();
 
+mt.onclick = () => {
+  reduce = !reduce; applyMotion();
+  try { localStorage.setItem('motion', reduce ? 'off' : 'on'); } catch (e) {}
+  particles.replay();
+  stages.forEach((st, sl) => { if (sl === slides[cur]) st.play(); });
+};
 go(0);
 })();
 </script>
