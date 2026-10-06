@@ -1168,12 +1168,12 @@ const poster = (() => {
     ['h', .8,
       ['v', .18,
         ['h', .27, [null, 7], [4, 1]],
-        ['h', .4, ['v', .5, [1, 0], [5, 4]], ['v', .36, [6, 6], [7, 2]]]],
+        ['h', .34, ['v', .5, [1, 0], [5, 4]], ['v', .36, [6, 6], [7, 2]]]],
       ['v', .4, [9, 4], [null, 0]]],
     ['h', .22, [8, 6], ['h', .58, [2, 1], [3, 4]]]];
   const TALL = ['h', .62,
     ['h', .16, ['v', .55, [8, 6], [2, 1]],
-      ['h', .39, ['v', .5, [1, 0], [3, 4]], ['v', .3, [null, 6], [4, 2]]]],
+      ['h', .35, ['v', .5, [1, 0], [3, 4]], ['v', .3, [null, 6], [4, 2]]]],
     ['v', .45, ['h', .82, [5, 3], [6, 8]], ['h', .74, [7, 4], [9, 6]]]];
   // 사진 속 얼굴 기준점(img/portrait.png 픽셀): 콧대 x, 눈 y, 머리끝~턱 높이
   const FACE = { x: 188, eye: 118, head: 208 };
@@ -1385,7 +1385,7 @@ void main() {
       const c = cells[i]; c.e = (c.e || 0) + (Math.min(1, v * 12) - (c.e || 0)) * Math.min(1, dt * 6); });
     prevR = R;
     // 얼굴 기준으로 놓는다: 머리 높이, 콧대가 화면 가운데, 눈 높이. 마우스 반대쪽으로 화면의 3%만큼 움직인다.
-    const sc = (tall ? Math.min(h * .25, w * .5) : h * .34) / FACE.head, eyeY = tall ? .33 : .32;
+    const sc = (tall ? Math.min(h * .25, w * .5) : h * .34) / FACE.head, eyeY = .35;
     const par = reduce ? 0 : 1, ox = -(sx - .5) * w * .03 * par, oy = -(sy - .5) * h * .03 * par;
     const px = w * .5 - FACE.x * sc + ox, py = h * eyeY - FACE.eye * sc + oy;
     gl.uniform2f(U.uRes, w, h); gl.uniform1f(U.uS, S); gl.uniform1f(U.uT, t);
