@@ -1,8 +1,8 @@
 // 주간 데모 keep-alive (2026-09-01)
 // 사유: Supabase 무료 프로젝트는 7일간 활동이 없으면 자동 일시정지된다.
-// 동작: vercel.json의 cron(매주 월요일)이 이 함수를 호출하면 데모 앱(SSR)이
+// 동작: vercel.json의 cron(3일마다, 2026-10 주 1회에서 변경: 7일 경계에 걸려 정지가 발생함)이 이 함수를 호출하면 데모 앱(SSR)이
 //       Supabase를 조회하고, 그 조회가 활동으로 기록되어 정지를 막는다.
-// 비용: Vercel Hobby cron(주 1회) + 함수 1회 실행 = 0원.
+// 비용: Vercel Hobby cron(3일 1회) + 함수 1회 실행 = 0원.
 const TARGETS = ['https://sportsday-hub-demo.vercel.app'];
 
 export default async function handler(_req, res) {
