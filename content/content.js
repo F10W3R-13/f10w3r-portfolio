@@ -430,7 +430,7 @@ export const PORTFOLIO_CONTENT = {
           ],
           videos: [],
           gallery: [
-            { file: 'tunnel.jpg', caption: { ko: '제2땅굴 견학 (필드트립)', en: 'Second Tunnel visit (field trip)' } },
+            { file: 'tunnel.jpg', caption: { ko: '제3땅굴 견학 (필드트립)', en: 'Third Tunnel visit (field trip)' } },
             { file: 'buddy.jpg', caption: { ko: '버디 프로그램 진행', en: 'Buddy program session' } },
             { file: 'fieldtrip.jpg', caption: { ko: '필드트립', en: 'Field trip' } },
           ],
