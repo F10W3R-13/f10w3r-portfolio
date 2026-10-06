@@ -61,10 +61,11 @@ button.chip:hover, a.chip:hover { filter: brightness(1.12); }
 .pcells .nm i { font-style: normal; }
 .pcells button[data-r0] .nm { top: 58px; }
 @media (pointer: coarse) { .pcells .nm { opacity: 1; transform: none; font-size: 10px; padding: 6px 7px; left: 6px; top: 6px; max-width: calc(100% - 12px); } .pcells .nm i { display: none; } .pcells .tg { display: none; } }
-.pbox { position: absolute; z-index: 2; left: 50%; bottom: calc(clamp(18px, 7vh, 64px) + env(safe-area-inset-bottom, 0px)); translate: -50% 0; display: flex; flex-wrap: wrap; justify-content: center; pointer-events: none; }
-.pbox span { font: 600 clamp(13px, 1.25vw, 18px)/1 var(--sans); letter-spacing: -.01em; padding: .62em .85em; white-space: nowrap; }
-.pbox .b1 { background: #3a2a9c; color: #f1efff; } .pbox .b2 { background: var(--acc); color: #0d0e10; font-family: var(--mono); font-weight: 700; } .pbox .b3 { background: #141518; color: var(--fg); }
 body.on-poster #gl { visibility: hidden; }
+/* 포스터에서는 이름 칩이 왼쪽 가운데로 내려와 아래 박스 역할을 한다 */
+body.on-poster .top { top: 50%; translate: 0 -50%; }
+body.on-poster .top .chip { font-size: 13px; padding: 10px 12px; }
+.pcells .dec { cursor: crosshair; }
 body.on-poster .bot, body.on-poster .idx, body.on-poster .cl { display: none; }
 
 /* 01 소개 */
@@ -369,7 +370,6 @@ body.on-poster .bot, body.on-poster .idx, body.on-poster .cl { display: none; }
 .rg-b .at { white-space: pre-line; }
 
 html.rm .slide [data-a], html.rm .media { transition: none !important; }
-.mt[aria-pressed="false"] { background: #1b1b1f; color: var(--muted); }
 </style>
 
 </head>
@@ -377,7 +377,7 @@ html.rm .slide [data-a], html.rm .media { transition: none !important; }
 <canvas id="gl" aria-hidden="true"></canvas>
 
 <header class="top">
-  <div><button class="chip c-w" data-go="0">F10W3R</button><span class="chip c-a">● Coach &amp; Builder</span><button class="chip c-w mt" id="mt" type="button" aria-pressed="true">Motion on</button></div>
+  <div><button class="chip c-w" data-go="0">F10W3R</button><span class="chip c-a">● Coach &amp; Builder</span></div>
   <div><button class="chip c-a cl" type="button" data-go="0" aria-label="포스터로 돌아가기">닫기 ×</button><div class="idx" id="idx" role="tablist" aria-label="Screens"></div></div>
 </header>
 
@@ -386,7 +386,6 @@ html.rm .slide [data-a], html.rm .media { transition: none !important; }
     <div class="poster" id="poster">
       <canvas id="pc" aria-hidden="true"></canvas>
       <div class="pcells" id="pcells"></div>
-      <div class="pbox" data-a style="transition-delay:.3s"><span class="b1">Yoo Minwoo</span><span class="b2">F10W3R</span><span class="b3">Coaching &amp; Connecting</span></div>
     </div>
   </section>
 
@@ -888,13 +887,9 @@ document.getElementById('rbody').innerHTML = RESULTS.map((r) => `<tr class="${r[
 
 const slides = [...document.querySelectorAll('.slide')];
 /* ---------- 모션 설정: 기본은 OS의 '동작 줄이기'를 따르고, 버튼으로 직접 켜고 끈다 ---------- */
-let pref = null; try { pref = localStorage.getItem('motion'); } catch (e) {}
-let reduce = pref ? pref === 'off' : matchMedia('(prefers-reduced-motion: reduce)').matches;
-const mt = document.getElementById('mt');
-function applyMotion() {
-  document.documentElement.classList.toggle('rm', reduce);
-  mt.setAttribute('aria-pressed', String(!reduce)); mt.textContent = reduce ? 'Motion off' : 'Motion on';
-}
+// 모션은 OS의 '동작 줄이기' 설정을 따른다
+let reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+function applyMotion() { document.documentElement.classList.toggle('rm', reduce); }
 applyMotion();
 const stages = new Map(); document.querySelectorAll('.stg[data-stage]').forEach((el) => stages.set(el.closest('.slide'), makeStage(el)));
 const N = slides.length;
@@ -1158,151 +1153,234 @@ const particles = (() => { try { return (() => {
 })(); } catch (e) { console.error(e); return { setHero() {}, replay() {} }; } })();
 
 /* ---------- 포스터 ----------
-   사진 한 장을 화면 좌표에 한 번 놓고, 그 밝기로 필터 9종을 화면 크기 그대로 미리 그려 둔다.
-   칸은 자기 자리만큼 필터 하나를 잘라 보여 주므로 칸이 바뀌어도 얼굴 위치는 이어진다.
-   마우스를 따라 칸 경계가 살짝 밀리고(모션 켰을 때만), 칸에 올리면 그 칸만 다른 필터로 바뀐다. */
+   WebGL 셰이더 하나가 매 프레임 칸마다 필터를 계산한다. 사진은 화면에 한 번만 놓이므로 칸이 바뀌어도 얼굴은 이어진다.
+   - 칸 경계는 천천히 떠다니고, 마우스 쪽으로 밀리며, 올린 칸은 커진다.
+   - 필터 9종은 모두 마우스 근처에서 잘게 반응한다(원형 렌즈·왜곡은 쓰지 않는다. 반응 범위도 칸 격자 단위로 끊는다).
+   - 사진 원본 색은 어디에도 그대로 나오지 않는다. 모든 필터가 밝기를 몇 단계로 끊어 쓴다.
+   - 프로젝트가 없는 칸을 누르면 모든 칸의 필터가 한 번에 무작위로 바뀐다. */
 const poster = (() => {
   const cv = document.getElementById('pc'), layer = document.getElementById('pcells'), root = document.getElementById('poster');
-  const K = [13, 14, 16], LI = [214, 255, 61], CY = [124, 200, 230], VI = [58, 42, 156], PA = [236, 236, 232], DG = [20, 36, 17];
-  // [행 높이, [칸 너비...], [열 화면...]] · 화면 번호: 1 소개, 2~7 프로젝트, 8 기록, 9 연락, null 장식
-  // 넷째 값은 칸마다 처음 보일 필터. 얼굴 한가운데 칸은 가장 알아보기 쉬운 라임 듀오톤(0).
+  // [행 높이, [칸 너비...], [열 화면...], [처음 필터...]] · 화면 번호: 1 소개, 2~7 프로젝트, 8 기록, 9 연락, null 장식(누르면 필터 섞기)
   const WIDE = [[.22, [.13, .17, .27, .43], [null, 8, null, 2], [0, 1, 6, 3]], [.29, [.3, .33, .37], [3, 1, 4], [5, 0, 2]], [.29, [.24, .2, .26, .3], [5, null, 6, 7], [1, 4, 7, 8]], [.2, [.42, .23, .35], [9, null, null], [6, 0, 3]]];
   const TALL = [[.17, [.45, .55], [8, null], [4, 3]], [.21, [.6, .4], [1, 2], [0, 2]], [.22, [.38, .62], [3, 4], [5, 7]], [.2, [.5, .5], [5, 6], [1, 8]], [.2, [.34, .33, .33], [7, 9, null], [6, 4, 3]]];
-  const NL = 9;
-  let W = 0, H = 0, S = 1, rows = WIDE, looks = [], cells = [], hov = -1, active = false, raf = 0, dirty = true;
-  let mx = .5, my = .5, tx = .5, ty = .5;
-  const img = new Image();
-  const hash = (i) => { const v = Math.sin(i * 12.9898 + 78.233) * 43758.5453; return v - Math.floor(v); };
-  const mix = (a, b, t) => [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t];
-  const canvas = () => { const c = document.createElement('canvas'); c.width = W; c.height = H; return c; };
-  const rgb = (c) => `rgb(${c[0] | 0},${c[1] | 0},${c[2] | 0})`;
+  const NL = 9, MAXC = 16;
+  const noop = { setActive() {} };
+  const gl = cv.getContext('webgl2', { antialias: false, premultipliedAlpha: false });
+  if (!gl) return noop;
 
-  function sample() { // 사진을 화면 좌표에 놓고 밝기(L)와 알파(A)를 뽑는다
-    const c = canvas(), x = c.getContext('2d'), ar = img.width / img.height, tall = H > W;
-    let h = tall ? H * .8 : H * 1.42, w = h * ar;
-    if (tall && w < W * .98) { w = W * .98; h = w / ar; }
-    x.drawImage(img, (W - w) / 2 + (tall ? 0 : W * .015), tall ? H * .09 : H * .1, w, h);
-    const d = x.getImageData(0, 0, W, H).data, L = new Float32Array(W * H), A = new Float32Array(W * H);
-    for (let i = 0; i < W * H; i++) { A[i] = d[i * 4 + 3] / 255; L[i] = (d[i * 4] * .3 + d[i * 4 + 1] * .59 + d[i * 4 + 2] * .11) / 255; }
-    return { L, A };
+  const VS = `#version 300 es
+in vec2 a; void main() { gl_Position = vec4(a, 0., 1.); }`;
+  const FS = `#version 300 es
+precision highp float;
+uniform sampler2D uImg, uGly;
+uniform vec2 uRes, uM;
+uniform float uS, uT, uMOn;
+uniform vec4 uPh;
+uniform vec4 uR[${MAXC}];
+uniform float uL[${MAXC}];
+uniform int uN;
+out vec4 o;
+const vec3 K = vec3(13., 14., 16.) / 255., LI = vec3(214., 255., 61.) / 255., CY = vec3(124., 200., 230.) / 255.;
+const vec3 VI = vec3(58., 42., 156.) / 255., PA = vec3(236., 236., 232.) / 255., DG = vec3(20., 36., 17.) / 255.;
+float h21(vec2 p) { p = fract(p * vec2(123.34, 456.21)); p += dot(p, p + 45.32); return fract(p.x * p.y); }
+vec2 photo(vec2 p) { // (밝기, 알파)
+  vec2 uv = (p - uPh.xy) / uPh.zw;
+  if (uv.x < 0. || uv.y < 0. || uv.x > 1. || uv.y > 1.) return vec2(0.);
+  vec4 c = texture(uImg, uv); return vec2(dot(c.rgb, vec3(.3, .59, .11)), c.a);
+}
+float near(vec2 q) { float d = length(q - uM) / uS; return uMOn * exp(-d * d / (2. * 130. * 130.)); }
+float bayer(vec2 p) {
+  int i = int(mod(p.y, 4.)) * 4 + int(mod(p.x, 4.));
+  float B[16] = float[16](0., 8., 2., 10., 12., 4., 14., 6., 3., 11., 1., 9., 15., 7., 13., 5.);
+  return B[i] / 16.;
+}
+float glyph(float idx, vec2 f) { return texture(uGly, vec2((idx + f.x) / 12., f.y)).a; }
+vec3 look(int k, vec2 p) {
+  float s = uS; vec2 F = photo(p); bool on = F.y > .5;
+  if (k == 0) { // 라임 듀오톤 · 마우스 근처는 잔 망점으로 풀린다
+    float c = 5. * s; vec2 q = mod(p, c) - c * .5, ctr = p - q; float m = near(floor(p / (20. * s)) * 20. * s + 10. * s);
+    vec3 col = on ? mix(K, LI, floor(pow(F.x, .85) * 5.) / 4.) : ((mod(p.x, 6. * s) < 2. * s && mod(p.y, 6. * s) < 2. * s) ? vec3(.59, .75, .12) : LI);
+    vec2 G = photo(ctr);
+    float r = G.y > .5 ? (1. - G.x) * c * .66 : c * .18;
+    vec3 ht = length(q) < r ? K : LI;
+    return mix(col, ht, smoothstep(.12, .55, m));
   }
-  function pixels(fn, grain = 16) { // 픽셀마다 색을 정하는 필터 + 필름 그레인
-    const c = canvas(), x = c.getContext('2d'), id = x.createImageData(W, H), o = id.data;
-    for (let y = 0, i = 0; y < H; y++) for (let X = 0; X < W; X++, i++) {
-      const col = fn(X, y, i), n = (hash(i) - .5) * grain;
-      o[i * 4] = col[0] + n; o[i * 4 + 1] = col[1] + n; o[i * 4 + 2] = col[2] + n; o[i * 4 + 3] = 255;
-    }
-    x.putImageData(id, 0, 0); return c;
+  if (k == 1) { // 보라 듀오톤 · 주사선이 마우스 근처에서 굵어지며 흐른다
+    float m = near(vec2(p.x, floor(p.y / (16. * s)) * 16. * s));
+    vec3 col = on ? mix(vec3(22., 14., 66.) / 255., CY, floor(F.x * 4.) / 3.) : VI;
+    float per = 4. * s, line = step(mod(p.y + uT * 40. * s * m, per), s * (.8 + 2.4 * m));
+    return col * (1. - (.18 + .3 * m) * line);
   }
-  function build() {
-    const r = root.getBoundingClientRect(); if (!r.width || !img.complete || !img.naturalWidth) return;
-    S = Math.min(devicePixelRatio || 1, 1.5); W = Math.round(r.width * S); H = Math.round(r.height * S);
-    const { L, A } = sample(), at = (x, y) => { x = Math.max(0, Math.min(W - 1, x | 0)); y = Math.max(0, Math.min(H - 1, y | 0)); return y * W + x; };
-    const on = (i) => A[i] > .5;
-    looks = [
-      // 0 라임 듀오톤: 라임 바탕에 먹색 인물
-      pixels((x, y, i) => on(i) ? mix(K, LI, Math.pow(L[i], .85)) : (x % (6 * S | 0) < S * 2 && y % (6 * S | 0) < S * 2 ? [150, 190, 30] : LI), 22),
-      // 1 보라 듀오톤
-      pixels((x, y, i) => on(i) ? mix([22, 14, 66], CY, L[i]) : VI, 22),
-      // 2 선화: 윤곽선만 라임으로
-      pixels((x, y, i) => {
-        if (!on(i)) return DG;
-        const gx = L[at(x + 1, y)] - L[at(x - 1, y)], gy = L[at(x, y + 1)] - L[at(x, y - 1)];
-        return Math.hypot(gx, gy) > .09 ? [96, 255, 120] : DG;
-      }, 14),
-      // 3 망점
-      (() => { const c = canvas(), x = c.getContext('2d'), s = 7 * S; x.fillStyle = rgb(VI); x.fillRect(0, 0, W, H);
-        for (let y = s / 2; y < H; y += s) for (let X = s / 2; X < W; X += s) { const i = at(X, y);
-          const rad = on(i) ? (1 - L[i]) * s * .62 : s * .14; x.fillStyle = on(i) ? rgb(CY) : 'rgb(92,72,200)';
-          x.beginPath(); x.arc(X, y, Math.max(.4, rad), 0, 7); x.fill(); }
-        return c; })(),
-      // 4 모자이크 블록
-      (() => { const c = canvas(), x = c.getContext('2d'), b = Math.round(15 * S), Q = [K, VI, CY, PA];
-        for (let y = 0; y < H; y += b) for (let X = 0; X < W; X += b) { const i = at(X + b / 2, y + b / 2);
-          x.fillStyle = rgb(on(i) ? Q[Math.min(3, Math.floor(L[i] * 4))] : mix(CY, PA, hash(X * 7 + y) * .35)); x.fillRect(X, y, b, b); }
-        return c; })(),
-      // 5 문자: 예전 히어로의 문자 입자를 잇는다
-      (() => { const c = canvas(), x = c.getContext('2d'), s = 9 * S, R = ' .:-=+*#%@';
-        x.fillStyle = rgb(K); x.fillRect(0, 0, W, H); x.font = `700 ${s * 1.1}px "JetBrains Mono", monospace`; x.textAlign = 'center'; x.textBaseline = 'middle';
-        for (let y = s / 2; y < H; y += s) for (let X = s / 2; X < W; X += s) { const i = at(X, y);
-          if (on(i)) { x.fillStyle = rgb(PA); x.fillText(R[Math.min(9, Math.floor(L[i] * 10))], X, y); }
-          else if (hash(i) > .86) { x.fillStyle = '#34343a'; x.fillText(hash(i + 3) > .5 ? '1' : '0', X, y); } }
-        return c; })(),
-      // 6 디더링: 종이 위 1비트 인쇄
-      pixels((x, y, i) => { const B = [0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5][(y & 3) * 4 + (x & 3)] / 16;
-        return on(i) && L[i] < B ? [24, 24, 28] : PA; }, 10),
-      // 7 글리치: 채널을 어긋나게 하고 띠마다 옆으로 민다
-      pixels((x, y, i) => { const sh = (hash(Math.floor(y / (11 * S))) - .5) * 26 * S * (hash(Math.floor(y / (11 * S)) + 9) > .6 ? 1 : 0), X = x + sh;
-        const a = at(X + 6 * S, y), b = at(X, y), c = at(X - 6 * S, y);
-        if (A[b] < .5 && A[a] < .5 && A[c] < .5) return (y / S | 0) % 3 ? K : [24, 22, 40];
-        return [L[a] * 255 * A[a], 40 + L[b] * 150 * A[b], 90 + L[c] * 165 * A[c]]; }, 18),
-      // 8 격자망: 칸마다 밝기만큼 라임을 채운다
-      pixels((x, y, i) => { const s = Math.round(12 * S), gx = x % s, gy = y % s;
-        if (gx < 2 * S || gy < 2 * S) return [44, 78, 36];
-        const j = at(x - gx + s / 2, y - gy + s / 2); return on(j) ? mix(DG, LI, L[j]) : DG; }, 12),
-    ];
-    rows = H > W ? TALL : WIDE;
-    cells = [];
-    rows.forEach(([, ws, gos, lk], ri) => ws.forEach((_, ci) => cells.push({ ri, go: gos[ci], look: lk[ci], base: lk[ci] })));
+  if (k == 2) { // 선화 · 마우스 근처에서 선이 늘고 깜빡인다
+    float m = near(floor(p / (12. * s)) * 12. * s);
+    if (!on) return DG + (h21(floor(p / (3. * s)) + floor(uT * 9.)) > .985 - .05 * m ? .25 : 0.) * LI;
+    float gx = photo(p + vec2(s, 0.)).x - photo(p - vec2(s, 0.)).x, gy = photo(p + vec2(0., s)).x - photo(p - vec2(0., s)).x;
+    float e = length(vec2(gx, gy)), thr = .09 - .055 * m;
+    float fl = 1. - .5 * m * step(.6, h21(floor(p / (4. * s)) + floor(uT * 12.)));
+    return e > thr ? mix(vec3(.38, 1., .47), LI, m) * fl : DG;
+  }
+  if (k == 3) { // 망점 · 마우스 근처 점이 커지고 라임으로 물든다
+    float c = 7. * s; vec2 q = mod(p, c) - c * .5, ctr = p - q; vec2 G = photo(ctr); float m = near(ctr);
+    float r = G.y > .5 ? (1. - G.x) * c * .62 * (1. + .55 * m) : c * .14 * (1. + 2.2 * m);
+    vec3 dc = G.y > .5 ? mix(CY, LI, m) : mix(vec3(92., 72., 200.) / 255., CY, m);
+    return length(q) < max(.5 * s, r) ? dc : VI;
+  }
+  if (k == 4) { // 모자이크 · 마우스 근처 블록이 잘게 쪼개진다(4색 유지)
+    float big = 16. * s; vec2 bc = floor(p / big) * big + big * .5; float m = near(bc);
+    float b = m > .55 ? 4. * s : m > .22 ? 8. * s : big;
+    vec2 c = floor(p / b) * b + b * .5; vec2 G = photo(c);
+    if (G.y < .5) return mix(CY, PA, h21(floor(p / b)) * .35);
+    int qi = int(min(3., floor(G.x * 4.)));
+    return qi == 0 ? K : qi == 1 ? VI : qi == 2 ? CY : PA;
+  }
+  if (k == 5) { // 문자 · 마우스 근처 글자가 뒤섞인다
+    float c = 9. * s; vec2 g = floor(p / c), f = fract(p / c); vec2 G = photo(g * c + c * .5); float m = near(g * c + c * .5);
+    float idx = G.y > .5 ? min(9., floor(G.x * 10.)) : (h21(g) > .86 ? 10. + step(.5, h21(g + 3.)) : 0.);
+    if (h21(g + floor(uT * 14.)) < m * .8) idx = floor(h21(g * 1.7 + floor(uT * 14.)) * 12.);
+    vec3 fg = G.y > .5 ? mix(PA, LI, m) : mix(vec3(.2), LI, m);
+    return mix(K, fg, glyph(idx, vec2(f.x, f.y)));
+  }
+  if (k == 6) { // 디더링 · 마우스 근처 문턱값이 흔들린다
+    vec2 q = floor(p / s); float m = near(floor(p / (10. * s)) * 10. * s);
+    float B = bayer(q) + (h21(q + floor(uT * 10.)) - .5) * .9 * m;
+    return on && F.x < B ? vec3(24., 24., 28.) / 255. : (m > .05 && h21(q + floor(uT * 10.)) < .04 * m ? LI : PA);
+  }
+  if (k == 7) { // 글리치 · 마우스가 있는 줄들이 더 크게 어긋난다
+    float band = floor(p.y / (11. * s)); float m = near(vec2(uM.x, band * 11. * s));
+    float on1 = step(.6, h21(vec2(band, 9.))) + step(.2, m);
+    float sh = (h21(vec2(band, floor(uT * (1.5 + 14. * m)))) - .5) * 26. * s * min(1., on1) * (1. + 2.5 * m);
+    vec2 A = photo(p + vec2(sh + 6. * s, 0.)), Bc = photo(p + vec2(sh, 0.)), C = photo(p + vec2(sh - 6. * s, 0.));
+    if (A.y < .5 && Bc.y < .5 && C.y < .5) return mod(floor(p.y / s), 3.) > 0. ? K : vec3(24., 22., 40.) / 255.;
+    float a = floor(A.x * A.y * 3.) / 2., c = floor(C.x * C.y * 3.) / 2.;
+    return K + vec3(.95, .15, .55) * a + vec3(.1, .78, .9) * c;
+  }
+  // 8 격자망 · 마우스 근처 칸이 켜진다
+  float c = 12. * s; vec2 g = mod(p, c); vec2 ctr = p - g + c * .5; vec2 G = photo(ctr); float m = near(ctr);
+  if (g.x < 2. * s || g.y < 2. * s) return mix(vec3(44., 78., 36.) / 255., LI, m * .5);
+  float lv = G.y > .5 ? floor(G.x * 4.) / 3. : 0.;
+  return mix(DG, LI, clamp(lv + m * (.6 + .4 * step(.5, h21(floor(p / c) + floor(uT * 6.)))), 0., 1.));
+}
+void main() {
+  vec2 p = vec2(gl_FragCoord.x, uRes.y - gl_FragCoord.y);
+  int k = 0;
+  for (int i = 0; i < ${MAXC}; i++) { if (i >= uN) break; vec4 r = uR[i]; if (p.x >= r.x && p.y >= r.y && p.x < r.z && p.y < r.w) { k = int(uL[i]); break; } }
+  vec3 col = look(k, p) + (h21(p / uS + floor(uT * 12.)) - .5) * .07;
+  o = vec4(col, 1.);
+}`;
+  const sh = (type, src) => { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s)); return s; };
+  let prog;
+  try {
+    prog = gl.createProgram(); gl.attachShader(prog, sh(gl.VERTEX_SHADER, VS)); gl.attachShader(prog, sh(gl.FRAGMENT_SHADER, FS)); gl.linkProgram(prog);
+    if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(prog));
+  } catch (e) { console.error(e); return noop; }
+  gl.useProgram(prog);
+  const buf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+  const aLoc = gl.getAttribLocation(prog, 'a'); gl.enableVertexAttribArray(aLoc); gl.vertexAttribPointer(aLoc, 2, gl.FLOAT, false, 0, 0);
+  const U = {}; ['uImg', 'uGly', 'uRes', 'uM', 'uS', 'uT', 'uMOn', 'uPh', 'uR', 'uL', 'uN'].forEach((n) => { U[n] = gl.getUniformLocation(prog, n); });
+  const tex = (unit, src) => { const t = gl.createTexture(); gl.activeTexture(gl.TEXTURE0 + unit); gl.bindTexture(gl.TEXTURE_2D, t);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, src);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE); return t; };
+  function glyphs() { // 문자 필터용: 밝기 순 10자 + 0, 1
+    const c = document.createElement('canvas'), n = 12, z = 48; c.width = n * z; c.height = z; const x = c.getContext('2d');
+    x.font = `700 ${z * .9}px "JetBrains Mono", monospace`; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillStyle = '#fff';
+    [...' .:-=+*#%@01'].forEach((ch, i) => x.fillText(ch, i * z + z / 2, z / 2 + 2)); return c;
+  }
+
+  let rows = WIDE, cells = [], bound = null, hov = -1, active = false, raf = 0, imgReady = false, t = 0, last = 0;
+  let mx = .5, my = .5, mOn = 0, mTarget = 0, mPx = [0, 0];
+  const img = new Image();
+
+  function layout() {
+    const tall = innerHeight > innerWidth, next = tall ? TALL : WIDE;
+    if (next === rows && cells.length) return;
+    rows = next; cells = [];
+    rows.forEach(([, ws, gos, lk], ri) => ws.forEach((_, ci) => cells.push({ ri, ci, go: gos[ci], look: lk[ci] })));
+    // 경계 상태: 행 경계(위아래), 행마다 열 경계. 현재값은 목표값을 부드럽게 따라간다.
+    let y = 0; const ys = rows.slice(0, -1).map(([h]) => (y += h));
+    bound = { ys: ys.map((v) => ({ base: v, cur: v })), xs: rows.map(([, ws]) => { let x = 0; return ws.slice(0, -1).map((w) => { x += w; return { base: x, cur: x }; }); }) };
     layer.innerHTML = cells.map((c, k) => {
-      if (c.go == null) return '';
+      if (c.go == null) return `<button type="button" class="dec" data-k="${k}" aria-label="필터 섞기"></button>`;
       const s = slides[c.go], kind = c.go === 1 ? 'About' : c.go === 8 ? 'Record' : c.go === 9 ? 'Contact' : `Project ${String(c.go - 1).padStart(3, '0')}`;
       return `<button type="button" data-go="${c.go}" data-k="${k}"${c.ri ? '' : ' data-r0'} aria-label="${esc(s.dataset.name)} 열기"><span class="nm"><i>${kind} · </i>${esc(s.dataset.name)} ↗</span><span class="tg">${String(c.go).padStart(2, '0')}</span></button>`;
     }).join('');
     layer.querySelectorAll('button').forEach((b) => {
       const k = Number(b.dataset.k);
-      b.addEventListener('pointerenter', () => { hov = k; cells[k].look = (cells[k].base + 4) % NL; dirty = true; });
-      b.addEventListener('pointerleave', () => { if (hov === k) hov = -1; cells[k].look = cells[k].base; dirty = true; });
+      b.addEventListener('pointerenter', () => { hov = k; });
+      b.addEventListener('pointerleave', () => { if (hov === k) hov = -1; });
+      if (b.classList.contains('dec')) b.addEventListener('click', shuffle);
     });
-    cv.width = W; cv.height = H; dirty = true;
   }
-  function rects() { // 행·열 경계를 마우스 쪽으로 살짝 민다. 칸이 도망가지 않게 화면의 2.5%까지만.
-    const amp = reduce ? 0 : .025, out = [];
-    let y = 0;
-    rows.forEach(([h, ws], ri) => {
-      const last = ri === rows.length - 1, ny = last ? 1 : y + h + (my - .5) * amp * (ri % 2 ? -1 : 1);
-      let x = 0;
-      ws.forEach((w, ci) => {
-        const lastC = ci === ws.length - 1, nx = lastC ? 1 : x + w + (mx - .5) * amp * ((ri + ci) % 2 ? -1 : 1);
-        out.push([x, y, nx - x, ny - y]); x = nx;
-      });
-      y = ny;
+  function shuffle() { // 모든 칸이 한 번에, 지금과 다른 필터로
+    cells.forEach((c) => { c.look = (c.look + 1 + Math.floor(Math.random() * (NL - 1))) % NL; });
+  }
+  function step(dt) {
+    const E = .04, A = reduce ? 0 : 1, H = cells[hov];
+    const ease = Math.min(1, dt * (reduce ? 20 : 3.2));
+    bound.ys.forEach((b, j) => {
+      let tgt = b.base + A * (.016 * Math.sin(t * .42 + j * 2.1) + (my - .5) * .045 * (j % 2 ? -1 : 1));
+      if (H) { if (H.ri === j) tgt += E; if (H.ri === j + 1) tgt -= E; }
+      b.cur += (tgt - b.cur) * ease;
+    });
+    bound.xs.forEach((row, r) => row.forEach((b, c) => {
+      let tgt = b.base + A * (.02 * Math.sin(t * .35 + r * 1.3 + c * 2.7) + (mx - .5) * .055 * ((r + c) % 2 ? -1 : 1));
+      if (H && H.ri === r) { if (H.ci === c) tgt += E; if (H.ci === c + 1) tgt -= E; }
+      b.cur += (tgt - b.cur) * ease;
+    }));
+  }
+  function rects() { // 정규화 [x0, y0, x1, y1]. 칸이 너무 작아지지 않게 최소 간격을 둔다.
+    const ys = [0, ...bound.ys.map((b) => b.cur), 1], out = [];
+    for (let j = 1; j < ys.length; j++) ys[j] = Math.max(ys[j], ys[j - 1] + .07);
+    rows.forEach((_, r) => {
+      const xs = [0, ...bound.xs[r].map((b) => b.cur), 1];
+      for (let c = 1; c < xs.length; c++) xs[c] = Math.max(xs[c], xs[c - 1] + .07);
+      for (let c = 0; c < xs.length - 1; c++) out.push([xs[c], ys[r], Math.min(1, xs[c + 1]), Math.min(1, ys[r + 1])]);
     });
     return out;
   }
-  function draw() {
-    const x = cv.getContext('2d'), R = rects();
-    cells.forEach((c, k) => { const [rx, ry, rw, rh] = R[k], sx = Math.round(rx * W), sy = Math.round(ry * H), sw = Math.round((rx + rw) * W) - sx, sh = Math.round((ry + rh) * H) - sy;
-      if (sw > 0 && sh > 0) x.drawImage(looks[c.look], sx, sy, sw, sh, sx, sy, sw, sh); });
-    layer.querySelectorAll('button').forEach((b) => { const [rx, ry, rw, rh] = R[Number(b.dataset.k)];
-      b.style.left = `${rx * 100}%`; b.style.top = `${ry * 100}%`; b.style.width = `${rw * 100}%`; b.style.height = `${rh * 100}%`; });
-  }
-  function frame() {
+  function frame(now) {
     raf = active ? requestAnimationFrame(frame) : 0;
-    if (!looks.length) return;
-    const k = reduce ? 1 : .07, dx = tx - mx, dy = ty - my;
-    if (Math.abs(dx) + Math.abs(dy) > .0004) { mx += dx * k; my += dy * k; dirty = true; }
-    if (dirty) { draw(); dirty = false; }
+    if (!imgReady) return;
+    const dt = Math.min(.05, (now - (last || now)) / 1000); last = now;
+    if (!reduce) t += dt;
+    mOn += (mTarget - mOn) * Math.min(1, dt * 5);
+    step(dt);
+    const S = Math.min(devicePixelRatio || 1, 2), w = Math.round(root.clientWidth * S), h = Math.round(root.clientHeight * S);
+    if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; }
+    gl.viewport(0, 0, w, h);
+    const R = rects(), tall = h > w, ar = img.width / img.height;
+    // 사진은 화면보다 작게: 가로 화면은 높이 100%, 세로 화면은 폭 82%
+    let ph = tall ? 0 : h * 1.0, pw = ph * ar; if (tall) { pw = w * .82; ph = pw / ar; }
+    const px = (w - pw) / 2 + (tall ? 0 : w * .01), py = tall ? h * .1 : h * .1;
+    gl.uniform2f(U.uRes, w, h); gl.uniform1f(U.uS, S); gl.uniform1f(U.uT, t); gl.uniform1f(U.uMOn, mOn);
+    gl.uniform2f(U.uM, mPx[0] * S, mPx[1] * S); gl.uniform4f(U.uPh, px, py, pw, ph);
+    const rv = new Float32Array(MAXC * 4), lv = new Float32Array(MAXC);
+    R.forEach((r, i) => { rv.set([r[0] * w, r[1] * h, r[2] * w, r[3] * h], i * 4); lv[i] = cells[i].look; });
+    gl.uniform4fv(U.uR, rv); gl.uniform1fv(U.uL, lv); gl.uniform1i(U.uN, R.length);
+    gl.uniform1i(U.uImg, 0); gl.uniform1i(U.uGly, 1);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    layer.querySelectorAll('button').forEach((b) => { const [x0, y0, x1, y1] = R[Number(b.dataset.k)];
+      b.style.left = `${x0 * 100}%`; b.style.top = `${y0 * 100}%`; b.style.width = `${(x1 - x0) * 100}%`; b.style.height = `${(y1 - y0) * 100}%`; });
   }
-  root.addEventListener('pointermove', (e) => { if (e.pointerType === 'mouse') { tx = e.clientX / innerWidth; ty = e.clientY / innerHeight; } });
-  // 가만히 있으면 칸 하나씩 천천히 다른 필터로 바뀐다(모션 켰을 때만)
-  setInterval(() => {
-    if (!active || reduce || !cells.length) return;
-    const k = Math.floor(Math.random() * cells.length); if (k === hov) return;
-    cells[k].base = (cells[k].base + 1 + Math.floor(Math.random() * (NL - 1))) % NL; cells[k].look = cells[k].base; dirty = true;
-  }, 2600);
-  let rt; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(build, 200); });
-  img.onload = () => { (document.fonts ? document.fonts.load('700 12px "JetBrains Mono"') : Promise.resolve()).catch(() => {}).then(build); };
+  const point = (e) => { const r = root.getBoundingClientRect(); mPx = [e.clientX - r.left, e.clientY - r.top]; mx = mPx[0] / r.width; my = mPx[1] / r.height; mTarget = 1; };
+  root.addEventListener('pointermove', point);
+  root.addEventListener('pointerdown', point);
+  root.addEventListener('pointerleave', () => { mTarget = 0; mx = .5; my = .5; });
+  root.addEventListener('pointerup', (e) => { if (e.pointerType !== 'mouse') setTimeout(() => { mTarget = 0; }, 900); });
+  addEventListener('resize', layout);
+  layout();
+  img.onload = () => {
+    (document.fonts ? document.fonts.load('700 40px "JetBrains Mono"') : Promise.resolve()).catch(() => {}).then(() => {
+      tex(1, glyphs()); tex(0, img); imgReady = true;
+    });
+  };
   img.src = 'img/portrait.png';
-  return { setActive(on) { active = on; if (on) { if (!looks.length) build(); dirty = true; if (!raf) raf = requestAnimationFrame(frame); } } };
+  return { setActive(on) { active = on; last = 0; if (on && !raf) raf = requestAnimationFrame(frame); } };
 })();
 
-mt.onclick = () => {
-  reduce = !reduce; applyMotion();
-  try { localStorage.setItem('motion', reduce ? 'off' : 'on'); } catch (e) {}
-  particles.replay();
-  stages.forEach((st, sl) => { if (sl === slides[cur]) st.play(); });
-};
+const mq = matchMedia('(prefers-reduced-motion: reduce)');
+mq.addEventListener?.('change', () => { reduce = mq.matches; applyMotion(); particles.replay(); });
+
 fromPop = true; go(fromHash()); fromPop = false;
 })();
 </script>
