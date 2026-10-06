@@ -1168,15 +1168,16 @@ const poster = (() => {
     ['h', .8,
       ['v', .18,
         ['h', .27, [null, 7], [4, 1]],
-        ['h', .34, ['v', .5, [1, 0], [5, 4]], ['v', .36, [6, 6], [7, 2]]]],
+        ['h', 'eye', ['v', .5, [1, 0], [5, 4]], ['v', .36, [6, 6], [7, 2]]]],
       ['v', .4, [9, 4], [null, 0]]],
     ['h', .22, [8, 6], ['h', .58, [2, 1], [3, 4]]]];
   const TALL = ['h', .62,
     ['h', .16, ['v', .55, [8, 6], [2, 1]],
-      ['h', .35, ['v', .5, [1, 0], [3, 4]], ['v', .3, [null, 6], [4, 2]]]],
+      ['h', 'eye', ['v', .5, [1, 0], [3, 4]], ['v', .3, [null, 6], [4, 2]]]],
     ['v', .45, ['h', .82, [5, 3], [6, 8]], ['h', .74, [7, 4], [9, 6]]]];
-  // 사진 속 얼굴 기준점(img/portrait.png 픽셀): 콧대 x, 눈 y, 머리끝~턱 높이
-  const FACE = { x: 188, eye: 118, head: 208 };
+  // 사진 속 얼굴 기준점(img/portrait.png 픽셀): 콧대 x, 눈 y, 눈 바로 위 y, 머리끝~턱 높이
+  // 'eye' 자르기는 떠다니지 않고 늘 눈 바로 위(사진을 따라)를 지난다.
+  const FACE = { x: 188, eye: 118, brow: 109, head: 208 };
   const NL = 9, MAXC = 16;
   const noop = { setActive() {} };
   const gl = cv.getContext('webgl2', { antialias: false, premultipliedAlpha: false });
@@ -1295,7 +1296,7 @@ void main() {
   const FACEC = [2, 3, 5]; // 얼굴이 걸친 세 칸(두 배치 모두 같은 순번)
   let fixed = false, prevR = null;
   let tree = null, splits = [], cells = [], hov = -1, active = false, raf = 0, imgReady = false, t = 0, last = 0;
-  let mx = .5, my = .5, sx = .5, sy = .5;
+  let mx = .5, my = .5, sx = .5, sy = .5, eyeLine = .34;
   const img = new Image();
 
   function layout() {
@@ -1305,7 +1306,7 @@ void main() {
     // 나무를 펼친다: 자르기마다 움직일 상태를, 잎마다 칸을 만든다
     const walk = (n) => {
       if (typeof n[0] !== 'string') { const k = cells.length; cells.push({ go: n[0], look: n[1] }); return { leaf: k, ks: [k] }; }
-      const sp = { d: n[0], at: n[1], cur: n[1], i: splits.length }; splits.push(sp);
+      const eye = n[1] === 'eye', sp = { d: n[0], at: eye ? .34 : n[1], cur: eye ? .34 : n[1], eye, i: splits.length }; splits.push(sp);
       const a = walk(n[2]), b = walk(n[3]); sp.a = a; sp.b = b;
       return { sp, a, b, ks: [...a.ks, ...b.ks] };
     };
@@ -1351,6 +1352,7 @@ void main() {
   function step(dt) { // 자르는 위치: 떠다님 + 마우스 쪽으로 밀림 + 올린 칸 키우기
     const A = reduce ? 0 : 1, E = .035, ease = Math.min(1, dt * (reduce ? 20 : 3));
     splits.forEach((sp) => {
+      if (sp.eye) { sp.cur = eyeLine; return; }
       const sign = sp.i % 2 ? -1 : 1, m = sp.d === 'v' ? sx : sy;
       let tgt = sp.at + A * (.014 * Math.sin(t * .45 + sp.i * 1.9) + (m - .5) * .05 * sign);
       if (hov >= 0) { if (sp.a.ks.includes(hov)) tgt += E; else if (sp.b.ks.includes(hov)) tgt -= E; }
@@ -1374,20 +1376,22 @@ void main() {
     const dt = Math.min(.05, (now - (last || now)) / 1000); last = now;
     if (!reduce) t += dt;
     const k = Math.min(1, dt * (reduce ? 20 : 4)); sx += (mx - sx) * k; sy += (my - sy) * k;
-    step(dt);
     const S = Math.min(devicePixelRatio || 1, 2), w = Math.round(root.clientWidth * S), h = Math.round(root.clientHeight * S);
     if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; }
     gl.viewport(0, 0, w, h);
-    const R = rects(), tall = h > w;
+    const tall = h > w;
+    // 얼굴 기준으로 놓는다: 머리 높이, 콧대가 화면 가운데, 눈 높이. 마우스 반대쪽으로 화면의 3%만큼 움직인다.
+    const sc = (tall ? Math.min(h * .25, w * .5) : h * .34) / FACE.head, eyeY = .35;
+    const par = reduce ? 0 : 1, ox = -(sx - .5) * w * .03 * par, oy = -(sy - .5) * h * .03 * par;
+    const px = w * .5 - FACE.x * sc + ox, py = h * eyeY - FACE.eye * sc + oy;
+    eyeLine = (py + FACE.brow * sc) / h;
+    step(dt);
+    const R = rects();
     if (!fixed) { assign(false); fixed = true; }
     // 칸마다 움직임 정도: 네 변이 움직인 속도를 0~1로
     R.forEach((r, i) => { const q = prevR ? prevR[i] : r, v = dt ? (Math.abs(r[0] - q[0]) + Math.abs(r[1] - q[1]) + Math.abs(r[2] - q[2]) + Math.abs(r[3] - q[3])) / dt : 0;
       const c = cells[i]; c.e = (c.e || 0) + (Math.min(1, v * 12) - (c.e || 0)) * Math.min(1, dt * 6); });
     prevR = R;
-    // 얼굴 기준으로 놓는다: 머리 높이, 콧대가 화면 가운데, 눈 높이. 마우스 반대쪽으로 화면의 3%만큼 움직인다.
-    const sc = (tall ? Math.min(h * .25, w * .5) : h * .34) / FACE.head, eyeY = .35;
-    const par = reduce ? 0 : 1, ox = -(sx - .5) * w * .03 * par, oy = -(sy - .5) * h * .03 * par;
-    const px = w * .5 - FACE.x * sc + ox, py = h * eyeY - FACE.eye * sc + oy;
     gl.uniform2f(U.uRes, w, h); gl.uniform1f(U.uS, S); gl.uniform1f(U.uT, t);
     gl.uniform4f(U.uPh, px, py, img.width * sc, img.height * sc);
     const rv = new Float32Array(MAXC * 4), lv = new Float32Array(MAXC);
