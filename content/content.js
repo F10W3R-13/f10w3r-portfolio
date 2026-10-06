@@ -432,6 +432,7 @@ export const PORTFOLIO_CONTENT = {
             { file: 'tunnel-masked.jpg', caption: { ko: '제3땅굴 견학 (필드트립)', en: 'Third Tunnel visit (field trip)' } },
             { file: 'buddy-masked.jpg', caption: { ko: '버디 프로그램 진행', en: 'Buddy program session' } },
             { file: 'fieldtrip-masked.jpg', caption: { ko: '필드트립', en: 'Field trip' } },
+            { file: 'campus-tour-masked.jpg', caption: { ko: '교환학생 캠퍼스 투어', en: 'Exchange-student campus tour' } },
           ],
         },
       },
