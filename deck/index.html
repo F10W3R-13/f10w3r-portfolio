@@ -41,7 +41,7 @@ button.chip:hover, a.chip:hover { filter: brightness(1.12); }
 /* 슬라이드 */
 .slide { position: fixed; inset: 0; z-index: 5; display: flex; flex-direction: column; justify-content: center; padding: 72px clamp(16px, 5vw, 72px) 72px; visibility: hidden; overflow-y: auto; overscroll-behavior: contain; }
 .slide.on { visibility: visible; }
-.slide [data-a] { opacity: 0; transform: translateY(26px); transition: opacity .7s var(--ease), transform .9s var(--ease); }
+.slide [data-a] { opacity: 0; transform: translateY(26px); transition: opacity 1s var(--ease), transform 1.3s var(--ease); }
 .slide.on.shown [data-a] { opacity: 1; transform: none; }
 .slide.leave [data-a] { opacity: 0; transform: translateY(var(--ly, -24px)); transition-duration: .35s; transition-delay: 0s !important; }
 .inner { width: 100%; max-width: 1280px; margin: 0 auto; }
@@ -70,7 +70,7 @@ button.chip:hover, a.chip:hover { filter: brightness(1.12); }
 .tL, .tR { font-size: clamp(30px, 3.7vw, 64px); line-height: 1; letter-spacing: -.045em; font-weight: 600; }
 .tL { text-align: right; }
 .tL[data-a] { transform: translateX(-60px); } .tR[data-a] { transform: translateX(60px); }
-.media { position: relative; aspect-ratio: 16 / 10; background: #000; overflow: hidden; border: 1px solid var(--line); clip-path: inset(50% 0 50% 0); transition: clip-path 1s var(--ease); }
+.media { position: relative; aspect-ratio: 16 / 10; background: #000; overflow: hidden; border: 1px solid var(--line); clip-path: inset(50% 0 50% 0); transition: clip-path 1.4s var(--ease); }
 .slide.on.shown .media { clip-path: inset(0 0 0 0); }
 .slide.leave .media { clip-path: inset(0 0 100% 0); transition-duration: .4s; }
 .media img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
@@ -124,44 +124,70 @@ button.chip:hover, a.chip:hover { filter: brightness(1.12); }
 .panel .x { position: absolute; top: 12px; right: 12px; }
 
 
-/* 코칭 허브 파이프라인 재생 스테이지 */
+/* 코칭 허브 파이프라인 재생 스테이지: 일반인도 따라오게 한 장면에 한 가지 일만, 자막으로 설명 */
 .stg { position: absolute; inset: 0; container-type: inline-size; background: #0e0e11; overflow: hidden; font-family: var(--mono); }
-.stg .sc { position: absolute; transition: opacity .5s var(--ease), transform .7s var(--ease); }
-.stg .tag { position: absolute; top: 3.2cqw; left: 3.2cqw; z-index: 6; display: flex; gap: 0; }
-.stg .tag span { font: 700 1.7cqw/1 var(--mono); padding: 1cqw 1.2cqw; text-transform: uppercase; }
-.stg .ex { position: absolute; top: 3.2cqw; right: 3.2cqw; z-index: 6; font: 500 1.6cqw/1 var(--mono); color: var(--muted); border: 1px solid #333; padding: .8cqw 1cqw; }
-/* 1 · 업로드 + 2 · 추출 */
-.stg .up { left: 4cqw; top: 12cqw; width: 50cqw; background: #2b2d31; border-radius: 1cqw; padding: 2.4cqw; color: #dbdee1; }
-.stg .up .who { font: 600 2cqw/1.2 var(--sans); color: #fff; } .stg .up .who small { font: 400 1.5cqw var(--mono); color: #949ba4; margin-left: 1cqw; }
-.stg .up .file { margin-top: 1.4cqw; font-size: 1.5cqw; color: #949ba4; }
-.stg table { width: 100%; border-collapse: collapse; margin-top: 1.4cqw; font-size: 1.9cqw; position: relative; }
+.stg .sc { position: absolute; transition: opacity .8s var(--ease), transform 1.1s var(--ease); }
+.stg .tag { position: absolute; top: 3cqw; left: 3.2cqw; z-index: 6; display: flex; }
+.stg .tag span { font: 700 1.6cqw/1 var(--mono); padding: .9cqw 1.1cqw; text-transform: uppercase; }
+.stg .ex { position: absolute; top: 3cqw; right: 3.2cqw; z-index: 6; font: 500 1.5cqw/1 var(--mono); color: var(--muted); border: 1px solid #333; padding: .8cqw 1cqw; }
+/* 자막 + 진행 */
+.stg .cap { position: absolute; left: 3.2cqw; right: 3.2cqw; bottom: 4.2cqw; z-index: 6; display: flex; align-items: baseline; gap: 1.4cqw; font: 600 clamp(11px, 2.7cqw, 20px)/1.3 var(--sans); color: var(--fg); letter-spacing: -.02em; transition: opacity .45s, transform .6s var(--ease); }
+.stg .cap.out { opacity: 0; transform: translateY(1cqw); }
+.stg .cap i { font: 700 clamp(10px, 2cqw, 15px)/1 var(--mono); font-style: normal; color: var(--bg); background: var(--acc); padding: .5cqw .8cqw; flex: none; }
+.stg .prog { position: absolute; left: 3.2cqw; right: 3.2cqw; bottom: 2cqw; z-index: 6; display: flex; gap: .6cqw; }
+.stg .prog span { flex: 1; height: .4cqw; min-height: 2px; background: #2a2a2e; overflow: hidden; }
+.stg .prog span::after { content: ""; display: block; height: 100%; width: 100%; background: var(--acc); transform: scaleX(0); transform-origin: left; }
+.stg .prog span.on::after { transform: scaleX(1); transition: transform var(--d, 3s) linear; }
+.stg .prog span.past::after { transform: scaleX(1); }
+/* 1 · 업로드 */
+.stg .up { left: 4cqw; top: 10cqw; width: 48cqw; background: #2b2d31; border-radius: 1cqw; padding: 2.2cqw; color: #dbdee1; opacity: 0; transform: translateY(4cqw); }
+.stg .up .who { font: 600 1.9cqw/1.2 var(--sans); color: #fff; } .stg .up .who small { font: 400 1.4cqw var(--mono); color: #949ba4; margin-left: 1cqw; }
+.stg .up .file { margin-top: 1.2cqw; font-size: 1.4cqw; color: #949ba4; }
+.stg table { width: 100%; border-collapse: collapse; margin-top: 1.2cqw; font-size: 1.8cqw; position: relative; }
 .stg th { text-align: left; color: #949ba4; font-weight: 500; padding: .5cqw .6cqw; border-bottom: 1px solid #3f4147; }
-.stg td { padding: .7cqw .6cqw; color: #dbdee1; transition: background .2s, color .2s; }
+.stg td { padding: .6cqw .6cqw; color: #dbdee1; transition: background .4s, color .4s; }
 .stg tr.hit td { background: rgba(214,255,61,.16); color: #fff; }
-.stg .scan { position: absolute; left: 0; right: 0; height: .35cqw; background: var(--acc); box-shadow: 0 0 2cqw var(--acc); opacity: 0; }
-.stg .json { left: 57cqw; top: 12cqw; width: 40cqw; font-size: 1.28cqw; line-height: 1.75; color: #a7a7a1; white-space: pre; }
-.stg .json .k { color: var(--acc); } .stg .json .h { color: #fff; }
-.stg .json .ln { opacity: 0; transform: translateX(-1cqw); transition: opacity .25s, transform .35s var(--ease); }
-.stg .json .ln.on { opacity: 1; transform: none; }
-/* 3 · DB */
-.stg .db { inset: 0; display: grid; place-items: center; text-align: center; opacity: 0; }
-.stg .db b { display: block; font: 700 14cqw/1 var(--mono); color: var(--fg); letter-spacing: -.05em; }
-.stg .db span { font-size: 1.9cqw; color: var(--muted); text-transform: uppercase; }
-/* 4 · 대시보드 + 5 · 확대 */
-.stg .dash { inset: 0; opacity: 0; }
-.stg .dash .zoom { position: absolute; inset: 0; transform-origin: 4% 43%; transition: transform 1.6s var(--ease); }
-.stg .dash img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
-.stg .dash canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
-.stg .call { right: 3.2cqw; bottom: 9cqw; width: 60cqw; background: var(--acc); color: var(--bg); padding: 2.2cqw 2.4cqw; opacity: 0; transform: translateY(2cqw); }
-.stg .call b { display: block; font: 700 2.2cqw/1.25 var(--mono); }
-.stg .call span { display: block; margin-top: .8cqw; font: 600 1.7cqw/1.4 var(--sans); }
-/* 진행 칩 */
-.stg .steps { position: absolute; left: 3.2cqw; right: 3.2cqw; bottom: 3cqw; z-index: 6; display: flex; gap: .6cqw; }
-.stg .steps span { flex: 1; font: 500 1.45cqw/1 var(--mono); color: #6d6d68; border-top: .35cqw solid #2a2a2e; padding-top: .9cqw; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: color .3s, border-color .3s; }
-.stg .steps span.on { color: var(--fg); border-color: var(--acc); }
-.stg .rp { position: absolute; z-index: 7; right: 3.2cqw; bottom: 7cqw; font: 700 1.7cqw/1 var(--mono); background: #1b1b1f; color: var(--fg); border: 0; padding: 1cqw 1.2cqw; cursor: pointer; opacity: 0; transition: opacity .3s; }
-.stg.done .rp { opacity: 1; }
-.stg.done .steps { opacity: .0; transition: opacity .4s; }
+.stg .scan { position: absolute; left: 0; right: 0; height: .35cqw; background: var(--acc); box-shadow: 0 0 2cqw var(--acc); opacity: 0; transition: top .45s var(--ease), opacity .3s; }
+/* 2 · AI가 읽은 값 */
+.stg .read { left: 55cqw; top: 10cqw; width: 41cqw; border: 1px solid #2f2f34; padding: 2cqw; opacity: 0; transform: translateX(3cqw); }
+.stg .read h4 { margin: 0 0 1.2cqw; font: 600 1.7cqw/1.2 var(--sans); color: var(--fg); }
+.stg .read .r { display: flex; gap: 1.2cqw; font-size: 1.55cqw; line-height: 2.25; color: #a7a7a1; opacity: 0; transform: translateX(-1.5cqw); transition: opacity .5s, transform .6s var(--ease); }
+.stg .read .r.on { opacity: 1; transform: none; }
+.stg .read .r b { color: var(--acc); width: 2cqw; }
+.stg .read small { display: block; margin-top: 1.2cqw; font-size: 1.3cqw; color: #6d6d68; }
+/* 3 · 기록 */
+.stg .db { inset: 0 0 10cqw; display: grid; place-items: center; text-align: center; opacity: 0; transform: scale(.94); }
+.stg .db span { display: block; font: 600 2cqw/1 var(--sans); color: var(--muted); margin-bottom: 1.4cqw; }
+.stg .db b { display: inline-block; font: 700 15cqw/1 var(--mono); color: var(--fg); letter-spacing: -.05em; transition: color .5s; }
+.stg .db b.new { color: var(--acc); }
+.stg .db em { display: block; margin-top: 1.4cqw; font: 700 1.8cqw/1 var(--mono); font-style: normal; color: var(--acc); opacity: 0; transform: translateY(1cqw); transition: opacity .5s, transform .6s var(--ease); }
+.stg .db em.on { opacity: 1; transform: none; }
+/* 4 · 대시보드(모션그래픽) */
+.stg .dash { left: 3.2cqw; right: 3.2cqw; top: 9.6cqw; height: 40cqw; background: #141418; border: 1px solid #26262a; padding: 2cqw; opacity: 0; transform: translateY(3cqw); display: grid; grid-template-columns: 30cqw 1fr; grid-template-rows: auto 1fr; gap: 1.6cqw 2.4cqw; }
+.stg .dash .hd { grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: center; font: 600 1.8cqw/1 var(--sans); color: var(--fg); }
+.stg .dash .hd span { font: 500 1.35cqw/1 var(--mono); color: var(--acc); border: 1px solid rgba(214,255,61,.4); padding: .6cqw .8cqw; opacity: 0; transition: opacity .5s; }
+.stg .dash .hd span.on { opacity: 1; }
+.stg .kpis { position: relative; display: grid; gap: 1.2cqw; align-content: start; }
+.stg .kpi { background: #1b1b20; padding: 1.4cqw 1.6cqw; opacity: 0; transform: translateY(1.5cqw); transition: opacity .6s, transform .8s var(--ease); }
+.stg .kpi.on { opacity: 1; transform: none; }
+.stg .kpi span { display: block; font: 500 1.35cqw/1 var(--sans); color: var(--muted); }
+.stg .kpi b { display: block; margin-top: .8cqw; font: 700 3.4cqw/1 var(--mono); color: var(--fg); letter-spacing: -.03em; }
+.stg .rank h5 { margin: 0 0 1.2cqw; font: 600 1.5cqw/1 var(--sans); color: var(--muted); }
+.stg .bar { display: grid; grid-template-columns: 9cqw 1fr 6.5cqw; align-items: center; gap: 1cqw; height: 4.6cqw; font-size: 1.55cqw; color: #a7a7a1; transition: opacity .6s; }
+.stg .bar .t { height: 2.2cqw; background: #1f1f24; }
+.stg .bar .t i { display: block; height: 100%; width: 100%; background: #5d5d58; transform: scaleX(0); transform-origin: left; transition: transform 1.4s var(--ease), background .5s; }
+.stg .bar b { text-align: right; color: var(--fg); }
+.stg .bar.me .t i { background: var(--acc); }
+.stg .bar.me { color: var(--fg); }
+.stg.focus .bar:not(.me) { opacity: .28; }
+/* 5 · 지표 설명 */
+.stg .call { left: 0; right: 0; top: 0; bottom: 0; background: var(--acc); color: var(--bg); padding: 2cqw; opacity: 0; transform: translateY(2cqw); z-index: 4; }
+.stg .call b { display: block; font: 700 2.3cqw/1.2 var(--sans); }
+.stg .call p { margin: 1cqw 0 0; font: 500 1.55cqw/1.5 var(--sans); }
+.stg .call code { display: block; margin-top: 1.2cqw; padding-top: 1cqw; border-top: 1px solid rgba(0,0,0,.25); font: 700 1.25cqw/1.6 var(--mono); white-space: nowrap; }
+.stg .call code span { font: 500 1.25cqw/1.6 var(--sans); white-space: normal; }
+.stg .rp { position: absolute; z-index: 7; right: 3.2cqw; bottom: 3.6cqw; font: 700 1.7cqw/1 var(--mono); background: #1b1b1f; color: var(--fg); border: 1px solid #333; padding: 1cqw 1.2cqw; cursor: pointer; opacity: 0; pointer-events: none; transition: opacity .4s; }
+.stg.done .rp { opacity: 1; pointer-events: auto; }
 
 html.rm .slide [data-a], html.rm .media { transition: none !important; }
 .mt[aria-pressed="false"] { background: #1b1b1f; color: var(--muted); }
@@ -180,9 +206,9 @@ html.rm .slide [data-a], html.rm .media { transition: none !important; }
   <section class="slide s-hero" data-name="F10W3R" aria-label="F10W3R">
     <div class="shade"></div>
     <div class="inner" style="max-width:none">
-      <b data-a style="transition-delay:.9s">유민우</b>
-      <p data-a style="transition-delay:1s">T1 선수 출신 CODM 프로 코치. 경기에서 생긴 문제를 직접 만든 시스템으로 풉니다.</p>
-      <div data-a style="transition-delay:1.1s"><span class="chip c-d">400 matches logged</span><span class="chip c-w">864 matches · NA</span><span class="chip c-d">91% RAG</span></div>
+      <b data-a style="transition-delay:1.4s">유민우</b>
+      <p data-a style="transition-delay:1.7s">T1 선수 출신 CODM 프로 코치. 경기에서 생긴 문제를 직접 만든 시스템으로 풉니다.</p>
+      <div data-a style="transition-delay:2s"><span class="chip c-d">400 matches logged</span><span class="chip c-w">864 matches · NA</span><span class="chip c-d">91% RAG</span></div>
     </div>
   </section>
 
@@ -275,6 +301,9 @@ const PROJECTS = [
     body: '봄·가을 OT에서 교환학생 300~400명을 맞이합니다. 26-1 스포츠데이의 모든 콘텐츠를 기획했고, 26-2에는 총괄을 맡아 신청 약 200건에서 150명 규모로 키웠습니다. 기획은 한국어로, 행사 진행은 영어로 합니다.',
     m: [['300~400', 'OT 1회당 교환학생'], ['150', '26-2 스포츠데이'], ['1:3', '버디 매칭']], tags: ['행사 기획', 'KO/EN 운영', '팀 리딩'], links: [] },
 ];
+// 코칭 허브 재생용 예시 스코어보드: 선수, 킬, 데스, 점령, 킬캠, ZCS(= 1.1·점령 + 8·킬캠 + 4.1·킬 − 5·데스)
+const HUB = [['A', 27, 21, 86, 6], ['B', 24, 19, 71, 4], ['C', 22, 23, 64, 5], ['D', 19, 20, 58, 3], ['E', 16, 22, 43, 2]]
+  .map((r) => [...r, Math.round((1.1 * r[3] + 8 * r[4] + 4.1 * r[1] - 5 * r[2]) * 10) / 10]);
 const RESULTS = [
   ['2025.04.30', 'China Masters 2025: S9', '7-8위', '코치'],
   ['2024.10.05', 'CODM World Championship 2024', '5-8위', '코치'],
@@ -299,17 +328,20 @@ ps.outerHTML = PROJECTS.map((p, i) => `
         <div class="meta lbl" data-a><span>${String(i + 3).padStart(2, '0')} · Project ${String(i + 1).padStart(3, '0')}</span><span>${esc(p.cat)}</span></div>
         <div class="tL" data-a style="transition-delay:.12s">${esc(p.a)}</div>
         <div class="media">${p.stage === 'hub' ? `<div class="stg" data-stage="hub">
-            <div class="tag"><span class="c-a">Scrim → Metrics</span><span class="c-d">Pipeline replay</span></div>
-            <span class="ex">예시 데이터 → 실제 대시보드</span>
-            <div class="sc up"><div class="who">F10W3R<small>#scrim-results · 오늘 21:42</small></div><div class="file">▣ scrim_1003_HP.png</div>
-              <table><thead><tr><th>Player</th><th>K</th><th>D</th><th>OBJ</th><th>CK</th></tr></thead>
-              <tbody><tr><td>Player A</td><td>27</td><td>21</td><td>86</td><td>6</td></tr><tr><td>Player B</td><td>24</td><td>19</td><td>71</td><td>4</td></tr><tr><td>Player C</td><td>22</td><td>23</td><td>64</td><td>5</td></tr><tr><td>Player D</td><td>19</td><td>20</td><td>58</td><td>3</td></tr><tr><td>Player E</td><td>16</td><td>22</td><td>43</td><td>2</td></tr></tbody></table>
+            <div class="tag"><span class="c-a">Scrim → Metrics</span><span class="c-d">재생</span></div>
+            <span class="ex">예시 데이터로 재현</span>
+            <div class="sc up"><div class="who">선수<small>#scrim-results · 오늘 21:42</small></div><div class="file">▣ 경기결과.png</div>
+              <table><thead><tr><th>선수</th><th>킬</th><th>데스</th><th>점령</th><th>킬캠</th></tr></thead>
+              <tbody>${HUB.map((r) => `<tr><td>Player ${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td><td>${r[4]}</td></tr>`).join('')}</tbody></table>
               <i class="scan"></i></div>
-            <div class="sc json"><div class="ln"><span class="h">{ "mode": "HP", "map": "Summit",</span></div><div class="ln">  { <span class="k">"p"</span>: "A", <span class="k">"k"</span>: 27, <span class="k">"d"</span>: 21, <span class="k">"obj"</span>: 86 },</div><div class="ln">  { <span class="k">"p"</span>: "B", <span class="k">"k"</span>: 24, <span class="k">"d"</span>: 19, <span class="k">"obj"</span>: 71 },</div><div class="ln">  { <span class="k">"p"</span>: "C", <span class="k">"k"</span>: 22, <span class="k">"d"</span>: 23, <span class="k">"obj"</span>: 64 },</div><div class="ln">  { <span class="k">"p"</span>: "D", <span class="k">"k"</span>: 19, <span class="k">"d"</span>: 20, <span class="k">"obj"</span>: 58 },</div><div class="ln">  { <span class="k">"p"</span>: "E", <span class="k">"k"</span>: 16, <span class="k">"d"</span>: 22, <span class="k">"obj"</span>: 43 } }</div><div class="ln"><span class="h">GPT-5.6-luna · temperature 0 · JSON 강제</span></div></div>
-            <div class="sc db"><div><b>399</b><span>matches logged · PostgreSQL</span></div></div>
-            <div class="sc dash"><div class="zoom"><img src="${p.img}" alt="코칭 허브 실제 대시보드"></div><canvas></canvas></div>
-            <div class="sc call"><b>ZCS = 1.1·OBJ + 8·CK + 4.1·K − 5·D</b><span>직접 설계한 거점 지표 · 승패 AUC로 검증</span></div>
-            <div class="steps"><span>01 업로드</span><span>02 비전 추출</span><span>03 DB 적재</span><span>04 대시보드</span><span>05 지표</span></div>
+            <div class="sc read"><h4>AI가 읽어 낸 값</h4>${HUB.map((r) => `<div class="r"><b>${r[0]}</b>킬 ${r[1]} · 데스 ${r[2]} · 점령 ${r[3]} · 킬캠 ${r[4]}</div>`).join('')}<small>GPT-5.6-luna Vision · 매번 같은 형식으로 추출</small></div>
+            <div class="sc db"><div><span>지금까지 기록된 경기</span><b>399</b><em>+1 새 경기 저장됨</em></div></div>
+            <div class="sc dash"><div class="hd">코칭 허브 · 시즌 대시보드<span>방금 업데이트</span></div>
+              <div class="kpis"><div class="kpi"><span>기록된 경기</span><b data-n="400">0</b></div><div class="kpi"><span>평균 K/D</span><b data-n="1.03" data-f="2">0</b></div><div class="kpi"><span>기록 선수</span><b data-n="9">0</b></div>
+                <div class="sc call"><b>ZCS · 거점 기여 점수</b><p>킬 수만이 아니라 거점 점령과 킬캠처럼 팀 승리에 보탬이 된 행동까지 점수로 환산합니다.</p><code>ZCS = 1.1·점령 + 8·킬캠<br>　　+ 4.1·킬 − 5·데스<br><span>직접 설계 · 승패 예측력(AUC)으로 검증</span></code></div></div>
+              <div class="rank"><h5>이번 경기 ZCS 순위</h5>${HUB.map((r, k) => `<div class="bar${k ? '' : ' me'}"><span>Player ${r[0]}</span><span class="t"><i style="--w:${(r[5] / 150).toFixed(3)}"></i></span><b data-n="${r[5]}" data-f="1">0</b></div>`).join('')}</div></div>
+            <div class="cap"><i>1/5</i><span></span></div>
+            <div class="prog"><span></span><span></span><span></span><span></span><span></span></div>
             <button class="rp" type="button" aria-label="다시 재생">↻ 다시 보기</button>
           </div>` : p.img ? `<img src="${p.img}" alt="${esc(p.a + ' ' + p.b)} 실제 화면">` : `<div class="tile"><span>On air · 2023.07 —</span><b>77.8h</b></div>`}<i class="corner a"></i><i class="corner b"></i><i class="corner c"></i><i class="corner d"></i></div>
         <div class="tR" data-a style="transition-delay:.12s">${esc(p.b)}</div>
@@ -335,83 +367,89 @@ function applyMotion() {
 applyMotion();
 /* ---------- 코칭 허브 파이프라인 재생 ---------- */
 function hubStage(root) {
-  const $ = (s) => root.querySelector(s);
-  const rows = [...root.querySelectorAll('tbody tr')];
-  const lines = [...root.querySelectorAll('.json .ln')];
-  const steps = [...root.querySelectorAll('.steps span')];
-  const up = $('.up'), json = $('.json'), db = $('.db'), dbn = $('.db b'), dash = $('.dash'), zoom = $('.zoom'), call = $('.call'), scan = $('.scan');
-  const cv = $('.dash canvas');
-  const img = new Image(); img.src = SRC.dash;
+  const $ = (s) => root.querySelector(s), $$ = (s) => [...root.querySelectorAll(s)];
+  const rows = $$('tbody tr'), reads = $$('.read .r'), segs = $$('.prog span'), kpis = $$('.kpi'), bars = $$('.bar');
+  const up = $('.up'), read = $('.read'), db = $('.db'), dbn = $('.db b'), dbe = $('.db em'), dash = $('.dash'), hdTag = $('.dash .hd span'), call = $('.call'), scan = $('.scan');
+  const cap = $('.cap'), capN = $('.cap i'), capT = $('.cap span');
+  const CAPS = [
+    '선수가 경기 결과 스크린샷을 Discord에 올리면',
+    'AI가 표를 한 줄씩 읽어 숫자로 옮겨 적고',
+    '그 경기가 데이터베이스에 자동으로 쌓입니다',
+    '코칭 대시보드가 사람 손 없이 바로 갱신되고',
+    '직접 설계한 지표로 누가 팀에 기여했는지 보입니다',
+  ];
+  // 각 장면 길이(ms). 일반 관객이 자막을 읽고 화면을 볼 시간을 준다.
+  const DUR = [3000, 5600, 3800, 5200, 6000];
   let token = 0;
   const wait = (ms, t) => new Promise((r, j) => setTimeout(() => (t === token ? r() : j('cancel')), ms));
-  const step = (i) => steps.forEach((s, k) => s.classList.toggle('on', k === i));
-
-  function asciiOver() {
-    const W = cv.clientWidth, H = cv.clientHeight, d = Math.min(devicePixelRatio || 1, 2);
-    cv.width = W * d; cv.height = H * d;
-    const x = cv.getContext('2d'); x.setTransform(d, 0, 0, d, 0, 0);
-    const cw = 6, ch = 10, cols = Math.ceil(W / cw), rws = Math.ceil(H / ch);
-    const s = document.createElement('canvas'); s.width = cols; s.height = rws;
-    const sx = s.getContext('2d');
-    const ia = img.naturalWidth / img.naturalHeight, sh = img.naturalWidth / (W / H);
-    sx.drawImage(img, 0, 0, img.naturalWidth, Math.min(img.naturalHeight, sh), 0, 0, cols, rws);
-    const data = sx.getImageData(0, 0, cols, rws).data, R = ' .:-=+*1742580#%@';
-    const paint = (cut) => {
-      x.clearRect(0, 0, W, H);
-      x.fillStyle = '#0e0e11'; x.fillRect(0, cut, W, H - cut);
-      x.font = '700 9px "JetBrains Mono", monospace'; x.textBaseline = 'top';
-      for (let r = Math.floor(cut / ch); r < rws; r++) for (let c = 0; c < cols; c++) {
-        const i = (r * cols + c) * 4, l = 1 - (data[i] * .299 + data[i + 1] * .587 + data[i + 2] * .114) / 255;
-        const near = r * ch - cut < 22;
-        x.fillStyle = near ? '#d6ff3d' : `rgba(236,236,232,${.18 + l * .8})`;
-        x.fillText(near ? R[(Math.random() * R.length) | 0] : R[Math.min(R.length - 1, (l * R.length) | 0)], c * cw, r * ch);
-      }
-    };
-    return { paint, H };
+  const show = (el, on) => { el.style.opacity = on ? 1 : 0; el.style.transform = on ? 'none' : ''; };
+  const fmt = (v, f) => (f ? v.toFixed(Number(f)) : Math.round(v).toLocaleString('en-US'));
+  function count(el, dur, t) {
+    const to = Number(el.dataset.n), f = el.dataset.f, t0 = performance.now();
+    const tick = (n) => { if (t !== token) return; const p = Math.min(1, (n - t0) / dur), e = 1 - Math.pow(1 - p, 3); el.textContent = fmt(to * e, f); if (p < 1) requestAnimationFrame(tick); };
+    requestAnimationFrame(tick);
   }
-
+  async function step(i, t) {
+    segs.forEach((s, k) => { s.classList.toggle('past', k < i); s.classList.toggle('on', k === i); s.style.setProperty('--d', DUR[k] + 'ms'); });
+    if (i < 0) { cap.classList.add('out'); return; }
+    cap.classList.add('out');
+    await new Promise((r) => setTimeout(r, 350)); if (t !== token) return;
+    capN.textContent = `${i + 1}/5`; capT.textContent = CAPS[i];
+    cap.classList.remove('out');
+  }
   function reset() {
-    root.classList.remove('done');
-    rows.forEach((r) => r.classList.remove('hit')); lines.forEach((l) => l.classList.remove('on'));
-    up.style.opacity = 1; up.style.transform = 'translateY(3cqw)'; up.style.opacity = 0;
-    json.style.opacity = 1; db.style.opacity = 0; dash.style.opacity = 0; zoom.style.transform = 'none';
-    call.style.opacity = 0; call.style.transform = 'translateY(2cqw)'; scan.style.opacity = 0; dbn.textContent = '399'; cv.style.opacity = 1;
-    step(-1);
+    root.classList.remove('done', 'focus');
+    rows.forEach((r) => r.classList.remove('hit')); reads.forEach((r) => r.classList.remove('on'));
+    [up, read, db, dash, call].forEach((el) => { el.style.opacity = 0; el.style.transform = ''; });
+    scan.style.opacity = 0; dbn.textContent = '399'; dbn.classList.remove('new'); dbe.classList.remove('on'); hdTag.classList.remove('on');
+    kpis.forEach((k) => k.classList.remove('on')); $$('[data-n]').forEach((el) => { el.textContent = '0'; });
+    bars.forEach((b) => { b.querySelector('i').style.transform = 'scaleX(0)'; });
+    segs.forEach((s) => s.classList.remove('on', 'past')); cap.classList.add('out');
   }
   function final() {
-    up.style.opacity = 0; json.style.opacity = 0; db.style.opacity = 0; dash.style.opacity = 1; cv.style.opacity = 0;
-    zoom.style.transform = 'scale(2.3)'; call.style.opacity = 1; call.style.transform = 'none'; root.classList.add('done'); step(-1);
+    show(dash, 1); hdTag.classList.add('on'); kpis.forEach((k) => k.classList.add('on'));
+    $$('[data-n]').forEach((el) => { el.textContent = fmt(Number(el.dataset.n), el.dataset.f); });
+    bars.forEach((b) => { const i = b.querySelector('i'); i.style.transition = 'none'; i.style.transform = `scaleX(${i.style.getPropertyValue('--w')})`; });
+    root.classList.add('focus', 'done'); show(call, 1);
+    capN.textContent = '5/5'; capT.textContent = CAPS[4]; cap.classList.remove('out'); segs.forEach((s) => s.classList.add('past'));
   }
   async function play() {
     const t = ++token; reset();
+    bars.forEach((b) => { b.querySelector('i').style.transition = ''; });
     if (reduce) return final();
     try {
-      await wait(350, t);
-      step(0); up.style.opacity = 1; up.style.transform = 'none';
-      await wait(900, t);
-      step(1); scan.style.opacity = 1;
+      await wait(500, t);
+      // 1 업로드
+      step(0, t); await wait(500, t);
+      show(up, 1);
+      await wait(DUR[0] - 500, t);
+      // 2 읽기: 한 줄씩 천천히
+      step(1, t); show(read, 1); await wait(800, t);
+      scan.style.opacity = 1;
       const top0 = $('table').offsetTop;
       for (let i = 0; i < rows.length; i++) {
         scan.style.top = (top0 + rows[i].offsetTop + rows[i].offsetHeight) + 'px';
-        rows[i].classList.add('hit'); lines[i + 1].classList.add('on');
-        await wait(330, t);
+        rows[i].classList.add('hit'); reads[i].classList.add('on');
+        await wait(820, t);
       }
-      lines[0].classList.add('on'); lines[lines.length - 1].classList.add('on'); scan.style.opacity = 0;
-      await wait(700, t);
-      step(2); up.style.opacity = 0; up.style.transform = 'scale(.9)'; json.style.opacity = 0; db.style.opacity = 1;
-      await wait(500, t); dbn.textContent = '400';
-      await wait(900, t);
-      step(3); db.style.opacity = 0; dash.style.opacity = 1;
-      let a = null; try { if (img.complete && img.naturalWidth) a = asciiOver(); } catch (e) { a = null; }
-      if (a) {
-        const t0 = performance.now();
-        await new Promise((res) => { const f = (n) => { if (t !== token) return res(); const p = Math.min(1, (n - t0) / 1200); a.paint(p * (a.H + 30)); p < 1 ? requestAnimationFrame(f) : res(); }; requestAnimationFrame(f); });
-      }
-      cv.style.opacity = 0;
-      await wait(700, t);
-      step(4); zoom.style.transform = 'scale(2.3)';
-      await wait(1100, t); call.style.opacity = 1; call.style.transform = 'none';
-      await wait(900, t); root.classList.add('done'); step(-1);
+      scan.style.opacity = 0;
+      await wait(DUR[1] - 800 - rows.length * 820, t);
+      // 3 저장
+      step(2, t); show(up, 0); show(read, 0); up.style.transform = 'scale(.92)'; read.style.transform = 'scale(.92)';
+      await wait(500, t); show(db, 1);
+      await wait(1300, t); dbn.textContent = '400'; dbn.classList.add('new'); dbe.classList.add('on');
+      await wait(DUR[2] - 1800, t);
+      // 4 대시보드
+      step(3, t); show(db, 0); await wait(400, t); show(dash, 1);
+      await wait(500, t); hdTag.classList.add('on');
+      for (const k of kpis) { k.classList.add('on'); count(k.querySelector('b'), 1200, t); await wait(260, t); }
+      for (const b of bars) { const i = b.querySelector('i'); i.style.transform = `scaleX(${i.style.getPropertyValue('--w')})`; count(b.querySelector('b'), 1400, t); await wait(220, t); }
+      await wait(DUR[3] - 1800, t);
+      // 5 지표
+      step(4, t); root.classList.add('focus');
+      await wait(900, t); show(call, 1);
+      await wait(DUR[4] - 900, t);
+      root.classList.add('done'); segs.forEach((s) => { s.classList.remove('on'); s.classList.add('past'); });
     } catch (e) { /* 다른 화면으로 이동해 취소됨 */ }
   }
   $('.rp').addEventListener('click', play);
@@ -462,7 +500,7 @@ function go(n, dir) {
   cnt.textContent = `${String(n + 1).padStart(2, '0')} / ${N}`;
   idx.querySelectorAll('button').forEach((b, i) => b.setAttribute('aria-current', String(i === n)));
   particles.setHero(n === 0);
-  stages.forEach((st, sl) => { if (sl === next) setTimeout(() => st.play(), reduce ? 0 : 700); else st.stop(); });
+  stages.forEach((st, sl) => { if (sl === next) setTimeout(() => st.play(), reduce ? 0 : 1200); else st.stop(); });
   lock = performance.now();
 }
 document.getElementById('prev').onclick = () => go(cur - 1, false);
@@ -630,7 +668,7 @@ const particles = (() => { try { return (() => {
 
   function animG(to, dur) { gFrom = g; gTarget = to; gStart = now(); gDur = dur; }
   api.replay = () => { if (hero && !reduce) { g = 0; animG(1, 2.4); lastBreath = now(); } };
-  api.setHero = (on) => { if (on === hero) return; hero = on; animG(on ? 1 : 0, on ? 1.8 : 1.1); lastBreath = now(); };
+  api.setHero = (on) => { if (on === hero) return; hero = on; animG(on ? 1 : 0, on ? 2.6 : 1.4); lastBreath = now(); };
 
   addEventListener('pointermove', (e) => { mouse = [e.clientX, e.clientY]; mOn = 1; });
   document.addEventListener('pointerleave', () => { mOn = 0; });
@@ -646,7 +684,7 @@ const particles = (() => { try { return (() => {
       const e = p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
       g = gFrom + (gTarget - gFrom) * e;
       // 놓아두면 가끔 숨 쉬듯 흩어졌다 모임
-      if (hero && p >= 1 && t - lastBreath > 11) { lastBreath = t; animG(.62, 1.4); setTimeout(() => { if (hero) animG(1, 1.8); }, 1400); }
+      if (hero && p >= 1 && t - lastBreath > 14) { lastBreath = t; animG(.62, 1.8); setTimeout(() => { if (hero) animG(1, 2.4); }, 1800); }
     }
     gl.clearColor(10/255, 10/255, 12/255, 1); gl.clear(gl.COLOR_BUFFER_BIT);
     if (!count) return;
@@ -664,7 +702,7 @@ const particles = (() => { try { return (() => {
     img = await new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = SRC.cutout; });
     build();
     let rt; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(build, 150); });
-    g = 0; animG(hero ? 1 : 0, 2.6); gStart = now() + .25; lastBreath = now();
+    g = 0; animG(hero ? 1 : 0, 3.4); gStart = now() + .25; lastBreath = now();
     requestAnimationFrame(frame);
   })().catch((e) => console.error(e));
   return api;
