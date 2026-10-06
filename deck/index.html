@@ -23,7 +23,7 @@ a { color: inherit; }
 :focus-visible { outline: 2px solid var(--acc); outline-offset: 3px; }
 #gl { position: fixed; inset: 0; width: 100vw; height: 100vh; display: block; z-index: 0; }
 .chip { display: inline-block; font: 700 11px/1 var(--mono); letter-spacing: .02em; padding: 7px 8px; text-transform: uppercase; white-space: nowrap; text-decoration: none; border: 0; cursor: pointer; }
-.c-w { background: var(--fg); color: var(--bg); } .c-d { background: #1b1b1f; color: var(--fg); } .c-a { background: var(--acc); color: var(--bg); }
+.c-w { background: var(--fg); color: var(--bg); } .c-v { background: #3a2a9c; color: #f1efff; } .c-d { background: #1b1b1f; color: var(--fg); } .c-a { background: var(--acc); color: var(--bg); }
 @media (pointer: coarse) { .top .chip, .bot .chip { padding: 12px 13px; font-size: 12px; } .stg .rp { font-size: 2.6cqw; padding: 1.6cqw 2cqw; } }
 button.chip:hover, a.chip:hover { filter: brightness(1.12); }
 .mono { font-family: var(--mono); }
@@ -64,7 +64,7 @@ button.chip:hover, a.chip:hover { filter: brightness(1.12); }
 body.on-poster #gl { visibility: hidden; }
 /* 포스터에서는 이름 칩이 왼쪽 가운데로 내려와 아래 박스 역할을 한다 */
 body.on-poster .top { top: 50%; translate: 0 -50%; }
-body.on-poster .top .chip { font-size: 13px; padding: 10px 12px; }
+body.on-poster .top .chip { font-size: 12px; padding: 9px 10px; }
 .pcells .dec { cursor: crosshair; }
 body.on-poster .bot, body.on-poster .idx, body.on-poster .cl { display: none; }
 
@@ -377,7 +377,7 @@ html.rm .slide [data-a], html.rm .media { transition: none !important; }
 <canvas id="gl" aria-hidden="true"></canvas>
 
 <header class="top">
-  <div><button class="chip c-w" data-go="0">F10W3R</button><span class="chip c-a">● Coach &amp; Builder</span></div>
+  <div><span class="chip c-v">Minwoo Yoo</span><button class="chip c-a" data-go="0">F10W3R</button><span class="chip c-d">Coaching &amp; Connecting</span></div>
   <div><button class="chip c-a cl" type="button" data-go="0" aria-label="포스터로 돌아가기">닫기 ×</button><div class="idx" id="idx" role="tablist" aria-label="Screens"></div></div>
 </header>
 
@@ -1154,15 +1154,29 @@ const particles = (() => { try { return (() => {
 
 /* ---------- 포스터 ----------
    WebGL 셰이더 하나가 매 프레임 칸마다 필터를 계산한다. 사진은 화면에 한 번만 놓이므로 칸이 바뀌어도 얼굴은 이어진다.
-   - 칸 경계는 천천히 떠다니고, 마우스 쪽으로 밀리며, 올린 칸은 커진다.
-   - 필터 9종은 모두 마우스 근처에서 잘게 반응한다(원형 렌즈·왜곡은 쓰지 않는다. 반응 범위도 칸 격자 단위로 끊는다).
+   - 칸 배치는 '자르기 나무'다. 나눌 때마다 위치가 달라 가로선·세로선이 한 줄로 이어지지 않는다(레퍼런스 포스터처럼).
+   - 얼굴은 칸 세 개에 걸친다: 세로선이 콧대를, 가로선이 코와 입 사이를 지난다.
+   - 칸 경계는 천천히 떠다니고 마우스 쪽으로 밀리며, 올린 칸은 커진다.
+   - 인물은 마우스와 반대쪽으로 움직이고, 필터 무늬(망점·격자·문자 칸)는 사진에 붙어 함께 움직인다.
    - 사진 원본 색은 어디에도 그대로 나오지 않는다. 모든 필터가 밝기를 몇 단계로 끊어 쓴다.
    - 프로젝트가 없는 칸을 누르면 모든 칸의 필터가 한 번에 무작위로 바뀐다. */
 const poster = (() => {
   const cv = document.getElementById('pc'), layer = document.getElementById('pcells'), root = document.getElementById('poster');
-  // [행 높이, [칸 너비...], [열 화면...], [처음 필터...]] · 화면 번호: 1 소개, 2~7 프로젝트, 8 기록, 9 연락, null 장식(누르면 필터 섞기)
-  const WIDE = [[.22, [.13, .17, .27, .43], [null, 8, null, 2], [0, 1, 6, 3]], [.29, [.3, .33, .37], [3, 1, 4], [5, 0, 2]], [.29, [.24, .2, .26, .3], [5, null, 6, 7], [1, 4, 7, 8]], [.2, [.42, .23, .35], [9, null, null], [6, 0, 3]]];
-  const TALL = [[.17, [.45, .55], [8, null], [4, 3]], [.21, [.6, .4], [1, 2], [0, 2]], [.22, [.38, .62], [3, 4], [5, 7]], [.2, [.5, .5], [5, 6], [1, 8]], [.2, [.34, .33, .33], [7, 9, null], [6, 4, 3]]];
+  // 나무: ['v'|'h', 자르는 위치(화면 비율), 앞쪽, 뒤쪽] · 잎: [열 화면, 처음 필터]
+  // 화면 번호: 1 소개, 2~7 프로젝트, 8 기록, 9 연락, null 장식(누르면 필터 섞기)
+  const WIDE = ['v', .76,
+    ['h', .8,
+      ['v', .18,
+        ['h', .27, [null, 7], [4, 1]],
+        ['h', .34, ['v', .5, [1, 0], [5, 4]], ['v', .36, [6, 8], [7, 2]]]],
+      ['v', .4, [9, 3], [null, 5]]],
+    ['h', .22, [8, 6], ['h', .58, [2, 1], [3, 8]]]];
+  const TALL = ['h', .62,
+    ['h', .16, ['v', .55, [8, 6], [2, 1]],
+      ['h', .35, ['v', .5, [1, 0], [3, 4]], ['v', .3, [null, 5], [4, 2]]]],
+    ['v', .45, ['h', .82, [5, 3], [6, 8]], ['h', .74, [7, 7], [9, 1]]]];
+  // 사진 속 얼굴 기준점(img/portrait.png 픽셀): 콧대 x, 눈 y, 머리끝~턱 높이
+  const FACE = { x: 188, eye: 118, head: 208 };
   const NL = 9, MAXC = 16;
   const noop = { setActive() {} };
   const gl = cv.getContext('webgl2', { antialias: false, premultipliedAlpha: false });
@@ -1173,8 +1187,8 @@ in vec2 a; void main() { gl_Position = vec4(a, 0., 1.); }`;
   const FS = `#version 300 es
 precision highp float;
 uniform sampler2D uImg, uGly;
-uniform vec2 uRes, uM;
-uniform float uS, uT, uMOn;
+uniform vec2 uRes;
+uniform float uS, uT;
 uniform vec4 uPh;
 uniform vec4 uR[${MAXC}];
 uniform float uL[${MAXC}];
@@ -1188,7 +1202,6 @@ vec2 photo(vec2 p) { // (밝기, 알파)
   if (uv.x < 0. || uv.y < 0. || uv.x > 1. || uv.y > 1.) return vec2(0.);
   vec4 c = texture(uImg, uv); return vec2(dot(c.rgb, vec3(.3, .59, .11)), c.a);
 }
-float near(vec2 q) { float d = length(q - uM) / uS; return uMOn * exp(-d * d / (2. * 130. * 130.)); }
 float bayer(vec2 p) {
   int i = int(mod(p.y, 4.)) * 4 + int(mod(p.x, 4.));
   float B[16] = float[16](0., 8., 2., 10., 12., 4., 14., 6., 3., 11., 1., 9., 15., 7., 13., 5.);
@@ -1196,69 +1209,51 @@ float bayer(vec2 p) {
 }
 float glyph(float idx, vec2 f) { return texture(uGly, vec2((idx + f.x) / 12., f.y)).a; }
 vec3 look(int k, vec2 p) {
-  float s = uS; vec2 F = photo(p); bool on = F.y > .5;
-  if (k == 0) { // 라임 듀오톤 · 마우스 근처는 잔 망점으로 풀린다
-    float c = 5. * s; vec2 q = mod(p, c) - c * .5, ctr = p - q; float m = near(floor(p / (20. * s)) * 20. * s + 10. * s);
-    vec3 col = on ? mix(K, LI, floor(pow(F.x, .85) * 5.) / 4.) : ((mod(p.x, 6. * s) < 2. * s && mod(p.y, 6. * s) < 2. * s) ? vec3(.59, .75, .12) : LI);
-    vec2 G = photo(ctr);
-    float r = G.y > .5 ? (1. - G.x) * c * .66 : c * .18;
-    vec3 ht = length(q) < r ? K : LI;
-    return mix(col, ht, smoothstep(.12, .55, m));
+  // P: 사진에 붙은 좌표. 무늬 격자를 여기에 맞춰 인물과 함께 움직이게 한다.
+  float s = uS; vec2 P = p - uPh.xy; vec2 F = photo(p); bool on = F.y > .5;
+  if (k == 0) { // 라임 듀오톤
+    return on ? mix(K, LI, floor(pow(F.x, .85) * 5.) / 4.) : ((mod(P.x, 6. * s) < 2. * s && mod(P.y, 6. * s) < 2. * s) ? vec3(.59, .75, .12) : LI);
   }
-  if (k == 1) { // 보라 듀오톤 · 주사선이 마우스 근처에서 굵어지며 흐른다
-    float m = near(vec2(p.x, floor(p.y / (16. * s)) * 16. * s));
+  if (k == 1) { // 보라 듀오톤 + 주사선
     vec3 col = on ? mix(vec3(22., 14., 66.) / 255., CY, floor(F.x * 4.) / 3.) : VI;
-    float per = 4. * s, line = step(mod(p.y + uT * 40. * s * m, per), s * (.8 + 2.4 * m));
-    return col * (1. - (.18 + .3 * m) * line);
+    return col * (1. - .2 * step(mod(P.y, 4. * s), s));
   }
-  if (k == 2) { // 선화 · 마우스 근처에서 선이 늘고 깜빡인다
-    float m = near(floor(p / (12. * s)) * 12. * s);
-    if (!on) return DG + (h21(floor(p / (3. * s)) + floor(uT * 9.)) > .985 - .05 * m ? .25 : 0.) * LI;
+  if (k == 2) { // 선화
+    if (!on) return DG;
     float gx = photo(p + vec2(s, 0.)).x - photo(p - vec2(s, 0.)).x, gy = photo(p + vec2(0., s)).x - photo(p - vec2(0., s)).x;
-    float e = length(vec2(gx, gy)), thr = .09 - .055 * m;
-    float fl = 1. - .5 * m * step(.6, h21(floor(p / (4. * s)) + floor(uT * 12.)));
-    return e > thr ? mix(vec3(.38, 1., .47), LI, m) * fl : DG;
+    return length(vec2(gx, gy)) > .07 ? vec3(.38, 1., .47) : DG;
   }
-  if (k == 3) { // 망점 · 마우스 근처 점이 커지고 라임으로 물든다
-    float c = 7. * s; vec2 q = mod(p, c) - c * .5, ctr = p - q; vec2 G = photo(ctr); float m = near(ctr);
-    float r = G.y > .5 ? (1. - G.x) * c * .62 * (1. + .55 * m) : c * .14 * (1. + 2.2 * m);
-    vec3 dc = G.y > .5 ? mix(CY, LI, m) : mix(vec3(92., 72., 200.) / 255., CY, m);
-    return length(q) < max(.5 * s, r) ? dc : VI;
+  if (k == 3) { // 망점
+    float c = 7. * s; vec2 q = mod(P, c) - c * .5; vec2 G = photo(p - q);
+    float r = G.y > .5 ? (1. - G.x) * c * .62 : c * .14;
+    return length(q) < max(.5 * s, r) ? (G.y > .5 ? CY : vec3(92., 72., 200.) / 255.) : VI;
   }
-  if (k == 4) { // 모자이크 · 마우스 근처 블록이 잘게 쪼개진다(4색 유지)
-    float big = 16. * s; vec2 bc = floor(p / big) * big + big * .5; float m = near(bc);
-    float b = m > .55 ? 4. * s : m > .22 ? 8. * s : big;
-    vec2 c = floor(p / b) * b + b * .5; vec2 G = photo(c);
-    if (G.y < .5) return mix(CY, PA, h21(floor(p / b)) * .35);
+  if (k == 4) { // 모자이크(4색)
+    float b = 12. * s; vec2 c = P - mod(P, b) + b * .5; vec2 G = photo(c + uPh.xy);
+    if (G.y < .5) return mix(CY, PA, h21(floor(P / b)) * .35);
     int qi = int(min(3., floor(G.x * 4.)));
     return qi == 0 ? K : qi == 1 ? VI : qi == 2 ? CY : PA;
   }
-  if (k == 5) { // 문자 · 마우스 근처 글자가 뒤섞인다
-    float c = 9. * s; vec2 g = floor(p / c), f = fract(p / c); vec2 G = photo(g * c + c * .5); float m = near(g * c + c * .5);
+  if (k == 5) { // 문자
+    float c = 9. * s; vec2 g = floor(P / c), f = fract(P / c); vec2 G = photo(g * c + c * .5 + uPh.xy);
     float idx = G.y > .5 ? min(9., floor(G.x * 10.)) : (h21(g) > .86 ? 10. + step(.5, h21(g + 3.)) : 0.);
-    if (h21(g + floor(uT * 14.)) < m * .8) idx = floor(h21(g * 1.7 + floor(uT * 14.)) * 12.);
-    vec3 fg = G.y > .5 ? mix(PA, LI, m) : mix(vec3(.2), LI, m);
-    return mix(K, fg, glyph(idx, vec2(f.x, f.y)));
+    return mix(K, G.y > .5 ? PA : vec3(.2), glyph(idx, f));
   }
-  if (k == 6) { // 디더링 · 마우스 근처 문턱값이 흔들린다
-    vec2 q = floor(p / s); float m = near(floor(p / (10. * s)) * 10. * s);
-    float B = bayer(q) + (h21(q + floor(uT * 10.)) - .5) * .9 * m;
-    return on && F.x < B ? vec3(24., 24., 28.) / 255. : (m > .05 && h21(q + floor(uT * 10.)) < .04 * m ? LI : PA);
+  if (k == 6) { // 디더링
+    return on && F.x < bayer(floor(P / s)) ? vec3(24., 24., 28.) / 255. : PA;
   }
-  if (k == 7) { // 글리치 · 마우스가 있는 줄들이 더 크게 어긋난다
-    float band = floor(p.y / (11. * s)); float m = near(vec2(uM.x, band * 11. * s));
-    float on1 = step(.6, h21(vec2(band, 9.))) + step(.2, m);
-    float sh = (h21(vec2(band, floor(uT * (1.5 + 14. * m)))) - .5) * 26. * s * min(1., on1) * (1. + 2.5 * m);
+  if (k == 7) { // 글리치: 띠마다 옆으로 어긋나고 채널이 갈라진다(천천히 바뀜)
+    float band = floor(P.y / (11. * s));
+    float sh = (h21(vec2(band, floor(uT * .8))) - .5) * 26. * s * step(.6, h21(vec2(band, 9.)));
     vec2 A = photo(p + vec2(sh + 6. * s, 0.)), Bc = photo(p + vec2(sh, 0.)), C = photo(p + vec2(sh - 6. * s, 0.));
-    if (A.y < .5 && Bc.y < .5 && C.y < .5) return mod(floor(p.y / s), 3.) > 0. ? K : vec3(24., 22., 40.) / 255.;
+    if (A.y < .5 && Bc.y < .5 && C.y < .5) return mod(floor(P.y / s), 3.) > 0. ? K : vec3(24., 22., 40.) / 255.;
     float a = floor(A.x * A.y * 3.) / 2., c = floor(C.x * C.y * 3.) / 2.;
     return K + vec3(.95, .15, .55) * a + vec3(.1, .78, .9) * c;
   }
-  // 8 격자망 · 마우스 근처 칸이 켜진다
-  float c = 12. * s; vec2 g = mod(p, c); vec2 ctr = p - g + c * .5; vec2 G = photo(ctr); float m = near(ctr);
-  if (g.x < 2. * s || g.y < 2. * s) return mix(vec3(44., 78., 36.) / 255., LI, m * .5);
-  float lv = G.y > .5 ? floor(G.x * 4.) / 3. : 0.;
-  return mix(DG, LI, clamp(lv + m * (.6 + .4 * step(.5, h21(floor(p / c) + floor(uT * 6.)))), 0., 1.));
+  // 8 격자망
+  float c = 12. * s; vec2 g = mod(P, c); vec2 G = photo(p - g + c * .5);
+  if (g.x < 2. * s || g.y < 2. * s) return vec3(44., 78., 36.) / 255.;
+  return mix(DG, LI, G.y > .5 ? floor(G.x * 4.) / 3. : 0.);
 }
 void main() {
   vec2 p = vec2(gl_FragCoord.x, uRes.y - gl_FragCoord.y);
@@ -1276,7 +1271,7 @@ void main() {
   gl.useProgram(prog);
   const buf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
   const aLoc = gl.getAttribLocation(prog, 'a'); gl.enableVertexAttribArray(aLoc); gl.vertexAttribPointer(aLoc, 2, gl.FLOAT, false, 0, 0);
-  const U = {}; ['uImg', 'uGly', 'uRes', 'uM', 'uS', 'uT', 'uMOn', 'uPh', 'uR', 'uL', 'uN'].forEach((n) => { U[n] = gl.getUniformLocation(prog, n); });
+  const U = {}; ['uImg', 'uGly', 'uRes', 'uS', 'uT', 'uPh', 'uR', 'uL', 'uN'].forEach((n) => { U[n] = gl.getUniformLocation(prog, n); });
   const tex = (unit, src) => { const t = gl.createTexture(); gl.activeTexture(gl.TEXTURE0 + unit); gl.bindTexture(gl.TEXTURE_2D, t);
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, src);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
@@ -1287,22 +1282,26 @@ void main() {
     [...' .:-=+*#%@01'].forEach((ch, i) => x.fillText(ch, i * z + z / 2, z / 2 + 2)); return c;
   }
 
-  let rows = WIDE, cells = [], bound = null, hov = -1, active = false, raf = 0, imgReady = false, t = 0, last = 0;
-  let mx = .5, my = .5, mOn = 0, mTarget = 0, mPx = [0, 0];
+  let tree = null, splits = [], cells = [], hov = -1, active = false, raf = 0, imgReady = false, t = 0, last = 0;
+  let mx = .5, my = .5, sx = .5, sy = .5;
   const img = new Image();
 
   function layout() {
-    const tall = innerHeight > innerWidth, next = tall ? TALL : WIDE;
-    if (next === rows && cells.length) return;
-    rows = next; cells = [];
-    rows.forEach(([, ws, gos, lk], ri) => ws.forEach((_, ci) => cells.push({ ri, ci, go: gos[ci], look: lk[ci] })));
-    // 경계 상태: 행 경계(위아래), 행마다 열 경계. 현재값은 목표값을 부드럽게 따라간다.
-    let y = 0; const ys = rows.slice(0, -1).map(([h]) => (y += h));
-    bound = { ys: ys.map((v) => ({ base: v, cur: v })), xs: rows.map(([, ws]) => { let x = 0; return ws.slice(0, -1).map((w) => { x += w; return { base: x, cur: x }; }); }) };
+    const next = innerHeight > innerWidth ? TALL : WIDE;
+    if (next === tree) return;
+    tree = next; splits = []; cells = [];
+    // 나무를 펼친다: 자르기마다 움직일 상태를, 잎마다 칸을 만든다
+    const walk = (n) => {
+      if (typeof n[0] !== 'string') { const k = cells.length; cells.push({ go: n[0], look: n[1] }); return { leaf: k, ks: [k] }; }
+      const sp = { d: n[0], at: n[1], cur: n[1], i: splits.length }; splits.push(sp);
+      const a = walk(n[2]), b = walk(n[3]); sp.a = a; sp.b = b;
+      return { sp, a, b, ks: [...a.ks, ...b.ks] };
+    };
+    tree.root = walk(tree);
     layer.innerHTML = cells.map((c, k) => {
       if (c.go == null) return `<button type="button" class="dec" data-k="${k}" aria-label="필터 섞기"></button>`;
       const s = slides[c.go], kind = c.go === 1 ? 'About' : c.go === 8 ? 'Record' : c.go === 9 ? 'Contact' : `Project ${String(c.go - 1).padStart(3, '0')}`;
-      return `<button type="button" data-go="${c.go}" data-k="${k}"${c.ri ? '' : ' data-r0'} aria-label="${esc(s.dataset.name)} 열기"><span class="nm"><i>${kind} · </i>${esc(s.dataset.name)} ↗</span><span class="tg">${String(c.go).padStart(2, '0')}</span></button>`;
+      return `<button type="button" data-go="${c.go}" data-k="${k}" aria-label="${esc(s.dataset.name)} 열기"><span class="nm"><i>${kind} · </i>${esc(s.dataset.name)} ↗</span><span class="tg">${String(c.go).padStart(2, '0')}</span></button>`;
     }).join('');
     layer.querySelectorAll('button').forEach((b) => {
       const k = Number(b.dataset.k);
@@ -1314,28 +1313,24 @@ void main() {
   function shuffle() { // 모든 칸이 한 번에, 지금과 다른 필터로
     cells.forEach((c) => { c.look = (c.look + 1 + Math.floor(Math.random() * (NL - 1))) % NL; });
   }
-  function step(dt) {
-    const E = .04, A = reduce ? 0 : 1, H = cells[hov];
-    const ease = Math.min(1, dt * (reduce ? 20 : 3.2));
-    bound.ys.forEach((b, j) => {
-      let tgt = b.base + A * (.016 * Math.sin(t * .42 + j * 2.1) + (my - .5) * .045 * (j % 2 ? -1 : 1));
-      if (H) { if (H.ri === j) tgt += E; if (H.ri === j + 1) tgt -= E; }
-      b.cur += (tgt - b.cur) * ease;
+  function step(dt) { // 자르는 위치: 떠다님 + 마우스 쪽으로 밀림 + 올린 칸 키우기
+    const A = reduce ? 0 : 1, E = .035, ease = Math.min(1, dt * (reduce ? 20 : 3));
+    splits.forEach((sp) => {
+      const sign = sp.i % 2 ? -1 : 1, m = sp.d === 'v' ? sx : sy;
+      let tgt = sp.at + A * (.014 * Math.sin(t * .45 + sp.i * 1.9) + (m - .5) * .05 * sign);
+      if (hov >= 0) { if (sp.a.ks.includes(hov)) tgt += E; else if (sp.b.ks.includes(hov)) tgt -= E; }
+      sp.cur += (tgt - sp.cur) * ease;
     });
-    bound.xs.forEach((row, r) => row.forEach((b, c) => {
-      let tgt = b.base + A * (.02 * Math.sin(t * .35 + r * 1.3 + c * 2.7) + (mx - .5) * .055 * ((r + c) % 2 ? -1 : 1));
-      if (H && H.ri === r) { if (H.ci === c) tgt += E; if (H.ci === c + 1) tgt -= E; }
-      b.cur += (tgt - b.cur) * ease;
-    }));
   }
-  function rects() { // 정규화 [x0, y0, x1, y1]. 칸이 너무 작아지지 않게 최소 간격을 둔다.
-    const ys = [0, ...bound.ys.map((b) => b.cur), 1], out = [];
-    for (let j = 1; j < ys.length; j++) ys[j] = Math.max(ys[j], ys[j - 1] + .07);
-    rows.forEach((_, r) => {
-      const xs = [0, ...bound.xs[r].map((b) => b.cur), 1];
-      for (let c = 1; c < xs.length; c++) xs[c] = Math.max(xs[c], xs[c - 1] + .07);
-      for (let c = 0; c < xs.length - 1; c++) out.push([xs[c], ys[r], Math.min(1, xs[c + 1]), Math.min(1, ys[r + 1])]);
-    });
+  function rects() { // 나무를 따라 칸 사각형을 구한다(정규화). 칸이 너무 작아지지 않게 가장자리에서 6% 띄운다.
+    const out = [];
+    const go = (n, x0, y0, x1, y1) => {
+      if (n.leaf != null) { out[n.leaf] = [x0, y0, x1, y1]; return; }
+      const sp = n.sp;
+      if (sp.d === 'v') { const x = Math.min(x1 - .06, Math.max(x0 + .06, sp.cur)); go(n.a, x0, y0, x, y1); go(n.b, x, y0, x1, y1); }
+      else { const y = Math.min(y1 - .06, Math.max(y0 + .06, sp.cur)); go(n.a, x0, y0, x1, y); go(n.b, x0, y, x1, y1); }
+    };
+    go(tree.root, 0, 0, 1, 1);
     return out;
   }
   function frame(now) {
@@ -1343,30 +1338,32 @@ void main() {
     if (!imgReady) return;
     const dt = Math.min(.05, (now - (last || now)) / 1000); last = now;
     if (!reduce) t += dt;
-    mOn += (mTarget - mOn) * Math.min(1, dt * 5);
+    const k = Math.min(1, dt * (reduce ? 20 : 4)); sx += (mx - sx) * k; sy += (my - sy) * k;
     step(dt);
     const S = Math.min(devicePixelRatio || 1, 2), w = Math.round(root.clientWidth * S), h = Math.round(root.clientHeight * S);
     if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; }
     gl.viewport(0, 0, w, h);
-    const R = rects(), tall = h > w, ar = img.width / img.height;
-    // 사진은 화면보다 작게: 가로 화면은 높이 100%, 세로 화면은 폭 82%
-    let ph = tall ? 0 : h * 1.0, pw = ph * ar; if (tall) { pw = w * .82; ph = pw / ar; }
-    const px = (w - pw) / 2 + (tall ? 0 : w * .01), py = tall ? h * .1 : h * .1;
-    gl.uniform2f(U.uRes, w, h); gl.uniform1f(U.uS, S); gl.uniform1f(U.uT, t); gl.uniform1f(U.uMOn, mOn);
-    gl.uniform2f(U.uM, mPx[0] * S, mPx[1] * S); gl.uniform4f(U.uPh, px, py, pw, ph);
+    const R = rects(), tall = h > w;
+    // 얼굴 기준으로 놓는다: 머리 높이, 콧대가 화면 가운데, 눈 높이. 마우스 반대쪽으로 화면의 3%만큼 움직인다.
+    const sc = (tall ? Math.min(h * .25, w * .5) : h * .34) / FACE.head, eyeY = tall ? .28 : .26;
+    const par = reduce ? 0 : 1, ox = -(sx - .5) * w * .03 * par, oy = -(sy - .5) * h * .03 * par;
+    const px = w * .5 - FACE.x * sc + ox, py = h * eyeY - FACE.eye * sc + oy;
+    gl.uniform2f(U.uRes, w, h); gl.uniform1f(U.uS, S); gl.uniform1f(U.uT, t);
+    gl.uniform4f(U.uPh, px, py, img.width * sc, img.height * sc);
     const rv = new Float32Array(MAXC * 4), lv = new Float32Array(MAXC);
     R.forEach((r, i) => { rv.set([r[0] * w, r[1] * h, r[2] * w, r[3] * h], i * 4); lv[i] = cells[i].look; });
     gl.uniform4fv(U.uR, rv); gl.uniform1fv(U.uL, lv); gl.uniform1i(U.uN, R.length);
     gl.uniform1i(U.uImg, 0); gl.uniform1i(U.uGly, 1);
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
     layer.querySelectorAll('button').forEach((b) => { const [x0, y0, x1, y1] = R[Number(b.dataset.k)];
-      b.style.left = `${x0 * 100}%`; b.style.top = `${y0 * 100}%`; b.style.width = `${(x1 - x0) * 100}%`; b.style.height = `${(y1 - y0) * 100}%`; });
+      b.style.left = `${x0 * 100}%`; b.style.top = `${y0 * 100}%`; b.style.width = `${(x1 - x0) * 100}%`; b.style.height = `${(y1 - y0) * 100}%`;
+      b.toggleAttribute('data-r0', y0 < .02); });
   }
-  const point = (e) => { const r = root.getBoundingClientRect(); mPx = [e.clientX - r.left, e.clientY - r.top]; mx = mPx[0] / r.width; my = mPx[1] / r.height; mTarget = 1; };
+  const point = (e) => { const r = root.getBoundingClientRect(); mx = (e.clientX - r.left) / r.width; my = (e.clientY - r.top) / r.height; };
   root.addEventListener('pointermove', point);
   root.addEventListener('pointerdown', point);
-  root.addEventListener('pointerleave', () => { mTarget = 0; mx = .5; my = .5; });
-  root.addEventListener('pointerup', (e) => { if (e.pointerType !== 'mouse') setTimeout(() => { mTarget = 0; }, 900); });
+  root.addEventListener('pointerleave', () => { mx = .5; my = .5; });
+  root.addEventListener('pointerup', (e) => { if (e.pointerType !== 'mouse') setTimeout(() => { mx = .5; my = .5; }, 900); });
   addEventListener('resize', layout);
   layout();
   img.onload = () => {
