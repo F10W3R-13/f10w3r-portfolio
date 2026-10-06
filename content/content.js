@@ -403,7 +403,7 @@ export const PORTFOLIO_CONTENT = {
         metrics: [
           { value: '3', label: { ko: '학기 활동 · 2026-2 총괄 예정', en: 'Semesters active · directing Fall 2026' } },
           { value: '300~400', label: { ko: 'OT 1회당 맞이하는 교환학생', en: 'Exchange students per OT' } },
-          { value: { ko: '200건', en: '200' }, label: { ko: '26-2 스포츠데이 신청 (최종 150명 선정)', en: 'Fall 2026 applications (150 selected)' } },
+          { value: { ko: '200건', en: '200' }, label: { ko: '26-2 스포츠데이 신청 (최종 약 150명 참가)', en: 'Fall 2026 applications (about 150 attended)' } },
           { value: '1:3', label: { ko: '버디 매칭 (부원:교환학생)', en: 'Buddy ratio (member:student)' } },
         ],
         links: {},
@@ -418,8 +418,8 @@ export const PORTFOLIO_CONTENT = {
             en: 'GSN HI-Club (Global Student Network Help&Information Club) is the official, selective student organization under the Office of International Affairs dedicated to supporting exchange students, about 50 members strong, meeting weekly and alternating between the two campuses. At spring and fall orientations we welcome every incoming exchange student, 300-400 at a time.',
           },
           approach: {
-            ko: 'OT 집합 맞이와 캠퍼스 투어, 부원 1명당 교환학생 3명의 버디 매칭, 그룹톡 관리와 민원 응대까지가 일상입니다. 26-1 스포츠데이(5팀 · 6종목 · 참가 99명)에서는 게임 구성과 규칙을 포함한 모든 콘텐츠를 기획했고, 입장·팔찌 안내와 자보를 KO/EN으로 번역했으며 교환학생 스프링파티 Blooming Night 콘텐츠도 만들었습니다. 그 과정이 인정받아 26-2(6팀 · 12종목, 신청 약 200건에서 최종 150명 규모로 확대)에는 스포츠데이 총괄을 맡았고(스포츠데이 허브 프로젝트로 확장), 필드트립 조장은 2025·2026 두 차례, 2025 홈커밍에는 스태프로 참가했습니다. 기획은 한국어로, 행사 진행은 전적으로 영어로 합니다.',
-            en: 'Day to day: orientation welcomes and campus tours, buddy matching at one member per three students, group-chat management and student support. For the 26-1 Sports Day (5 teams, 6 game formats, 99 participants) I planned every piece of content including game formats and rules, translated the entry and wristband guides and posters between Korean and English, and built content for the exchange-student spring party Blooming Night. That track led to overall director for 26-2 (6 teams, 12 formats, scaled to 150 selected students from about 200 applications; it also grew into the Sports Day Hub project), plus field-trip team leader in 2025 and 2026 and staff at Homecoming 2025. Planning happens in Korean; the events run entirely in English.',
+            ko: 'OT 집합 맞이와 캠퍼스 투어, 부원 1명당 교환학생 3명의 버디 매칭, 그룹톡 관리와 민원 응대까지가 일상입니다. 26-1 스포츠데이(5팀 · 6종목 · 참가 99명)에서는 게임 구성과 규칙을 포함한 모든 콘텐츠를 기획했고, 입장·팔찌 안내와 자보를 KO/EN으로 번역했으며 교환학생 스프링파티 Blooming Night 콘텐츠도 만들었습니다. 그 과정이 인정받아 26-2(6팀 · 12종목, 신청 약 200건, 최종 약 150명 참가)에는 스포츠데이 총괄을 맡았고(스포츠데이 허브 프로젝트로 확장), 필드트립 조장은 2025·2026 두 차례, 2025 홈커밍에는 스태프로 참가했습니다. 기획은 한국어로, 행사 진행은 전적으로 영어로 합니다.',
+            en: 'Day to day: orientation welcomes and campus tours, buddy matching at one member per three students, group-chat management and student support. For the 26-1 Sports Day (5 teams, 6 game formats, 99 participants) I planned every piece of content including game formats and rules, translated the entry and wristband guides and posters between Korean and English, and built content for the exchange-student spring party Blooming Night. That track led to overall director for 26-2 (6 teams, 12 formats, about 200 applications and roughly 150 attending; it also grew into the Sports Day Hub project), plus field-trip team leader in 2025 and 2026 and staff at Homecoming 2025. Planning happens in Korean; the events run entirely in English.',
           },
           specs: [
             { label: { ko: '활동', en: 'Tenure' }, value: { ko: '2025-1학기~ · 부원 약 50명 · 매주 미팅 (격주 명륜/율전)', en: 'Spring 2025~ · ~50 members · weekly meetings, two campuses' } },
