@@ -3,7 +3,7 @@
  * 원천: minwo0___/60 개인 기록/profile.md (✅ 항목만 반영)
  * 규칙:
  *   1) 모든 표시 문자열은 { ko, en } 이중 구조. 새 항목 추가 시 두 언어 모두 필수.
- *   2) 표시 변형(정렬·강조·티어·우승 여부)은 데이터 필드로 표현 — render.js의 항목별 조건문 금지.
+ *   2) 정렬·강조·티어·우승 여부 같은 구분은 데이터 필드로 표현한다.
  *   3) 민감 정보(병역·연봉·계약·학번·건강) 반영 금지 — tests/content.test.js가 차단.
  *   4) 수치는 검증된 값만: 101명/864경기(NA 데이터 관리 시즌), 400경기·2026.08.29(코칭 허브 운영 — 배포 DB 백업 실측),
  *      8에디션/77.8시간 중계(커뮤니티 대회) + 유튜브 공식 수출(2026-08-23): 조회 28,505·시청 4,973h·평균 10분 28초·구독 전환 124. 임의 수치 생성 금지.
@@ -33,67 +33,6 @@ export const PORTFOLIO_CONTENT = {
     },
   },
 
-  // 페이지 조립 — sections 배열 순서 = 렌더 순서 (순서 교체도 이 파일 편집으로)
-  // flat: 리본 배경을 불투명 잉크로 덮는 섹션(가독성 밴드). 나머지는 리본이 그대로 보인다.
-  // 메인 페이지 — 카드(풀페이지) → 스킬 → 학적 → 연락. (2026-08-31 안 B 개편: 학적은 캠퍼스 폐지로 메인으로)
-  page: {
-    sections: ['hero', 'categories', 'skills', 'education', 'contact'],
-    flat: ['categories', 'contact', 'education'],
-  },
-
-  // 서브페이지 — 랜딩 카드가 진입점. sections는 레지스트리 재사용, flat은 페이지별 밴드.
-  // 2026-08-31 안 B 개편(사용자 확정): e스포츠 / 그로스·마케팅 / 글로벌 비즈니스 / 프로덕트·데이터 4분류.
-  pages: {
-    esports: {
-      label: { ko: '이스포츠', en: 'Esports' },
-      desc: { ko: '선수에서 코치로, 무대와 리그를 움직인 6년', en: 'Six years across professional competition, coaching, and league operations' },
-      sections: ['career', 'achievements', 'projects'],
-      flat: ['career', 'achievements'],
-      projectFilter: 'esports',
-    },
-    growth: {
-      label: { ko: '그로스·마케팅', en: 'Growth & Marketing' },
-      desc: { ko: '광고비 없이 키운 커뮤니티 대회와 콘텐츠 성과', en: 'Community tournaments and content, grown without ad spend' },
-      sections: ['projects'],
-      flat: [],
-      projectFilter: 'growth',
-    },
-    business: {
-      label: { ko: '글로벌 비즈니스', en: 'Global Business' },
-      desc: { ko: '4개 지역 리그와 교환학생 프로그램을 묶은 국제 운영', en: 'Four-region league operations and exchange-student programs' },
-      sections: ['projects'],
-      flat: [],
-      projectFilter: 'business',
-    },
-    product: {
-      label: { ko: '프로덕트·데이터', en: 'Product & Data' },
-      desc: { ko: '반복되는 문제를 시스템으로 만드는 습관', en: 'Turning recurring problems into systems' },
-      sections: ['projects'],
-      flat: [],
-      projectFilter: 'product',
-    },
-  },
-
-  // UI 라벨 사전 (섹션 제목·버튼 문구 등 — 콘텐츠가 아닌 인터페이스 문자열)
-  ui: {
-    player: { ko: '선수', en: 'Player' },
-    coach: { ko: '코치', en: 'Coach' },
-    demo: { ko: '라이브 데모', en: 'LIVE DEMO' },
-    current: { ko: '현재', en: 'Present' },
-    expand: { ko: '하위 티어 성적 더 보기', en: 'Show lower-tier results' },
-    collapse: { ko: '접기', en: 'Collapse' },
-    field: { ko: '현장', en: 'Field' },
-    categoryProjects: { ko: '개 프로젝트', en: 'projects' },
-    headings: {
-      career: { ko: '커리어', en: 'Career' },
-      achievements: { ko: '주요 성적', en: 'Results' },
-      projects: { ko: '프로젝트', en: 'Projects' },
-      skills: { ko: '스킬', en: 'Skills' },
-      education: { ko: '학적', en: 'Education' },
-      contact: { ko: '연락', en: 'Contact' },
-    },
-  },
-
   profile: {
     name: { ko: '유민우', en: 'Yoo Min-woo' },
     ign: 'F10W3R',
@@ -101,7 +40,7 @@ export const PORTFOLIO_CONTENT = {
     base: { ko: '수도권, 대한민국', en: 'Seoul Capital Area, South Korea' },
     availability: { ko: '수도권 · 국내외 출장 가능', en: 'Available for domestic and international travel' },
     contact: {
-      // email은 신규 생성 전까지 null — 렌더러는 null이면 표시 생략
+      // email은 새 주소를 만들기 전까지 null
       email: null,
       github: 'https://github.com/F10W3R-13',
       linkedin: 'https://www.linkedin.com/in/minwoo-yoo-2a5b80214',
@@ -113,7 +52,7 @@ export const PORTFOLIO_CONTENT = {
 
   hero: {
     ign: 'F10W3R',
-    // 초상 파일명 — /assets/photos/ 기준. null이면 카드 생략
+    // 초상 파일명 — assets/photos/ 기준. 없으면 null
     portrait: 'photo-1.png',
     portraitAlt: { ko: 'Luminosity 저지를 입은 유민우', en: 'Yoo Min-woo in a Luminosity Gaming jersey' },
     name: { ko: '유민우', en: 'Yoo Min-woo' },
@@ -133,23 +72,19 @@ export const PORTFOLIO_CONTENT = {
     ],
   },
 
-  // 랜딩 카드 4분류 — 카드=서브페이지 진입 버튼(?page=), hover하면 소속 프로젝트 목록 공개
+  // 분야 4분류 — 분야 이름·설명과 소속 프로젝트 id.
   // 2026-08-31 안 B 개편(사용자 확정 매핑): 커뮤니티 대회는 e스포츠·그로스 양쪽에 노출.
   categories: [
-    { id: 'esports', label: { ko: '이스포츠', en: 'Esports' }, href: '/?page=esports',
-      image: '/assets/photos/card-esports.jpg',
+    { id: 'esports', label: { ko: '이스포츠', en: 'Esports' },
       desc: { ko: '선수에서 코치로, 무대와 리그를 움직인 6년', en: 'Six years across professional competition, coaching, and league operations' },
       projects: ['community-series'] },
-    { id: 'growth', label: { ko: '그로스·마케팅', en: 'Growth & Marketing' }, href: '/?page=growth',
-      image: '/assets/photos/photo-2.jpg',
+    { id: 'growth', label: { ko: '그로스·마케팅', en: 'Growth & Marketing' },
       desc: { ko: '광고비 없이 키운 커뮤니티 대회와 콘텐츠 성과', en: 'Community tournaments and content, grown without ad spend' },
       projects: ['community-series'] },
-    { id: 'business', label: { ko: '글로벌 비즈니스', en: 'Global Business' }, href: '/?page=business',
-      image: '/assets/projects/champions-queue/cq-intro.png',
+    { id: 'business', label: { ko: '글로벌 비즈니스', en: 'Global Business' },
       desc: { ko: '4개 지역 리그와 교환학생 프로그램을 묶은 국제 운영', en: 'Four-region league operations and exchange-student programs' },
       projects: ['champions-queue', 'hiclub'] },
-    { id: 'product', label: { ko: '프로덕트·데이터', en: 'Product & Data' }, href: '/?page=product',
-      image: '/assets/projects/coaching-hub/home.png',
+    { id: 'product', label: { ko: '프로덕트·데이터', en: 'Product & Data' },
       desc: { ko: '반복되는 문제를 시스템으로 만드는 습관', en: 'Turning recurring problems into systems' },
       projects: ['coaching-hub', 'sportsday-hub', 'skku-whatsapp-bot'] },
   ],
@@ -505,23 +440,22 @@ export const PORTFOLIO_CONTENT = {
   },
 
   skills: {
-    // link(2026-08-31): 스킬 → 해당 스킬을 쓴 카테고리 페이지. 단순 나열 대신 사용 사례로 연결.
     ops: [
-      { ko: '리그·대회 운영 설계', en: 'League & tournament operations design', link: '/?page=esports' },
-      { ko: '팀 코칭·매니지먼트', en: 'Team coaching & management', link: '/?page=esports' },
-      { ko: 'Discord 커뮤니티 운영', en: 'Discord community operations', link: '/?page=growth' },
-      { ko: '데이터 기반 의사결정', en: 'Data-driven decision making', link: '/?page=product' },
-      { ko: 'KO·EN 이중언어 실무', en: 'KO/EN bilingual operations', link: '/?page=business' },
+      { ko: '리그·대회 운영 설계', en: 'League & tournament operations design' },
+      { ko: '팀 코칭·매니지먼트', en: 'Team coaching & management' },
+      { ko: 'Discord 커뮤니티 운영', en: 'Discord community operations' },
+      { ko: '데이터 기반 의사결정', en: 'Data-driven decision making' },
+      { ko: 'KO·EN 이중언어 실무', en: 'KO/EN bilingual operations' },
     ],
     tech: [
-      { ko: 'Python', en: 'Python', link: '/?page=product' },
-      { ko: 'Discord Bot API', en: 'Discord Bot API', link: '/?page=business' },
-      { ko: 'FastAPI', en: 'FastAPI', link: '/?page=product' },
-      { ko: 'GPT Vision OCR', en: 'GPT Vision OCR', link: '/?page=product' },
-      { ko: 'Make.com / Airtable', en: 'Make.com / Airtable', link: '/?page=business' },
-      { ko: 'Google Apps Script', en: 'Google Apps Script', link: '/?page=product' },
-      { ko: 'SQLite / Postgres', en: 'SQLite / Postgres', link: '/?page=product' },
-      { ko: '데이터 분석', en: 'Data analysis', link: '/?page=product' },
+      { ko: 'Python', en: 'Python' },
+      { ko: 'Discord Bot API', en: 'Discord Bot API' },
+      { ko: 'FastAPI', en: 'FastAPI' },
+      { ko: 'GPT Vision OCR', en: 'GPT Vision OCR' },
+      { ko: 'Make.com / Airtable', en: 'Make.com / Airtable' },
+      { ko: 'Google Apps Script', en: 'Google Apps Script' },
+      { ko: 'SQLite / Postgres', en: 'SQLite / Postgres' },
+      { ko: '데이터 분석', en: 'Data analysis' },
     ],
   },
 

@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import content from '../portfolio/data/content.js';
+import content from '../content/content.js';
 
 /*
  * content.js 무결성 검증
@@ -133,50 +133,16 @@ test('연락: email은 null(미정)이거나 유효한 주소', () => {
   assert.ok(email === null || (typeof email === 'string' && email.includes('@')));
 });
 
-// ── 10. 페이지 조립: 메인+서브페이지 sections가 렌더러 화이트리스트 안에 ──
-test('페이지: 메인/서브 sections 유효(화이트리스트·중복 없음·flat 부분집합)', () => {
-  const whitelist = ['hero', 'categories', 'career', 'achievements', 'projects', 'skills', 'education', 'contact'];
-  const defs = [content.page, ...Object.values(content.pages)];
-  for (const def of defs) {
-    const sections = def.sections;
-    assert.ok(Array.isArray(sections) && sections.length > 0, 'sections 비어 있음');
-    assert.equal(new Set(sections).size, sections.length, 'sections 중복');
-    for (const s of sections) assert.ok(whitelist.includes(s), `알 수 없는 섹션: ${s}`);
-    for (const f of def.flat ?? []) assert.ok(sections.includes(f), `flat이 sections에 없음: ${f}`);
-  }
-  assert.equal(content.page.sections[0], 'hero', '메인 첫 섹션은 hero');
-  assert.ok(content.page.sections.includes('categories'), '메인에 카테고리 카드 포함');
-  // 서브페이지 projectFilter는 카테고리 id
-  const catIds = content.categories.map((c) => c.id);
-  for (const [key, def] of Object.entries(content.pages)) {
-    if (def.sections.includes('projects')) assert.ok(catIds.includes(def.projectFilter), `${key}: projectFilter 유효`);
-  }
-});
-
-// ── 10b. 랜딩 카드: 3개, 서브페이지 라우트·이미지·프로젝트 id 유효 ──
-test('카테고리: 3개, /?page= 라우트·이미지 경로·프로젝트 id 유효', () => {
+// ── 10. 분야: 4개, 이름·설명 {ko,en}, 소속 프로젝트 id 유효 ──
+test('분야: 4개, 이름·설명 이중언어, 프로젝트 id 유효', () => {
   const cats = content.categories;
-  assert.equal(cats.length, 4, '카테고리 4개 (2026-08-31 안 B 개편)');
+  assert.equal(cats.length, 4, '분야 4개');
   const projectIds = content.projects.list.map((p) => p.id);
   for (const c of cats) {
     assert.ok(c.label?.ko && c.label?.en, `${c.id}: label {ko,en}`);
     assert.ok(c.desc?.ko && c.desc?.en, `${c.id}: desc {ko,en}`);
-    assert.ok(c.image?.startsWith('/assets/'), `${c.id}: image 경로`);
-    const key = (c.href.match(/\?page=(\w+)/) || [])[1];
-    assert.ok(key && content.pages[key], `${c.id}: href가 실존 서브페이지 라우트`);
     assert.ok(c.projects.length > 0, `${c.id}: 프로젝트 1개 이상`);
     for (const pid of c.projects) assert.ok(projectIds.includes(pid), `${c.id}: 알 수 없는 프로젝트 ${pid}`);
-  }
-});
-
-// ── 11. UI 사전: 주요 라벨 {ko,en} 구비 ──
-test('UI 사전: 라벨 이중언어 구비', () => {
-  for (const key of ['player', 'coach', 'demo', 'field']) {
-    assert.ok(content.ui[key] && content.ui[key].ko && content.ui[key].en, `ui.${key}`);
-  }
-  const headings = content.ui.headings;
-  for (const key of ['career', 'achievements', 'projects', 'skills', 'education', 'contact']) {
-    assert.ok(headings[key] && headings[key].ko && headings[key].en, `ui.headings.${key}`);
   }
 });
 
